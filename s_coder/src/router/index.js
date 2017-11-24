@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import home from '../components/home/home'
 import personal from '../components/personal/personal'
 import type from '../components/type/type'
+import addnote from '../components/addnote/addnote'
+import addquestion from '../components/addquetions/addquetion'
 
 Vue.use(Router)
 
@@ -26,6 +28,16 @@ export default new Router({
       path: '/personal',
       name: 'personal',
       component: personal
+    },
+     {
+      path: '/addnote',
+      name: 'addnote',
+      component: addnote
+    },
+     {
+      path: '/addquestion',
+      name: 'addquestion',
+      component: addquestion
     }
   ]
 })

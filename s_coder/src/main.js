@@ -6,7 +6,7 @@ import router from './router'
 import Mint from 'mint-ui'
 import './assets/validate.js'
 import ElementUI from 'element-ui'
-import '../node_modules/element-ui/lib/theme-chalk/index.css'
+// import '../node_modules/element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 
 

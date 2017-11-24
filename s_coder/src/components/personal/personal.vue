@@ -51,7 +51,7 @@
     </div>
   </div>
 </template>
-<style type="text/css">
+<style type="text/css" scoped>
 .personal-content {
   position: absolute;
   bottom: 48px;

@@ -1,39 +1,110 @@
 <template>
   <transition name="move">
     <div class="login-wrapper" v-show="showFlag" @click="hide">
-      <el-card class="box-card">
-        <el-row type="flex" justify="center">
-          <el-col :span="12">
-            <el-form label-position="left" label-width="80px" :model="formRegister" :rules="rules" ref="formRegister">
-              <el-form-item label="账号" prop="userName">
+      <transition name="move">
+        <el-card class="box-card" v-show="showreg">
+          <div class="header">
+    </div>
+          <el-row type="flex" justify="center">
+            <el-col :span="12">
+              <el-form label-position="left" label-width="80px" :model="formRegister" :rules="rules" ref="formRegister">
+                <el-form-item label="username" prop="userName">
+                </el-form-item>
                 <el-input v-model="formRegister.userName"></el-input>
-              </el-form-item>
-              <el-form-item label="密码" prop="password">
+                <el-form-item label="password" prop="password">
+                </el-form-item>
                 <el-input v-model="formRegister.password"></el-input>
-              </el-form-item>
-              <el-form-item label="昵称" prop="nickName">
+                <el-form-item label="nickname" prop="nickName">
+                </el-form-item>
                 <el-input v-model="formRegister.nickName"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="addUser">立即注册</el-button>
-                <el-button>取消</el-button>
-              </el-form-item>
-            </el-form>
-          </el-col>
-        </el-row>
-      </el-card>
+                <el-form-item label="phone" prop="phone">
+                </el-form-item>
+                <el-input v-model="formRegister.phone"></el-input>
+                <el-form-item label="email" prop="email">
+                </el-form-item>
+                <el-input v-model="formRegister.email"></el-input>
+                <div class="el-wrapper">
+                  <el-form-item label="sex" prop="sex" id="sexly">
+                  </el-form-item>
+                  <div class="feng">
+                    <el-radio-group v-model.number="formRegister.sex">
+                      <el-radio label=1 name="user.sex" value="1">Male</el-radio>
+                      <el-radio label=0 name="user.sex" value="0">Female</el-radio>
+                    </el-radio-group>
+                  </div>
+                  <el-form-item>
+                    <el-button type="primary" @click="addUser">Sign up</el-button>
+                    <br>
+                    <span @click="login" class="logintxt">登录</span>
+                  </el-form-item>
+                </div>
+              </el-form>
+            </el-col>
+          </el-row>
+        </el-card>
+      </transition>
+      <transition name="move">
+        <el-card class="box-card1" v-show="showLogin">
+          <h1 class="S_coder">S_CODER</h1>
+          <el-row type="flex" justify="center" class="login-wrapper1">
+            <el-col :span="12">
+              <el-form label-position="left" label-width="80px" :model="formRegister" :rules="rules" ref="formRegister">
+                <el-form-item label="username" prop="userName">
+                  <el-input v-model="formRegister.userName"></el-input>
+                </el-form-item>
+                <el-form-item label="password" prop="password">
+                  <el-input v-model="formRegister.password"></el-input>
+                </el-form-item>
+                <el-form-item class="hahaha">
+                  <el-button>Login</el-button>
+                  <br>
+                  <span type="primary" @click="reg" class="regtxt">立即注册</span>
+                </el-form-item>
+              </el-form>
+            </el-col>
+          </el-row>
+        </el-card>
+      </transition>
     </div>
   </transition>
 </template>
 <style>
+.box-card {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  background: #fff
+}
+
+.box-card1 {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  background: #fff;
+  background-image: url(../../assets/login-bg.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  bottom: 0;
+  background-position: bottom left
+}
+
 .login-wrapper {
   width: 100%;
-  background: rgba(7, 17, 27, 1);
+  background: rgba(255, 255, 255, 1);
   position: fixed;
   left: 0;
   top: 0;
-  bottom: 48px;
+  bottom: 0;
   z-index: 30;
+}
+
+.S_coder {
+  text-align: center;
+  font-size: 36px;
+  color: #5272f9;
+  margin-top: 30px
 }
 
 .move-enter-active,
@@ -56,6 +127,86 @@
 .layui-form-item {
   height: 50%;
   width: 50%;
+}
+
+.el-card__body {
+  padding: 12px 24px;
+  margin-top: 40px;
+}
+
+.login-wrapper1 {
+  margin-top: 120px;
+}
+
+.el-input {
+  position: relative;
+  font-size: 14px;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 50px;
+  border-bottom: 2px solid #000
+}
+
+.el-radio-group {
+  margin-top: 20px
+}
+
+.el-button {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background: #5272f9;
+  border: 2px solid #000;
+  color: #fff;
+  -webkit-appearance: none;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: 0;
+  margin: 0;
+  -webkit-transition: .1s;
+  transition: .1s;
+  font-weight: 500;
+  padding: 12px 80px;
+  font-size: 14px;
+  border-radius: 4px;
+  border-radius: 20px;
+  margin-top: 30px;
+}
+
+.el-form-item__content {
+  margin-left: 0 !important;
+  text-align: center;
+}
+
+.el-input__inner {
+  border: none;
+  -webkit-appearance: none;
+  background-color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: inherit;
+  line-height: 1;
+  outline: 0;
+  -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  width: 100%;
+}
+
+.logintxt {
+  font-size: 14px;
+  margin-top: 12px;
+  display: block;
+  color: #5272f9
+}
+
+.regtxt {
+  font-size: 14px;
+  margin-top: 12px;
+  display: block;
+  color: #5272f9
 }
 
 </style>
@@ -84,13 +235,39 @@ export default {
         cb();
       }
     }
+    let checkPhone = (rule, value, cb) => {
+      if (!value) {
+        return cb(new Error('电话不能为空!'))
+      } else {
+        cb();
+      }
+    }
+    let checkEmail = (rule, value, cb) => {
+      if (!value) {
+        return cb(new Error('邮箱不能为空!'))
+      } else {
+        cb();
+      }
+    }
+    let checkSex = (rule, value, cb) => {
+      if (!value) {
+        return cb(new Error('请选择性别!'))
+      } else {
+        cb();
+      }
+    }
     return {
       formRegister: {
         userName: '',
         password: '',
-        nickName: ''
+        nickName: '',
+        phone: '',
+        email: '',
+        sex: ''
       },
       showFlag: false,
+      showLogin: false,
+      showreg: true,
       rules: {
         userName: [
           { validator: checkUserName, trigger: 'blur' }
@@ -100,23 +277,45 @@ export default {
         ],
         nickName: [
           { validator: checkNickname, trigger: 'blur' }
-        ]
+        ],
+        phone: [
+          { validator: checkPhone, trigger: 'blur' }
+        ],
+        email: [
+          { validator: checkEmail, trigger: 'blur' }
+        ],
+        sex: [
+          { validator: checkSex, trigger: 'blur' }
+        ],
       }
     }
   },
   methods: {
     show() {
       this.showFlag = true
+      this.showreg = false
+      this.showLogin = true
     },
     hide() {
       this.showFlag = true
+    },
+    login() {
+      this.showreg = false
+      this.showLogin = true
+    },
+    reg() {
+      this.showreg = true
+      this.showLogin = false
     },
     addUser() {
       let user = this.formRegister;
       let formData = {
         userName: user.userName,
         password: user.password,
-        nickName: user.nickName
+        nickName: user.nickName,
+        phone: user.phone,
+        email: user.email,
+        sex: user.sex
       };
       this.$refs['formRegister'].validate((valid) => {
         if (valid) {
@@ -127,7 +326,12 @@ export default {
               data: {
                 "userName": user.userName,
                 "password": user.password,
-                "nickName": user.nickName
+                "nickName": user.nickName,
+                "phone": user.phone,
+                "email": user.email,
+                "sex": user.sex
+
+
               },
             })
             .then(res => {
@@ -138,7 +342,12 @@ export default {
                   message: '注册成功',
                   type: 'success'
                 })
-                router.push({ name: 'home' })
+                setTimeout(() => {
+                  this.$router.push('/home');
+                  this.showFlag = false;
+
+                }, 2000);
+
               } else {
                 this.$message({
                   showClose: true,
@@ -155,7 +364,7 @@ export default {
 
 
     }
-  }
+  },
 
 }
 

@@ -1,7 +1,13 @@
 <template>
   <div>
+    <slidebar :slidebar="findeSlide" ref="slidebar"></slidebar>
+    <login :login="findedLogin" ref="login"></login>
     <div class="header">
-      <navheader></navheader>
+      <navheader>
+        <span slot="left" class="icon_slider" @click="findeSlide"><img src="../../assets/icon-slidebar.png" height="19" width="16"></span>
+        <span slot="main_title" class="shou">Home</span>
+        <span slot="right" class="deng" @click="findeLogin">登录</span>
+      </navheader>
     </div>
     <div class="banner">
       <mt-swipe :auto="0">
@@ -29,6 +35,27 @@
   </div>
 </template>
 <style>
+.icon_slider {
+  display: inline-block;
+  position: absolute;
+  left: 12px;
+  padding: 12px 0;
+}
+
+.shou {
+  font-size: 18px;
+  display: inline-block;
+  color: #000
+}
+
+.deng {
+  font-size: 15px;
+  display: inline-block;
+  position: absolute;
+  right: 12px;
+  color: #5272f9;
+}
+
 .banner {
   height: 150px;
 }
@@ -113,6 +140,8 @@
 
 </style>
 <script>
+import login from '../login/login'
+import slidebar from '../sliderbar/slidebar'
 import navheader from '../navheader/navheader'
 import BScroll from 'better-scroll'
 import axios from 'axios'
@@ -161,10 +190,18 @@ export default {
 
       })
     },
+    findeLogin() {
+      this.$refs.login.show()
+    },
+    findeSlide() {
+      this.$refs.slidebar.come()
+    }
 
   },
   components: {
-    navheader
+    navheader,
+    login,
+    slidebar
   }
 
 }
