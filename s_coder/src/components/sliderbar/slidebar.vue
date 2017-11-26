@@ -14,7 +14,7 @@
         </div>
       </div>
     </transition>
-    <div class="scheme" v-show="showFlag" @click="hideSlide"></div>
+    <div class="scheme" v-if="showSlide" @click="hideSlide"></div>
   </div>
 </template>
 <script>
@@ -22,23 +22,19 @@ export default {
   data() {
     return {
       showSlide: false,
-      showFlag: false
 
     }
   },
   methods: {
     come() {
       this.showSlide = true
-      this.showFlag = true
     },
     hideSlide() {
       this.showSlide = false
-      this.showFlag = false
     },
     personal() {
       this.$router.push('/personal');
       this.showSlide = false
-      this.showFlag = false
 
     },
     addnote() {

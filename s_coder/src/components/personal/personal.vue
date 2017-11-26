@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="personal-content">
+    <div class="personal-content" ref="personalContent">
       <img src="../../assets/personal_bg.png" height="255" width="100%">
       <div class="overview">
         <div class="overview-wrapper">
@@ -168,3 +168,28 @@
 }
 
 </style>
+<script type="text/javascript">
+  import BScroll from 'better-scroll'
+  export default{
+      data() {
+    return {
+      scrollY: 0
+
+    }
+
+  },
+    mounted() {
+      this._initScroll();
+
+
+
+    },
+    methods:{
+      _initScroll() {
+         this.personScroll = new BScroll(this.$refs.personalContent, {
+        click: true
+      })
+      }
+    }
+  }
+</script>

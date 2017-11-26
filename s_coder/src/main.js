@@ -7,6 +7,10 @@ import Mint from 'mint-ui'
 import './assets/validate.js'
 import ElementUI from 'element-ui'
 // import '../node_modules/element-ui/lib/theme-chalk/index.css'
+import './assets/css/login.css'
+import './assets/css/checkout.css'
+import './assets/css/login.css'
+import './assets/css/product.css'
 import axios from 'axios'
 
 

@@ -7,6 +7,16 @@
     </div>
           <el-row type="flex" justify="center">
             <el-col :span="12">
+          <modal v-show='mdShow' v-on:close="closeModal">
+          <p slot="message">
+             注册成功，跳转登录。
+          </p>
+          <div slot="btnGroup">
+              <a class="btn btn--m" href="javascript:;" @click="Jumplogin" >确定</a>
+          </div>
+      </modal>
+      <div class="md-overlay" v-if="mdShow"></div>
+
               <el-form label-position="left" label-width="80px" :model="formRegister" :rules="rules" ref="formRegister">
                 <el-form-item label="username" prop="userName">
                 </el-form-item>
@@ -48,17 +58,16 @@
           <h1 class="S_coder">S_CODER</h1>
           <el-row type="flex" justify="center" class="login-wrapper1">
             <el-col :span="12">
-              <el-form label-position="left" label-width="80px" :model="formRegister" :rules="rules" ref="formRegister">
-                <el-form-item label="username" prop="userName">
-                  <el-input v-model="formRegister.userName"></el-input>
+               <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="username" prop="username">
+                  <el-input type="text" v-model="ruleForm2.username" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="password" prop="password">
-                  <el-input v-model="formRegister.password"></el-input>
+                  <el-input type="password" v-model="ruleForm2.password" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item class="hahaha">
-                  <el-button>Login</el-button>
-                  <br>
-                  <span type="primary" @click="reg" class="regtxt">立即注册</span>
+                <el-form-item>
+                  <el-button type="primary" @click="submitForm(ruleForm2)">Login</el-button>
+                  <span @click="reg" class="regtxt">注册</span>
                 </el-form-item>
               </el-form>
             </el-col>
@@ -69,6 +78,15 @@
   </transition>
 </template>
 <style>
+.md-overlay{
+  background: rgba(0, 0, 0,0.4);
+  z-index: 10;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
 .box-card {
   width: 100%;
   position: fixed;
@@ -143,7 +161,7 @@
   font-size: 14px;
   display: inline-block;
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 12%;
   border-bottom: 2px solid #000
 }
 
@@ -212,6 +230,7 @@
 </style>
 <script>
 import axios from 'axios'
+import modal from '../Modal/modal'
 export default {
   data() {
     let checkUserName = (rule, value, cb) => {
@@ -227,35 +246,49 @@ export default {
       } else {
         cb();
       }
-    }
+    };
     let checkNickname = (rule, value, cb) => {
       if (!value) {
         return cb(new Error('昵称不能为空!'))
       } else {
         cb();
       }
-    }
+    };
     let checkPhone = (rule, value, cb) => {
       if (!value) {
         return cb(new Error('电话不能为空!'))
       } else {
         cb();
       }
-    }
+    };
     let checkEmail = (rule, value, cb) => {
       if (!value) {
         return cb(new Error('邮箱不能为空!'))
       } else {
         cb();
       }
-    }
+    };
     let checkSex = (rule, value, cb) => {
       if (!value) {
         return cb(new Error('请选择性别!'))
       } else {
         cb();
       }
-    }
+    };
+          let entryUsername = (rule, value, cb) => {
+        if (!value) {
+        return cb(new Error('请选择用户名!'))
+      } else {
+          cb();
+      }
+      };
+      let  entryPassword = (rule, value, cb) => {
+        if (!value) {
+        return cb(new Error('请输入密码!'))
+      } else {
+         cb();
+      }
+      };
     return {
       formRegister: {
         userName: '',
@@ -265,9 +298,14 @@ export default {
         email: '',
         sex: ''
       },
+        ruleForm2: {
+          username: '',
+          password: ''
+        },
       showFlag: false,
       showLogin: false,
       showreg: true,
+      mdShow:false,
       rules: {
         userName: [
           { validator: checkUserName, trigger: 'blur' }
@@ -287,36 +325,57 @@ export default {
         sex: [
           { validator: checkSex, trigger: 'blur' }
         ],
-      }
+      },
+          rules2: {
+          username: [
+            { validator: entryUsername, trigger: 'blur' }
+          ],
+          password: [
+            { validator: entryPassword, trigger: 'blur' }
+          ],
+
+        }
+
     }
   },
   methods: {
     show() {
-      this.showFlag = true
-      this.showreg = false
-      this.showLogin = true
+      this.showFlag = true;
+      this.showreg = false;
+      this.showLogin = true;
     },
     hide() {
-      this.showFlag = true
+      this.showFlag = true;
     },
     login() {
-      this.showreg = false
-      this.showLogin = true
+      this.showreg = false;
+      this.showLogin = true;
     },
     reg() {
-      this.showreg = true
-      this.showLogin = false
+      this.showreg = true;
+      this.showLogin = false;
     },
+    Jumplogin(){
+      this.mdShow = false;
+         this.showFlag = true;
+                  this.showreg = false;
+                  this.showLogin = true;
+
+                  this.formRegister = "";
+    },
+          open() {
+        this.$alert('这是一段内容', '标题名称', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+              message: `action: ${ action }`
+            });
+          }
+        });
+      },
     addUser() {
       let user = this.formRegister;
-      let formData = {
-        userName: user.userName,
-        password: user.password,
-        nickName: user.nickName,
-        phone: user.phone,
-        email: user.email,
-        sex: user.sex
-      };
       this.$refs['formRegister'].validate((valid) => {
         if (valid) {
           axios({
@@ -325,6 +384,7 @@ export default {
               dataType: "json",
               data: {
                 "userName": user.userName,
+                "username": user.username,
                 "password": user.password,
                 "nickName": user.nickName,
                 "phone": user.phone,
@@ -339,12 +399,16 @@ export default {
               if (res.data.result == '200') {
                 this.$message({
                   showClose: true,
-                  message: '注册成功',
                   type: 'success'
                 })
+                this.mdShow = true
                 setTimeout(() => {
-                  this.$router.push('/home');
-                  this.showFlag = false;
+                  // this.$router.push('/home');
+                  // this.showFlag = true;
+                  // this.showreg = false;
+                  // this.showLogin = true;
+                  // this.formRegister = "";
+                  
 
                 }, 2000);
 
@@ -363,8 +427,59 @@ export default {
       })
 
 
+    },
+    submitForm() {
+      let user = this.ruleForm2;
+            this.$refs['ruleForm2'].validate((valid) => {
+        if (valid) {
+          // axios({
+          //     url: 'http://xyiscoding.top/studyapp/user/login',
+          //     method: 'post',
+          //     dataType: "json",
+          //     data: {
+          //       "username": user.username,
+          //       "password": user.password,
+          //     },
+          //   })
+          axios.post('http://xyiscoding.top/studyapp/user/login',{
+                "username": user.username,
+                "password": user.password
+
+          })
+            .then(res => {
+              console.log(res.data)
+              if (res.data.result == '200') {
+                this.$message({
+                  showClose: true,
+                  message: '登录成功',
+                  type: 'success'
+                })
+                setTimeout(() => {
+                  this.$router.push('/home');
+                  this.showFlag = false;
+                  this.ruleForm2 = "";
+
+                }, 2000);
+
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: '用户名或密码错误',
+                  type: 'error'
+                })
+              }
+            })
+        } else {
+          return false
+        }
+
+      })
+
     }
   },
+  components:{
+    modal
+  }
 
 }
 
