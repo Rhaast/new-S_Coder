@@ -6,21 +6,21 @@
     </keep-alive>
     </div>
     <div class="tab">
-      <div class="tab-item" @click="toggle(e)">
+      <div class="tab-item" @click="toggle('home')">
         <router-link to="/home">
-          <span class="icon home" :class="{'active':isActive =false}" name='home'></span>
+          <span class="icon home"  id="home" name='home'></span>
           <span>首页</span>
         </router-link>
         </div>
-      <div class="tab-item" @click="toggle(e)">
+      <div class="tab-item" @click="toggle('type')">
         <router-link to="/type"> 
-          <span class="icon type" :class="{'active':isActive =false}" name='type'></span>
+          <span class="icon type" id="type" name='type'></span>
           <span>分类</span>
         </router-link>
       </div>
-      <div class="tab-item" @click="toggle(e)">
+      <div class="tab-item" @click="toggle('personal')">
         <router-link to="/personal">
-          <span class="icon personal" :class="{'active':isActive =false}" name='personal'></span>
+          <span class="icon personal" id="personal" name='personal'></span>
           <span>个人中心</span>
         </router-link>
       </div>
@@ -34,15 +34,34 @@ export default {
   name: 'app',
   data() {
       return {
+        homecheck: true
       }
     },
+  created (){
+    this.$nextTick(()=>{
+      this.toggle('home')
+
+    })
+  },
   methods:{
     toggle(e){
-      if(isActive=e.currentTarget.name){
-            this.isActive=true
-
-
+      var element = document.getElementById(e)
+      var arr = ['home','type','personal']
+      var temp = 0;
+      for(var i = 0 ; i < arr.length ; i ++){
+        if(e == arr[i]){
+          temp = i;
+        }else{
+          var _element = document.getElementById(arr[i])
+          _element.style.backgroundImage = "url('src/assets/image/icons_"+arr[i]+".png')"
+        }
       }
+      element.style.backgroundImage = "url('src/assets/image/icons_"+arr[temp]+"_checked.png')"
+      // if(this.isActive=e.currentTarget.name){
+      //       this.isActive=true
+
+
+      // }
       
 
     }
@@ -97,15 +116,9 @@ export default {
             background-repeat:no-repeat
             &.home
               background-image:url('./assets/image/icons_home.png')
-              &.active
-                background-image:url('./assets/image/icons_home_checked.png')
             &.type
               background-image:url('./assets/image/icons_type.png')
-              &.active
-                background-image:url('./assets/image/icons_type_checked.png')
             &.personal
               background-image:url('./assets/image/icons_personal.png')
-              &.active
-                background-image:url('./assets/image/icons_personal_checked.png')
           
 </style>

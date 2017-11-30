@@ -4,8 +4,8 @@
       <img src="../../assets/personal_bg.png" height="255" width="100%">
       <div class="overview">
         <div class="overview-wrapper">
-          <h2 class="username">RHAAST</h2>
-          <p class="saysay">请吩咐妲己，主人</p>
+          <h2 class="username">{{getziliaos.userName}}</h2>
+          <p class="saysay">555</p>
           <img class="myportrait" src="../../assets/logo.png" height="80" width="80">
           <div class="job">
             <img class="sex" src="../../assets/sex.png" height="15" width="15">
@@ -13,7 +13,7 @@
           </div>
           <ul class="remark">
             <li class="block">
-              <h2 class="title">ID:</h2>
+              <h2 class="title">连续签到:</h2>
               <div class="content">
                 <span class="stress">4566556</span>
               </div>
@@ -153,9 +153,11 @@
   flex: 1;
   text-align: center
 }
-.overview .schedule-wrapper .remark1 .block1 .icon{
-	margin-bottom: 15px;
+
+.overview .schedule-wrapper .remark1 .block1 .icon {
+  margin-bottom: 15px;
 }
+
 .overview .schedule-wrapper .remark1 .block1 .stress1 {
   font-size: 12px;
   color: #333;
@@ -163,33 +165,41 @@
   padding: 9px 25px;
   border-radius: 9px;
   display: table-cell;
-  margin-top:15px;
-
+  margin-top: 15px;
 }
 
 </style>
 <script type="text/javascript">
-  import BScroll from 'better-scroll'
-  export default{
-      data() {
+import BScroll from 'better-scroll'
+export default {
+  data() {
     return {
-      scrollY: 0
-
+      scrollY: 0,
+      getziliaos:''
     }
 
   },
-    mounted() {
-      this._initScroll();
+  created() {
+    this._initScroll();
+    this.getMeans();
 
 
-
-    },
-    methods:{
-      _initScroll() {
-         this.personScroll = new BScroll(this.$refs.personalContent, {
+  },
+  methods: {
+    _initScroll() {
+      this.scroll = new BScroll(this.$refs.personalContent, {
         click: true
       })
-      }
     }
+  },
+  getMeans() {
+    let that = this
+    console.log(localStorage);
+    let menasDatas = JSON.parse(window.localStorage.getItem('data'));
+    that.getziliaos = that.menasDatas.detail;
+    console.log(this.getziliaos)
+
   }
+}
+
 </script>

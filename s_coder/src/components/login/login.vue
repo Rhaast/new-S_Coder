@@ -4,26 +4,25 @@
       <transition name="move">
         <el-card class="box-card" v-show="showreg">
           <div class="header">
-    </div>
+          </div>
           <el-row type="flex" justify="center">
             <el-col :span="12">
-          <modal v-show='mdShow' v-on:close="closeModal">
-          <p slot="message">
-             注册成功，跳转登录。
-          </p>
-          <div slot="btnGroup">
-              <a class="btn btn--m" href="javascript:;" @click="Jumplogin" >确定</a>
-          </div>
-      </modal>
-      <div class="md-overlay" v-if="mdShow"></div>
-
+              <modal v-show='mdShow' v-on:close="closeModal">
+                <p slot="message">
+                  注册成功，跳转登录。
+                </p>
+                <div slot="btnGroup">
+                  <a class="btn btn--m" href="javascript:;" @click="Jumplogin">确定</a>
+                </div>
+              </modal>
+              <div class="md-overlay" v-if="mdShow"></div>
               <el-form label-position="left" label-width="80px" :model="formRegister" :rules="rules" ref="formRegister">
                 <el-form-item label="username" prop="userName">
                 </el-form-item>
                 <el-input v-model="formRegister.userName"></el-input>
                 <el-form-item label="password" prop="password">
                 </el-form-item>
-                <el-input v-model="formRegister.password"></el-input>
+                <el-input v-model="formRegister.password" type="password"></el-input>
                 <el-form-item label="nickname" prop="nickName">
                 </el-form-item>
                 <el-input v-model="formRegister.nickName"></el-input>
@@ -58,7 +57,7 @@
           <h1 class="S_coder">S_CODER</h1>
           <el-row type="flex" justify="center" class="login-wrapper1">
             <el-col :span="12">
-               <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+              <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
                 <el-form-item label="username" prop="username">
                   <el-input type="text" v-model="ruleForm2.username" auto-complete="off"></el-input>
                 </el-form-item>
@@ -78,8 +77,8 @@
   </transition>
 </template>
 <style>
-.md-overlay{
-  background: rgba(0, 0, 0,0.4);
+.md-overlay {
+  background: rgba(0, 0, 0, 0.4);
   z-index: 10;
   width: 100%;
   position: fixed;
@@ -87,6 +86,7 @@
   top: 0;
   bottom: 0;
 }
+
 .box-card {
   width: 100%;
   position: fixed;
@@ -268,27 +268,27 @@ export default {
         cb();
       }
     };
-    let checkSex = (rule, value, cb) => {
+    // let checkSex = (rule, value, cb) => {
+    //   if (!value) {
+    //     return cb(new Error('请选择性别!'))
+    //   } else {
+    //     cb();
+    //   }
+    // };
+    let entryUsername = (rule, value, cb) => {
       if (!value) {
-        return cb(new Error('请选择性别!'))
+        return cb(new Error('请选择用户名!'))
       } else {
         cb();
       }
     };
-          let entryUsername = (rule, value, cb) => {
-        if (!value) {
-        return cb(new Error('请选择用户名!'))
-      } else {
-          cb();
-      }
-      };
-      let  entryPassword = (rule, value, cb) => {
-        if (!value) {
+    let entryPassword = (rule, value, cb) => {
+      if (!value) {
         return cb(new Error('请输入密码!'))
       } else {
-         cb();
+        cb();
       }
-      };
+    };
     return {
       formRegister: {
         userName: '',
@@ -298,14 +298,14 @@ export default {
         email: '',
         sex: ''
       },
-        ruleForm2: {
-          username: '',
-          password: ''
-        },
+      ruleForm2: {
+        username: '',
+        password: ''
+      },
       showFlag: false,
       showLogin: false,
       showreg: true,
-      mdShow:false,
+      mdShow: false,
       rules: {
         userName: [
           { validator: checkUserName, trigger: 'blur' }
@@ -322,19 +322,19 @@ export default {
         email: [
           { validator: checkEmail, trigger: 'blur' }
         ],
-        sex: [
-          { validator: checkSex, trigger: 'blur' }
-        ],
+        // sex: [
+        //   { validator: checkSex, trigger: 'blur' }
+        // ],
       },
-          rules2: {
-          username: [
-            { validator: entryUsername, trigger: 'blur' }
-          ],
-          password: [
-            { validator: entryPassword, trigger: 'blur' }
-          ],
+      rules2: {
+        username: [
+          { validator: entryUsername, trigger: 'blur' }
+        ],
+        password: [
+          { validator: entryPassword, trigger: 'blur' }
+        ],
 
-        }
+      }
 
     }
   },
@@ -355,25 +355,25 @@ export default {
       this.showreg = true;
       this.showLogin = false;
     },
-    Jumplogin(){
+    Jumplogin() {
       this.mdShow = false;
-         this.showFlag = true;
-                  this.showreg = false;
-                  this.showLogin = true;
+      this.showFlag = true;
+      this.showreg = false;
+      this.showLogin = true;
 
-                  this.formRegister = "";
+      this.formRegister = "";
     },
-          open() {
-        this.$alert('这是一段内容', '标题名称', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'info',
-              message: `action: ${ action }`
-            });
-          }
-        });
-      },
+    open() {
+      this.$alert('这是一段内容', '标题名称', {
+        confirmButtonText: '确定',
+        callback: action => {
+          this.$message({
+            type: 'info',
+            message: `action: ${ action }`
+          });
+        }
+      });
+    },
     addUser() {
       let user = this.formRegister;
       this.$refs['formRegister'].validate((valid) => {
@@ -389,7 +389,10 @@ export default {
                 "nickName": user.nickName,
                 "phone": user.phone,
                 "email": user.email,
-                "sex": user.sex
+                "sex": user.sex,
+                "level": 1,
+                "score": 0
+
 
 
               },
@@ -408,7 +411,7 @@ export default {
                   // this.showreg = false;
                   // this.showLogin = true;
                   // this.formRegister = "";
-                  
+
 
                 }, 2000);
 
@@ -430,7 +433,7 @@ export default {
     },
     submitForm() {
       let user = this.ruleForm2;
-            this.$refs['ruleForm2'].validate((valid) => {
+      this.$refs['ruleForm2'].validate((valid) => {
         if (valid) {
           // axios({
           //     url: 'http://xyiscoding.top/studyapp/user/login',
@@ -441,14 +444,18 @@ export default {
           //       "password": user.password,
           //     },
           //   })
-          axios.post('http://xyiscoding.top/studyapp/user/login',{
-                "username": user.username,
-                "password": user.password
+          axios.post('http://xyiscoding.top/studyapp/user/login?username=' + user.username + '&password=' + user.password, {
+              "username": user.username,
+              "password": user.password
 
-          })
+            })
             .then(res => {
               console.log(res.data)
               if (res.data.result == '200') {
+                if (res.data.result == '200') {
+                  localStorage.setItem('data', JSON.stringify(res.data)); //保存登录状态
+
+                }
                 this.$message({
                   showClose: true,
                   message: '登录成功',
@@ -477,7 +484,7 @@ export default {
 
     }
   },
-  components:{
+  components: {
     modal
   }
 

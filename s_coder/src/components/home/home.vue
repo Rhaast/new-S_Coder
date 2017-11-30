@@ -6,7 +6,7 @@
       <navheader>
         <span slot="left" class="icon_slider" @click="findeSlide"><img src="../../assets/icon-slidebar.png" height="19" width="16"></span>
         <span slot="main_title" class="shou">Home</span>
-        <span slot="right" class="deng" @click="findeLogin">登录</span>
+        <span slot="right" class="deng" @click="findeLogin">{{loginText}}</span>
       </navheader>
     </div>
     <div class="banner">
@@ -157,18 +157,18 @@ export default {
         { src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' }
       ],
       scrollY: 0
-
     }
-
   },
   mounted() {
     this.getArticle();
     this.$nextTick(() => {
       this.initScroll();
-
-
-
     })
+  },
+  computed: {
+    loginText() {
+      return this.favorite ? '登录' : '注销'
+    }
   },
   methods: {
     _initScroll() {
@@ -187,8 +187,10 @@ export default {
         this.$nextTick(() => {
           this._initScroll()
         })
-
       })
+    },
+    findedLogin() {
+      
     },
     findeLogin() {
       this.$refs.login.show()
@@ -196,14 +198,12 @@ export default {
     findeSlide() {
       this.$refs.slidebar.come()
     }
-
   },
   components: {
     navheader,
     login,
     slidebar
   }
-
 }
 
 </script>
