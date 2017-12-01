@@ -8,19 +8,19 @@
     <div class="tab">
       <div class="tab-item" @click="toggle('home')">
         <router-link to="/home">
-          <span class="icon home"  id="home" name='home'></span>
+          <span class="icon" :class="homeCheck==true?'homeCheck':'home'" id="home"></span>
           <span>首页</span>
         </router-link>
         </div>
       <div class="tab-item" @click="toggle('type')">
         <router-link to="/type"> 
-          <span class="icon type" id="type" name='type'></span>
+          <span class="icon" :class="typeCheck==true?'typeCheck':'type'" id="type"></span>
           <span>分类</span>
         </router-link>
       </div>
       <div class="tab-item" @click="toggle('personal')">
         <router-link to="/personal">
-          <span class="icon personal" id="personal" name='personal'></span>
+          <span class="icon" :class="personalCheck==true?'personalCheck':'personal'" id="personal"></span>
           <span>个人中心</span>
         </router-link>
       </div>
@@ -34,29 +34,42 @@ export default {
   name: 'app',
   data() {
       return {
-        homecheck: true
+        homeCheck: false,
+        typeCheck: false,
+        personalCheck: false
       }
     },
   created (){
+    this.$router.push('/home')     //  初始ip跳转路由
     this.$nextTick(()=>{
-      this.toggle('home')
-
+      this.toggle(this.$route.path.substring(1))
     })
   },
   methods:{
     toggle(e){
-      var element = document.getElementById(e)
-      var arr = ['home','type','personal']
-      var temp = 0;
-      for(var i = 0 ; i < arr.length ; i ++){
-        if(e == arr[i]){
-          temp = i;
-        }else{
-          var _element = document.getElementById(arr[i])
-          _element.style.backgroundImage = "url('src/assets/image/icons_"+arr[i]+".png')"
-        }
+      this.homeCheck = false;
+      this.typeCheck = false;
+      this.personalCheck = false;
+      if(e=='home'){
+        this.homeCheck = !this.homeCheck
       }
-      element.style.backgroundImage = "url('src/assets/image/icons_"+arr[temp]+"_checked.png')"
+      else if(e=='type'){
+        this.typeCheck = !this.typeCheck
+      }else{
+        this.personalCheck = !this.personalCheck
+      }
+      // var element = document.getElementById(e)
+      // var arr = ['home','type','personal']
+      // var temp = 0;
+      // for(var i = 0 ; i < arr.length ; i ++){
+      //   if(e == arr[i]){
+      //     temp = i;
+      //   }else{
+      //     var _element = document.getElementById(arr[i])
+      //     _element.style.backgroundImage = "url('src/assets/image/icons_"+arr[i]+".png')"
+      //   }
+      // }
+      // element.style.backgroundImage = "url('src/assets/image/icons_"+arr[temp]+"_checked.png')"
       // if(this.isActive=e.currentTarget.name){
       //       this.isActive=true
 
@@ -86,6 +99,12 @@ export default {
         text-align:center
         font-size:10px
         margin:4px 0
+        & > .router-link-active > .homeCheck
+          background-image:url('./assets/image/icons_home_checked.png')
+        & > .router-link-active > .typeCheck
+            background-image:url('./assets/image/icons_type_checked.png')  
+        & > .router-link-active > .personalCheck
+            background-image:url('./assets/image/icons_personal_checked.png')  
         & > a      
           -webkit-box-flex: 1;
           -webkit-flex: 1;

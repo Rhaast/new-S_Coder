@@ -1,11 +1,12 @@
 <template>
   <div>
     <div class="personal-content" ref="personalContent">
+      <div class="contents">
       <img src="../../assets/personal_bg.png" height="255" width="100%">
       <div class="overview">
         <div class="overview-wrapper">
-          <h2 class="username">{{getziliaos.userName}}</h2>
-          <p class="saysay">555</p>
+          <h2 class="username">{{getziliaos.nickName}}</h2>
+          <p class="saysay">{{getziliaos.personSign}}</p>
           <img class="myportrait" src="../../assets/logo.png" height="80" width="80">
           <div class="job">
             <img class="sex" src="../../assets/sex.png" height="15" width="15">
@@ -15,19 +16,19 @@
             <li class="block">
               <h2 class="title">连续签到:</h2>
               <div class="content">
-                <span class="stress">4566556</span>
+                <span class="stress">{{getziliaos.signCount}}</span>
               </div>
             </li>
             <li class="block">
               <h2 class="title">得分:</h2>
               <div class="content">
-                <span class="stress">98</span>
+                <span class="stress">{{getziliaos.score}}</span>
               </div>
             </li>
             <li class="block">
               <h2 class="title">等级:</h2>
               <div class="content">
-                <span class="stress">平民</span>
+                <span class="stress">{{getziliaos.level}}</span>
               </div>
             </li>
           </ul>
@@ -45,8 +46,10 @@
               <br>
               <a href="https://www.baidu.com/"><span class="stress1">我的提问</span></a>
             </li>
+
           </ul>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -65,6 +68,12 @@
   position: absolute;
   top: 74px;
   width: 100%;
+}
+.contents{
+  position: absolute;
+  height: 590px;
+  width: 100%;
+
 }
 
 .overview-wrapper {
@@ -175,30 +184,35 @@ export default {
   data() {
     return {
       scrollY: 0,
-      getziliaos:''
+      getziliaos:{}
     }
 
   },
-  created() {
+  created () {
+ this.getMeans();
+    this.test();
+  }
+  ,
+  mounted() {
     this._initScroll();
-    this.getMeans();
-
-
+   
   },
   methods: {
     _initScroll() {
       this.scroll = new BScroll(this.$refs.personalContent, {
         click: true
       })
-    }
-  },
-  getMeans() {
+      // this.scroll.on('scroll', (pos) => {
+      //   console.log(pos.y)
+      // })
+    },
+  getMeans () {
     let that = this
-    console.log(localStorage);
-    let menasDatas = JSON.parse(window.localStorage.getItem('data'));
-    that.getziliaos = that.menasDatas.detail;
-    console.log(this.getziliaos)
+    let menasDatas = JSON.parse(localStorage.getItem('data'));
+    that.getziliaos = menasDatas.detail;
+    console.log(JSON.parse(localStorage.getItem('data')))
 
+  }
   }
 }
 

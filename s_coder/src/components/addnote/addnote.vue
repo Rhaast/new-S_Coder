@@ -6,15 +6,15 @@
         <span slot="main_title" class="shou">Issue</span>
       </navheader>
       <div class="addnote-wrapper">
-        <el-form ref="form" :model="form" label-width="80px" :rules="rules">
-          <el-form-item label="Title:">
+        <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="Title:" prop="title">
+            <el-input type="text" v-model="ruleForm2.title" auto-complete="off"></el-input>
           </el-form-item>
-          <el-input v-model="form.title" placeholder="请输入标题"></el-input>
-          <el-form-item label="Content:" class="form-content">
+          <el-form-item label="Content:" prop="content">
+            <el-input type="textarea" v-model="ruleForm2.content" auto-complete="off"></el-input>
           </el-form-item>
-          <el-input type="textarea" v-model="form.content" placeholder="请输入内容"></el-input>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">Issue</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -106,12 +106,20 @@ el-form-item {
 
 
 
+
+
+
+
 /* firefox 19+ */
 
 :-ms-input-placeholder {
   color: #ccc;
   font-size: 14px
 }
+
+
+
+
 
 
 
@@ -164,48 +172,57 @@ import navheader from "../navheader/navheader"
 import axios from 'axios'
 export default {
   data() {
-    let checkTitle = (rule, value, cb) => {
-      if (!value) {
-        return cb(new Error('标题不能为空!'))
+    var validateTitle = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入标题'));
       } else {
-        cb(); // 将判断传递给后面
+        callback();
       }
-    }
-    let checkContent = (rule, value, cb) => {
-      if (!value) {
-        return cb(new Error('内容不能为空!'))
+    };
+    var validateContent = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入内容'));
       } else {
-        cb();
+        callback();
       }
-    }
+    };
     return {
-      form: {
+      ruleForm2: {
         title: '',
-        content: ''
+        content: '',
+        id:'',
+        nickName:''
+
       },
-      rules: {
+      rules2: {
         title: [
-          { validator: checkTitle, trigger: 'blur' }
+          { validator: validateTitle, trigger: 'blur' }
         ],
         content: [
-          { validator: checkContent, trigger: 'blur' }
+          { validator: validateContent, trigger: 'blur' }
         ]
       }
-
-    }
-
+    };
   },
   components: {
     navheader
   },
+  created(){
+    this.getlocal();
+  },
   methods: {
-    onSubmit() {
-      let user = this.form;
-      let formData = {
-        title: user.title,
-        content: user.content
-      };
-      this.$refs['form'].validate((valid) => {
+    getlocal() {
+      let that = this;
+      let localmessage = JSON.parse(localStorage.getItem('data'));
+      that.id = localmessage.detail.id;
+      that.nickName = localmessage.detail.nickName;
+      console.log(this.nickName)
+
+
+    },
+    submitForm(ruleForm2) {
+      let user = this.ruleForm2;
+      this.$refs['ruleForm2'].validate((valid) => {
         if (valid) {
           axios({
               url: 'http://xyiscoding.top/studyapp/note/add',
@@ -213,7 +230,9 @@ export default {
               dataType: "json",
               data: {
                 "title": user.title,
-                "content": user.content
+                "content": user.content,
+                "nickName":this.nickName,
+                "id":this.id
               },
             })
             .then(res => {

@@ -6,13 +6,13 @@
       <navheader>
         <span slot="left" class="icon_slider" @click="findeSlide"><img src="../../assets/icon-slidebar.png" height="19" width="16"></span>
         <span slot="main_title" class="shou">Home</span>
-        <span slot="right" class="deng" @click="findeLogin">{{loginText}}</span>
+        <span slot="right" class="deng" @click="findeLogin" v-on:click="toggleLogin">{{loginText}}</span>
       </navheader>
     </div>
     <div class="banner">
       <mt-swipe :auto="0">
-        <mt-swipe-item v-for="data in list">
-          <img v-bind:src="data.src">
+        <mt-swipe-item>
+          <img v-bind:src="list.src">
         </mt-swipe-item>
       </mt-swipe>
     </div>
@@ -78,6 +78,7 @@
 .position {
   margin: 12px 12px 0 12px;
   border-bottom: 1px solid #d1d1d1;
+  display: flex;
 }
 
 .content-wrapper {
@@ -94,7 +95,6 @@
 }
 
 .right {
-  width: 284px;
   display: inline-block;
   margin-left: 12px;
 }
@@ -150,24 +150,23 @@ export default {
   data() {
     return {
       details: [],
-      list: [
-        { src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' },
-        { src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' },
-        { src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' },
-        { src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' }
-      ],
+      list: 
+        { "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' ,
+        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' ,
+        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' ,
+        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' },
       scrollY: 0
     }
   },
   mounted() {
     this.getArticle();
     this.$nextTick(() => {
-      this.initScroll();
+      this._initScroll();
     })
   },
-  computed: {
-    loginText() {
-      return this.favorite ? '登录' : '注销'
+  computed:{
+    loginText(){
+      return this.login ? '登录' : '注销'
     }
   },
   methods: {
@@ -190,13 +189,20 @@ export default {
       })
     },
     findedLogin() {
-      
+
     },
     findeLogin() {
       this.$refs.login.show()
     },
     findeSlide() {
       this.$refs.slidebar.come()
+    },
+    toggleLogin() {
+      if(window.localStorage){
+        this.login ="注销" 
+      }else{
+        this.login = "登录"
+      }
     }
   },
   components: {

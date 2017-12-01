@@ -7,7 +7,7 @@
           </div>
           <el-row type="flex" justify="center">
             <el-col :span="12">
-              <modal v-show='mdShow' v-on:close="closeModal">
+              <modal v-show='mdShow'>
                 <p slot="message">
                   注册成功，跳转登录。
                 </p>
@@ -37,8 +37,8 @@
                   </el-form-item>
                   <div class="feng">
                     <el-radio-group v-model.number="formRegister.sex">
-                      <el-radio label=1 name="user.sex" value="1">Male</el-radio>
-                      <el-radio label=0 name="user.sex" value="0">Female</el-radio>
+                      <el-radio label=1 name="user.sex">Male</el-radio>
+                      <el-radio label=0 name="user.sex">Female</el-radio>
                     </el-radio-group>
                   </div>
                   <el-form-item>
@@ -268,16 +268,16 @@ export default {
         cb();
       }
     };
-    // let checkSex = (rule, value, cb) => {
-    //   if (!value) {
-    //     return cb(new Error('请选择性别!'))
-    //   } else {
-    //     cb();
-    //   }
-    // };
+    let checkSex = (rule, value, cb) => {
+      if (value === '') {
+        return cb(new Error('请选择性别!'))
+      } else {
+        cb();
+      }
+    };
     let entryUsername = (rule, value, cb) => {
       if (!value) {
-        return cb(new Error('请选择用户名!'))
+        return cb(new Error('请输入用户名!'))
       } else {
         cb();
       }
@@ -322,9 +322,9 @@ export default {
         email: [
           { validator: checkEmail, trigger: 'blur' }
         ],
-        // sex: [
-        //   { validator: checkSex, trigger: 'blur' }
-        // ],
+        sex: [
+          { validator: checkSex, trigger: 'blur' }
+        ],
       },
       rules2: {
         username: [
