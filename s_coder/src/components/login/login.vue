@@ -8,6 +8,7 @@
           <el-row type="flex" justify="center">
             <el-col :span="12">
               <modal v-show='mdShow'>
+                <div slot="md-close" class="md-close" @click="closeModal"><img src="../../assets/icon_close.png" height="20" width="20"></div>
                 <p slot="message">
                   注册成功，跳转登录。
                 </p>
@@ -55,6 +56,15 @@
       <transition name="move">
         <el-card class="box-card1" v-show="showLogin">
           <h1 class="S_coder">S_CODER</h1>
+                        <modal v-show='mdShow1'>
+                <div slot="md-close" class="md-close" @click="closeModal"><img src="../../assets/icon_close.png" height="20" width="20"></div>
+                <p slot="message">
+                  登陆成功，即将跳转到主页。
+                </p>
+                <div slot="btnGroup">
+                  <a class="btn btn--m" href="javascript:;" @click="Jumplogin">确定</a>
+                </div>
+              </modal>
           <el-row type="flex" justify="center" class="login-wrapper1">
             <el-col :span="12">
               <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
@@ -306,6 +316,7 @@ export default {
       showLogin: false,
       showreg: true,
       mdShow: false,
+      mdShow1:false,
       rules: {
         userName: [
           { validator: checkUserName, trigger: 'blur' }
@@ -360,8 +371,10 @@ export default {
       this.showFlag = true;
       this.showreg = false;
       this.showLogin = true;
-
       this.formRegister = "";
+    },
+    closeModal() {
+      this.mdShow = false;
     },
     open() {
       this.$alert('这是一段内容', '标题名称', {
@@ -461,6 +474,7 @@ export default {
                   message: '登录成功',
                   type: 'success'
                 })
+                this.mdShow1 = true,
                 setTimeout(() => {
                   this.$router.push('/home');
                   this.showFlag = false;
