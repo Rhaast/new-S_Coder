@@ -2,10 +2,20 @@
   <transition name="move">
     <div class="addnote">
       <navheader>
-        <span slot="left" class="icon-add_circle"></span>
+        <span slot="left" class="backhome" @click="backHome"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></span>
         <span slot="main_title" class="shou">Issue</span>
       </navheader>
       <div class="addnote-wrapper">
+        <modal v-show='mdShow'>
+          <div slot="md-close" class="md-close" @click="closeModal"><img src="../../assets/icon_close.png" height="20" width="20"></div>
+          <p slot="message">
+            发布成功
+          </p>
+          <div slot="btnGroup">
+            <a class="btn btn--m" @click="JumpLogin">确定</a>
+          </div>
+        </modal>
+        <div class="md-overlay" v-if="mdShow"></div>
         <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
           <el-form-item label="Title:" prop="title">
             <el-input type="text" v-model="ruleForm2.title" auto-complete="off"></el-input>
@@ -22,6 +32,14 @@
   </transition>
 </template>
 <style>
+.backhome {
+  display: inline-block;
+  position: absolute;
+  top:50%;
+  left: 12px;
+  height: 32px;
+  margin-top: -16px;
+}
 .shou {
   font-size: 18px;
   display: inline-block;
@@ -102,28 +120,12 @@ el-form-item {
   color: #ccc;
   font-size: 14px
 }
-
-
-
-
-
-
-
-
 /* firefox 19+ */
 
 :-ms-input-placeholder {
   color: #ccc;
   font-size: 14px
 }
-
-
-
-
-
-
-
-
 /* ie */
 
 input:-moz-placeholder {
@@ -170,6 +172,7 @@ input:-moz-placeholder {
 <script type="text/javascript">
 import navheader from "../navheader/navheader"
 import axios from 'axios'
+import modal from '../Modal/modal'
 export default {
   data() {
     var validateTitle = (rule, value, callback) => {
@@ -190,8 +193,8 @@ export default {
       ruleForm2: {
         title: '',
         content: '',
-        id:'',
-        nickName:''
+        id: '',
+        nickName: ''
 
       },
       rules2: {
@@ -201,13 +204,15 @@ export default {
         content: [
           { validator: validateContent, trigger: 'blur' }
         ]
-      }
+      },
+      mdShow:false
     };
   },
   components: {
-    navheader
+    navheader,
+    modal
   },
-  created(){
+  created() {
     this.getlocal();
   },
   methods: {
@@ -220,6 +225,16 @@ export default {
 
 
     },
+    backHome() {
+      this.$router.push('/home')
+    },
+    closeModal() {
+      this.mdShow = false
+    },
+    JumpLogin() {
+      this.mdShow = false;
+      this.$router.push('/home');
+    },
     submitForm(ruleForm2) {
       let user = this.ruleForm2;
       this.$refs['ruleForm2'].validate((valid) => {
@@ -231,8 +246,9 @@ export default {
               data: {
                 "title": user.title,
                 "content": user.content,
-                "nickName":this.nickName,
-                "id":this.id
+                "nickName": this.nickName,
+                "userId": this.id,
+                "type": 0
               },
             })
             .then(res => {
@@ -240,12 +256,16 @@ export default {
               if (res.data.result == '200') {
                 this.$message({
                   showClose: true,
-                  message: '提交成功',
                   type: 'success'
                 })
+                this.mdShow = true,
                 setTimeout(() => {
                   this.$router.push('/home');
                   this.showFlag = false;
+                  this.mdShow = false;
+                  user.title = '';
+                  user.content = '';
+
 
                 }, 2000);
 

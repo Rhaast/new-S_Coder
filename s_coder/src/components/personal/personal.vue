@@ -2,54 +2,53 @@
   <div>
     <div class="personal-content" ref="personalContent">
       <div class="contents">
-      <img src="../../assets/personal_bg.png" height="255" width="100%">
-      <div class="overview">
-        <div class="overview-wrapper">
-          <h2 class="username">{{getziliaos.nickName}}</h2>
-          <p class="saysay">{{getziliaos.personSign}}</p>
-          <img class="myportrait" src="../../assets/logo.png" height="80" width="80">
-          <div class="job">
-            <img class="sex" src="../../assets/sex.png" height="15" width="15">
-            <span>UI设计师</span>
+        <img src="../../assets/personal_bg.png" height="255" width="100%">
+        <div class="overview">
+          <div class="overview-wrapper">
+            <h2 class="username">{{getziliaos.nickName}}</h2>
+            <p class="saysay">{{getziliaos.personSign}}</p>
+            <img class="myportrait" src="../../assets/logo.png" height="80" width="80">
+            <div class="job">
+              <img class="sex" src="../../assets/sex.png" height="15" width="15">
+              <span>UI设计师</span>
+            </div>
+            <ul class="remark">
+              <li class="block">
+                <h2 class="title">连续签到:</h2>
+                <div class="content">
+                  <span class="stress">{{getziliaos.signCount}}</span>
+                </div>
+              </li>
+              <li class="block">
+                <h2 class="title">得分:</h2>
+                <div class="content">
+                  <span class="stress">{{getziliaos.score}}</span>
+                </div>
+              </li>
+              <li class="block">
+                <h2 class="title">等级:</h2>
+                <div class="content">
+                  <span class="stress">{{getziliaos.level}}</span>
+                </div>
+              </li>
+            </ul>
           </div>
-          <ul class="remark">
-            <li class="block">
-              <h2 class="title">连续签到:</h2>
-              <div class="content">
-                <span class="stress">{{getziliaos.signCount}}</span>
-              </div>
-            </li>
-            <li class="block">
-              <h2 class="title">得分:</h2>
-              <div class="content">
-                <span class="stress">{{getziliaos.score}}</span>
-              </div>
-            </li>
-            <li class="block">
-              <h2 class="title">等级:</h2>
-              <div class="content">
-                <span class="stress">{{getziliaos.level}}</span>
-              </div>
-            </li>
-          </ul>
+          <div class="schedule-wrapper">
+            <h2 class="title">我的日程</h2>
+            <ul class="remark1">
+              <li class="block1">
+                <img class="icon" src="../../assets/note.png" height="40" width="40" />
+                <br>
+                 <router-link to="/mynote"><span class="stress1">我的笔记</span></router-link>
+              </li>
+              <li class="block1">
+                <img class="icon" src="../../assets/answer.png" height="40" width="40" />
+                <br>
+                <router-link to="/myquestions"><span class="stress1">我的提问</span></router-link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="schedule-wrapper">
-          <h2 class="title">我的日程</h2>
-          <ul class="remark1">
-            <li class="block1">
-              <img class="icon" src="../../assets/note.png" height="40" width="40" />
-              <br>
-              <a href="https://www.baidu.com/"><span class="stress1">我的笔记</span></a>
-            </li>
-            <li class="block1">
-              <img class="icon" src="../../assets/answer.png" height="40" width="40" />
-              <br>
-              <a href="https://www.baidu.com/"><span class="stress1">我的提问</span></a>
-            </li>
-
-          </ul>
-        </div>
-      </div>
       </div>
     </div>
   </div>
@@ -69,11 +68,11 @@
   top: 74px;
   width: 100%;
 }
-.contents{
+
+.contents {
   position: absolute;
   height: 590px;
   width: 100%;
-
 }
 
 .overview-wrapper {
@@ -184,18 +183,17 @@ export default {
   data() {
     return {
       scrollY: 0,
-      getziliaos:{}
+      getziliaos: {}
     }
 
   },
-  created () {
- this.getMeans();
-    this.test();
-  }
-  ,
+  created() {
+    this.getMeans();
+
+  },
   mounted() {
     this._initScroll();
-   
+
   },
   methods: {
     _initScroll() {
@@ -206,13 +204,13 @@ export default {
       //   console.log(pos.y)
       // })
     },
-  getMeans () {
-    let that = this
-    let menasDatas = JSON.parse(localStorage.getItem('data'));
-    that.getziliaos = menasDatas.detail;
-    console.log(JSON.parse(localStorage.getItem('data')))
+    getMeans() {
+      let that = this
+      let menasDatas = JSON.parse(localStorage.getItem('data'));
+      that.getziliaos = menasDatas.detail;
+      console.log(JSON.parse(localStorage.getItem('data')))
 
-  }
+    }
   }
 }
 

@@ -6,7 +6,7 @@
       <navheader>
         <span slot="left" class="icon_slider" @click="findeSlide"><img src="../../assets/icon-slidebar.png" height="19" width="16"></span>
         <span slot="main_title" class="shou">Home</span>
-        <span slot="right" class="deng" @click="findeLogin" v-on:click="toggleLogin">{{loginText}}</span>
+        <span slot="right" class="deng" @click="findeLogin">{{loginText}}</span>
       </navheader>
     </div>
     <div class="banner">
@@ -150,11 +150,13 @@ export default {
   data() {
     return {
       details: [],
-      list: 
-        { "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' ,
-        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' ,
-        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' ,
-        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1' },
+      loginText: '登录',
+      list: {
+        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
+        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
+        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
+        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1'
+      },
       scrollY: 0
     }
   },
@@ -163,12 +165,14 @@ export default {
     this.$nextTick(() => {
       this._initScroll();
     })
+    this.toggleLogin();
+    this.getMeans();
   },
-  computed:{
-    loginText(){
-      return this.login ? '登录' : '注销'
-    }
-  },
+  // computed:{
+  //   loginText(){
+  //     return this.login ? '登录' : '注销'
+  //   }
+  // },
   methods: {
     _initScroll() {
       this.Scroll = new BScroll(this.$refs.contents, {
@@ -191,6 +195,10 @@ export default {
     findedLogin() {
 
     },
+    getMeans() {
+      let that = this
+      let menasDatas = JSON.parse(localStorage.getItem('data'));
+    },
     findeLogin() {
       this.$refs.login.show()
     },
@@ -198,10 +206,12 @@ export default {
       this.$refs.slidebar.come()
     },
     toggleLogin() {
-      if(window.localStorage){
-        this.login ="注销" 
-      }else{
-        this.login = "登录"
+      let self = this
+      if (this.menasDatas = null) {
+        self.loginText = "登录"
+      } else {
+        self.loginText = "注销"
+
       }
     }
   },

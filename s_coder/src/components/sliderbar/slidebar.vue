@@ -27,23 +27,25 @@ export default {
   },
   methods: {
     come() {
-      this.showSlide = true
+      this.showSlide = true;
     },
     hideSlide() {
-      this.showSlide = false
+      this.showSlide = false;
     },
     personal() {
       this.$router.replace('/personal');
       location.reload();
 
-      this.showSlide = false
+      this.showSlide = false;
 
     },
     addnote() {
       this.$router.push('./addnote');
+      this.showSlide = false;
     },
     addquestion() {
       this.$router.push('./addquestion');
+      this.showSlide = false;
     }
   }
 }

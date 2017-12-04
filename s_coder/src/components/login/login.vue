@@ -62,14 +62,15 @@
                   登陆成功，即将跳转到主页。
                 </p>
                 <div slot="btnGroup">
-                  <a class="btn btn--m" href="javascript:;" @click="Jumplogin">确定</a>
+                  <a class="btn btn--m" @click="JumpHome">确定</a>
                 </div>
               </modal>
+               <div class="md-overlay" v-if="mdShow1"></div>
           <el-row type="flex" justify="center" class="login-wrapper1">
             <el-col :span="12">
               <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="username" prop="username">
-                  <el-input type="text" v-model="ruleForm2.username" auto-complete="off"></el-input>
+                <el-form-item label="username" prop="userName">
+                  <el-input type="text" v-model="ruleForm2.userName" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="password" prop="password">
                   <el-input type="password" v-model="ruleForm2.password" auto-complete="off"></el-input>
@@ -376,6 +377,12 @@ export default {
     closeModal() {
       this.mdShow = false;
     },
+    JumpHome() {
+      this.mdShow1 = false;
+      this.showFlag = false;
+      this.$router.replace('/home');
+      // location.reload();
+    },
     open() {
       this.$alert('这是一段内容', '标题名称', {
         confirmButtonText: '确定',
@@ -418,15 +425,6 @@ export default {
                   type: 'success'
                 })
                 this.mdShow = true
-                setTimeout(() => {
-                  // this.$router.push('/home');
-                  // this.showFlag = true;
-                  // this.showreg = false;
-                  // this.showLogin = true;
-                  // this.formRegister = "";
-
-
-                }, 2000);
 
               } else {
                 this.$message({
@@ -448,20 +446,20 @@ export default {
       let user = this.ruleForm2;
       this.$refs['ruleForm2'].validate((valid) => {
         if (valid) {
-          // axios({
-          //     url: 'http://xyiscoding.top/studyapp/user/login',
-          //     method: 'post',
-          //     dataType: "json",
-          //     data: {
-          //       "username": user.username,
-          //       "password": user.password,
-          //     },
-          //   })
-          axios.post('http://xyiscoding.top/studyapp/user/login?username=' + user.username + '&password=' + user.password, {
-              "username": user.username,
-              "password": user.password
-
+          axios({
+              url: 'http://xyiscoding.top/studyapp/user/login',
+              method: 'post',
+              dataType: "json",
+              data: {
+                "userName": user.userName,
+                "password": user.password,
+              },
             })
+          // axios.post('http://xyiscoding.top/studyapp/user/login?username=' + user.userName + '&password=' + user.password, {
+          //     "userName": user.userName,
+          //     "password": user.password
+
+          //   })
             .then(res => {
               console.log(res.data)
               if (res.data.result == '200') {
@@ -471,7 +469,6 @@ export default {
                 }
                 this.$message({
                   showClose: true,
-                  message: '登录成功',
                   type: 'success'
                 })
                 this.mdShow1 = true,
@@ -479,8 +476,9 @@ export default {
                   this.$router.push('/home');
                   this.showFlag = false;
                   this.ruleForm2 = "";
+                  this.mdShow1 = false;
 
-                }, 2000);
+                },2000);
 
               } else {
                 this.$message({
