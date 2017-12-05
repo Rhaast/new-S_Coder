@@ -33,9 +33,7 @@ export default {
       this.showSlide = false;
     },
     personal() {
-      this.$router.replace('/personal');
-      location.reload();
-
+      this.$router.push('/personal');
       this.showSlide = false;
 
     },

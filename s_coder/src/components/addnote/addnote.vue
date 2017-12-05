@@ -2,7 +2,7 @@
   <transition name="move">
     <div class="addnote">
       <navheader>
-        <span slot="left" class="backhome" @click="backHome"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></span>
+        <span slot="left" class="backhome" @click="backhome()"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></span>
         <span slot="main_title" class="shou">Issue</span>
       </navheader>
       <div class="addnote-wrapper">
@@ -18,13 +18,13 @@
         <div class="md-overlay" v-if="mdShow"></div>
         <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
           <el-form-item label="Title:" prop="title">
-            <el-input type="text" v-model="ruleForm2.title" auto-complete="off"></el-input>
+            <el-input type="text" v-model="ruleForm2.title" auto-complete="off" id="titleInt" ></el-input>
           </el-form-item>
           <el-form-item label="Content:" prop="content">
-            <el-input type="textarea" v-model="ruleForm2.content" auto-complete="off"></el-input>
+            <el-input type="textarea" v-model="ruleForm2.content" auto-complete="off" id="contentInt"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
+            <el-button type="primary">提交</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -35,11 +35,12 @@
 .backhome {
   display: inline-block;
   position: absolute;
-  top:50%;
+  top: 50%;
   left: 12px;
   height: 32px;
   margin-top: -16px;
 }
+
 .shou {
   font-size: 18px;
   display: inline-block;
@@ -120,12 +121,18 @@ el-form-item {
   color: #ccc;
   font-size: 14px
 }
+
+
+
 /* firefox 19+ */
 
 :-ms-input-placeholder {
   color: #ccc;
   font-size: 14px
 }
+
+
+
 /* ie */
 
 input:-moz-placeholder {
@@ -163,6 +170,22 @@ input:-moz-placeholder {
   margin-top: 30px;
 }
 
+.el-form-item__error {
+  /*   color: #fa5555;
+    font-size: 12px;
+    line-height: 1;
+    padding-top: 4px;
+    position: absolute;
+    top: 100%;
+    left: 0;*/
+  color: #fa5555;
+  position: absolute;
+  left: 12;
+  padding-top: 4px;
+  line-height: 1;
+  font-size: 12px;
+}
+
 .el-form-item__content {
   margin: 0 ! important;
   text-align: center;
@@ -176,16 +199,23 @@ import modal from '../Modal/modal'
 export default {
   data() {
     var validateTitle = (rule, value, callback) => {
-      if (value === '') {
+      if (value === ''&&this.flag=='0') {
         callback(new Error('请输入标题'));
-      } else {
+      } 
+      else {
+        callback();
+      }
+      if (this.flag=='1') {
         callback();
       }
     };
     var validateContent = (rule, value, callback) => {
-      if (value === '') {
+      if (value === ''&&this.flag=='0') {
         callback(new Error('请输入内容'));
       } else {
+        callback();
+      }
+      if (this.flag=='1') {
         callback();
       }
     };
@@ -197,6 +227,7 @@ export default {
         nickName: ''
 
       },
+      flag: '0', 
       rules2: {
         title: [
           { validator: validateTitle, trigger: 'blur' }
@@ -205,7 +236,7 @@ export default {
           { validator: validateContent, trigger: 'blur' }
         ]
       },
-      mdShow:false
+      mdShow: false
     };
   },
   components: {
@@ -215,6 +246,7 @@ export default {
   created() {
     this.getlocal();
   },
+
   methods: {
     getlocal() {
       let that = this;
@@ -225,8 +257,20 @@ export default {
 
 
     },
-    backHome() {
-      this.$router.push('/home')
+    backhome() {      
+      this.flag = 1 ;
+      document.getElementById('titleInt').focus();
+      document.getElementById('titleInt').blur();
+       document.getElementById('contentInt').focus();
+      document.getElementById('contentInt').blur();
+      this.ruleForm2.title='';
+      this.ruleForm2.content='';
+      this.$router.go(-1);
+      this.flag = 0 ;
+
+    },
+    resetForm(ruleForm2) {
+      this.$refs[ruleForm2].resetFields();
     },
     closeModal() {
       this.mdShow = false
@@ -259,15 +303,15 @@ export default {
                   type: 'success'
                 })
                 this.mdShow = true,
-                setTimeout(() => {
-                  this.$router.push('/home');
-                  this.showFlag = false;
-                  this.mdShow = false;
-                  user.title = '';
-                  user.content = '';
+                  setTimeout(() => {
+                    this.$router.push('/home');
+                    this.showFlag = false;
+                    this.mdShow = false;
+                    user.title = '';
+                    user.content = '';
 
 
-                }, 2000);
+                  }, 2000);
 
               } else {
                 this.$message({

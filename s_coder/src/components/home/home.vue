@@ -2,6 +2,16 @@
   <div>
     <slidebar :slidebar="findeSlide" ref="slidebar"></slidebar>
     <login :login="findedLogin" ref="login"></login>
+<!--     <modal v-show='mdShow'>
+      <div slot="md-close" class="md-close" @click="closeModal"><img src="../../assets/icon_close.png" height="20" width="20"></div>
+      <p slot="message">
+        注册成功，跳转登录。
+      </p>
+      <div slot="btnGroup">
+        <a class="btn btn--m" href="javascript:;" @click="Jumplogin">确定</a>
+      </div>
+    </modal>
+    <div class="md-overlay" v-if="mdShow"></div> -->
     <div class="header">
       <navheader>
         <span slot="left" class="icon_slider" @click="findeSlide"><img src="../../assets/icon-slidebar.png" height="19" width="16"></span>
@@ -145,12 +155,14 @@ import slidebar from '../sliderbar/slidebar'
 import navheader from '../navheader/navheader'
 import BScroll from 'better-scroll'
 import axios from 'axios'
+import modal from '../Modal/modal'
 const ERR_OK = 0;
 export default {
   data() {
     return {
       details: [],
       loginText: '登录',
+      mdShow:false,
       list: {
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
@@ -164,6 +176,12 @@ export default {
     this.getArticle();
     this.$nextTick(() => {
       this._initScroll();
+      if (localStorage.getItem('data')) {
+        this.loginText = '注销'
+      }
+      if (!localStorage.getItem('data')) {
+        this.loginText = '登录'
+      }
     })
     this.toggleLogin();
     this.getMeans();
@@ -200,25 +218,23 @@ export default {
       let menasDatas = JSON.parse(localStorage.getItem('data'));
     },
     findeLogin() {
+      if (this.loginText == '注销') {
+        // this.$refs.slidebar.come();
+        localStorage.removeItem('data') ;// 清空localstorage数据
+        location.reload();
+      }
       this.$refs.login.show()
     },
     findeSlide() {
       this.$refs.slidebar.come()
     },
-    toggleLogin() {
-      let self = this
-      if (this.menasDatas = null) {
-        self.loginText = "登录"
-      } else {
-        self.loginText = "注销"
 
-      }
-    }
   },
   components: {
     navheader,
     login,
-    slidebar
+    slidebar,
+    modal
   }
 }
 

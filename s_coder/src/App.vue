@@ -40,7 +40,7 @@ export default {
       }
     },
   created (){
-    this.$router.push('/home')     //  初始ip跳转路由
+    // this.$router.push('/home')     //  初始ip跳转路由
     this.$nextTick(()=>{
       this.toggle(this.$route.path.substring(1))
     })

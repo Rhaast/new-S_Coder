@@ -56,16 +56,16 @@
       <transition name="move">
         <el-card class="box-card1" v-show="showLogin">
           <h1 class="S_coder">S_CODER</h1>
-                        <modal v-show='mdShow1'>
-                <div slot="md-close" class="md-close" @click="closeModal"><img src="../../assets/icon_close.png" height="20" width="20"></div>
-                <p slot="message">
-                  登陆成功，即将跳转到主页。
-                </p>
-                <div slot="btnGroup">
-                  <a class="btn btn--m" @click="JumpHome">确定</a>
-                </div>
-              </modal>
-               <div class="md-overlay" v-if="mdShow1"></div>
+          <modal v-show='mdShow1'>
+            <div slot="md-close" class="md-close" @click="closeModal"><img src="../../assets/icon_close.png" height="20" width="20"></div>
+            <p slot="message">
+              登陆成功，即将跳转到主页。
+            </p>
+            <div slot="btnGroup">
+              <a class="btn btn--m" @click="JumpHome">确定</a>
+            </div>
+          </modal>
+          <div class="md-overlay" v-if="mdShow1"></div>
           <el-row type="flex" justify="center" class="login-wrapper1">
             <el-col :span="12">
               <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
@@ -317,7 +317,7 @@ export default {
       showLogin: false,
       showreg: true,
       mdShow: false,
-      mdShow1:false,
+      mdShow1: false,
       rules: {
         userName: [
           { validator: checkUserName, trigger: 'blur' }
@@ -455,11 +455,11 @@ export default {
                 "password": user.password,
               },
             })
-          // axios.post('http://xyiscoding.top/studyapp/user/login?username=' + user.userName + '&password=' + user.password, {
-          //     "userName": user.userName,
-          //     "password": user.password
+            // axios.post('http://xyiscoding.top/studyapp/user/login?username=' + user.userName + '&password=' + user.password, {
+            //     "userName": user.userName,
+            //     "password": user.password
 
-          //   })
+            //   })
             .then(res => {
               console.log(res.data)
               if (res.data.result == '200') {
@@ -472,13 +472,13 @@ export default {
                   type: 'success'
                 })
                 this.mdShow1 = true,
-                setTimeout(() => {
-                  this.$router.push('/home');
-                  this.showFlag = false;
-                  this.ruleForm2 = "";
-                  this.mdShow1 = false;
-
-                },2000);
+                  setTimeout(() => {
+                    this.$router.push('/home');
+                    this.showFlag = false;
+                    this.ruleForm2 = "";
+                    this.mdShow1 = false;
+                    location.reload();
+                  }, 1000);
 
               } else {
                 this.$message({
