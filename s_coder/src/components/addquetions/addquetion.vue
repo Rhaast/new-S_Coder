@@ -32,6 +32,15 @@
   </transition>
 </template>
 <style>
+.backhome {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  height: 32px;
+  margin-top: -16px;
+}
+
 .shou {
   font-size: 18px;
   display: inline-block;
@@ -114,12 +123,14 @@ el-form-item {
 }
 
 
+
 /* firefox 19+ */
 
 :-ms-input-placeholder {
   color: #ccc;
   font-size: 14px
 }
+
 
 
 /* ie */
@@ -230,6 +241,7 @@ export default {
     JumpLogin() {
       this.mdShow = false;
       this.$router.push('/home');
+      clearTimeout(this.cce); // 清除定时器
     },
     submitForm(ruleForm2) {
       let user = this.ruleForm2;
@@ -255,16 +267,14 @@ export default {
                   type: 'success'
                 })
                 this.mdShow = true,
-                  setTimeout(() => {
+                  this.cce = setTimeout(() => {
                     this.$router.push('/home');
                     this.showFlag = false;
                     this.mdShow = false;
-                    user.title = '';
-                    user.content = '';
-
-
+                    this.ruleForm2 = false;
                   }, 2000);
-
+                user.title = '';
+                user.content = '';
               } else {
                 this.$message({
                   showClose: true,

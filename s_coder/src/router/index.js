@@ -7,6 +7,7 @@ import addnote from '../components/addnote/addnote'
 import addquestion from '../components/addquetions/addquetion'
 import mynote from '../components/mynote/mynote'
 import myquestions from '../components/myquestions/myquestions'
+import mynotedetail from '../components/mynotedetail/mynotedetail'
 
 Vue.use(Router)
 
@@ -44,8 +45,14 @@ export default new Router({
     {
       path: '/mynote',
       name: 'mynote',
-      component: mynote
+      component: mynote,
     },
+    {
+        path: '/mynotedetail/',
+        name: 'mynotedetail',
+        component: mynotedetail
+      },
+
     {
       path: '/myquestions',
       name: 'myquestions',

@@ -183,7 +183,6 @@ export default {
         this.loginText = '登录'
       }
     })
-    this.toggleLogin();
     this.getMeans();
   },
   // computed:{

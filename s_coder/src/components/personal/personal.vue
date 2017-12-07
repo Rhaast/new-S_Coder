@@ -196,7 +196,7 @@ export default {
 
   },
   methods: {
-    _initScroll() {
+    _initScroll:function() {
       this.scroll = new BScroll(this.$refs.personalContent, {
         click: true
       })

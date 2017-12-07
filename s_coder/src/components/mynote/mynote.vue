@@ -14,18 +14,30 @@
         </div>
         <div class="content-wrappers1" ref="contents">
           <div class="wrapper-scorll">
-            <div class="wrapper-top" v-for = "list in noteLists">
-              <h2 class="title">{{list.title}}</h2>
-              <p class="content">{{list.content}}</p>
+            <div class="refresh" v-show="showfresh"><img src="../../assets/image/loading-spinning-bubbles.svg"></div>
+            <div class="wrapper-top" v-for="list in noteLists">
+              <router-link :to="{path:'/mynotedetail/',query: {id:list.id}}">
+                <h2 class="title">{{list.title}}</h2>
+                <p class="content">{{list.content}}</p>
+              </router-link>
             </div>
             <div class="no-note" v-show="!noteLists">暂无笔记</div>
           </div>
         </div>
+        <router-view></router-view>
       </div>
+
     </div>
   </transition>
 </template>
 <style type="text/css">
+.refresh {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 12px;
+  color: #999
+}
+
 .move-enter-active,
 .move-leave-active {
   transition: all 0.2s linear;
@@ -49,16 +61,18 @@
   height: 32px;
   margin-top: -16px;
 }
-.wrapper-scorll{
-	width: 100%;
 
+.wrapper-scorll {
+  width: 100%;
 }
-.no-note{
-	text-align: center;
-	margin-top: 50%;
-	font-size: 16px;
-	color: #999;
+
+.no-note {
+  text-align: center;
+  margin-top: 50%;
+  font-size: 16px;
+  color: #999;
 }
+
 .mynote {
   width: 100%;
   position: fixed;
@@ -86,9 +100,9 @@
   padding: 0 12px;
   width: 100%;
   position: absolute;
+  top: 255px;
   overflow: hidden;
-  height: 100%;
-
+  bottom: 0;
 }
 
 .content-wrappers .wrapper-top .myportrait {
@@ -107,6 +121,11 @@
   margin-top: 7px;
 }
 
+.wrapper-top {
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 18px;
+}
+
 .content-wrappers1 .wrapper-top .content {
   font-size: 14px;
   color: #999;
@@ -114,8 +133,11 @@
   line-height: 16px;
   margin-top: 2px;
   display: block;
-  border-bottom: 1px solid #e6e6e6;
-  padding-bottom: 18px;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 .content-wrappers .wrapper-top .myportrait img {
@@ -141,6 +163,8 @@ export default {
   data() {
     return {
       noteLists: [],
+      id: '',
+      showfresh: false
     }
   },
   created() {
@@ -150,22 +174,34 @@ export default {
 
   mounted() {
     this.getMynote();
-          this._initScroll()
+    this.$nextTick(() => {
+      this._initScroll();
+    })
 
   },
   methods: {
     backpersonal() {
-      this.$router.go(-1);
+      this.$router.push('/personal');
     },
-    _initScroll() {
-      this.Scroll = new BScroll(this.$refs.contents, {
-        click: true
+    _initScroll:function() {
+      this.meunScroll = new BScroll(this.$refs.contents, {
+        click: true,
+        pullDownRefresh: {
+          threshold: 20, // 当下拉到超过顶部 30px 时，   
+          stop: 10,
+        },
       })
-      this.Scroll.on('touchend',(pos) => {
-      	if(pos.y>50) {
-      	}
-
-      })
+      this.meunScroll.on("pullingDown", function() { // 当下拉到超过顶部 30px 时执行这个函数   
+        setTimeout(() => {
+          this.getMynote();
+        }, 1500);
+        this.$nextTick(function() {
+          this.showfresh = true;
+          this.meunScroll2.finishPullDown();
+          this.meunScroll2.refresh();
+        });
+      }.bind(this));
+      this.showfresh = false;
     },
     getMeans() {
       let that = this
