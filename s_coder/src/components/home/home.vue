@@ -2,16 +2,6 @@
   <div>
     <slidebar :slidebar="findeSlide" ref="slidebar"></slidebar>
     <login :login="findedLogin" ref="login"></login>
-<!--     <modal v-show='mdShow'>
-      <div slot="md-close" class="md-close" @click="closeModal"><img src="../../assets/icon_close.png" height="20" width="20"></div>
-      <p slot="message">
-        注册成功，跳转登录。
-      </p>
-      <div slot="btnGroup">
-        <a class="btn btn--m" href="javascript:;" @click="Jumplogin">确定</a>
-      </div>
-    </modal>
-    <div class="md-overlay" v-if="mdShow"></div> -->
     <div class="header">
       <navheader>
         <span slot="left" class="icon_slider" @click="findeSlide"><img src="../../assets/icon-slidebar.png" height="19" width="16"></span>
@@ -20,9 +10,9 @@
       </navheader>
     </div>
     <div class="banner">
-      <mt-swipe :auto="0">
-        <mt-swipe-item>
-          <img v-bind:src="list.src">
+      <mt-swipe>
+        <mt-swipe-item v-for = "list in piclist">
+          <img v-bind:src="list.url"/>
         </mt-swipe-item>
       </mt-swipe>
     </div>
@@ -155,7 +145,6 @@ import slidebar from '../sliderbar/slidebar'
 import navheader from '../navheader/navheader'
 import BScroll from 'better-scroll'
 import axios from 'axios'
-import modal from '../Modal/modal'
 const ERR_OK = 0;
 export default {
   data() {
@@ -165,10 +154,11 @@ export default {
       mdShow:false,
       list: {
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
-        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
+        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513323735&di=201b3a8ab53f1fd42dbbb3d60d90b8ab&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01b7b055e4000632f875a1325fe072.jpg%401280w_1l_2o_100sh.jpg',
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1'
       },
+      piclist:[],
       scrollY: 0
     }
   },
@@ -184,6 +174,7 @@ export default {
       }
     })
     this.getMeans();
+    this.getbanner();
   },
   // computed:{
   //   loginText(){
@@ -196,7 +187,7 @@ export default {
         click: true
       })
     },
-    getArticle: function() {
+    getArticle: function() {      // 获取首页所有笔记提问
       let that = this;
       axios({
         url: 'http://xyiscoding.top/studyapp/note/findAll',
@@ -208,6 +199,16 @@ export default {
           this._initScroll()
         })
       })
+    },
+    getbanner() {      // 获取banner图片
+        let that = this;
+        axios({
+          url:'http://xyiscoding.top/studyapp/banner/findAll',
+          dataType:'json',
+          method:'get',
+        }).then((response) => {
+          that.piclist = response.data.detail;
+        })
     },
     findedLogin() {
 
@@ -233,7 +234,7 @@ export default {
     navheader,
     login,
     slidebar,
-    modal
+
   }
 }
 

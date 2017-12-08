@@ -58,23 +58,26 @@ export default {
     }
   },
   created: function() {
-    let that = this // 取得笔记id
-    let id = this.$route.query.id;
-    that.noteid = id;
-    console.log(this.noteid);
     this.getmynote();
   },
   watch: {
-  "$route": "getmynote"
-  },
+          // 如果路由有变化，会再次执行该方法
+          "$route": "getmynote"
+        },
+  // activated() {      // 禁止keep-alive缓存
+  //   this.getmynote();     
+  // },
   methods: {
     backmynote() {
-      this.$router.push('/mynote');
+      this.$router.go(-1);
     },
     getmynote() {
-      let that = this;
+      // alert("111");  //  弹框调试是否调用
+      let that = this // 取得笔记id
+      let id = this.$route.query.id;
+      that.noteid = id;
       axios({
-        url: 'http://xyiscoding.top/studyapp/note/findById/' + this.noteid,
+        url: 'http://xyiscoding.top/studyapp/note/findById/' + that.noteid,
         dataType: 'json',
         method: 'get',
       }).then((response) => {

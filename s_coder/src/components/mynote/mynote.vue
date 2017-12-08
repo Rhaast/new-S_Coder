@@ -15,7 +15,7 @@
         <div class="content-wrappers1" ref="contents">
           <div class="wrapper-scorll">
             <div class="refresh" v-show="showfresh"><img src="../../assets/image/loading-spinning-bubbles.svg"></div>
-            <div class="wrapper-top" v-for="list in noteLists">
+            <div class="wrapper-top setIndex" v-for="list in noteLists">
               <router-link :to="{path:'/mynotedetail/',query: {id:list.id}}">
                 <h2 class="title">{{list.title}}</h2>
                 <p class="content">{{list.content}}</p>
@@ -24,7 +24,6 @@
             <div class="no-note" v-show="!noteLists">暂无笔记</div>
           </div>
         </div>
-        <router-view></router-view>
       </div>
 
     </div>
@@ -37,7 +36,10 @@
   margin-top: 12px;
   color: #999
 }
-
+.setIndex{
+  position:relative;
+  z-index: 9999;
+}
 .move-enter-active,
 .move-leave-active {
   transition: all 0.2s linear;
@@ -64,6 +66,9 @@
 
 .wrapper-scorll {
   width: 100%;
+  min-height: 500px;
+  position:relative;
+  z-index: 9999;
 }
 
 .no-note {
@@ -164,19 +169,17 @@ export default {
     return {
       noteLists: [],
       id: '',
-      showfresh: false
+      showfresh: false,
+      click: true,
+      scrollFlag: true,
     }
   },
   created() {
     this.getMeans();
 
   },
-
   mounted() {
     this.getMynote();
-    this.$nextTick(() => {
-      this._initScroll();
-    })
 
   },
   methods: {
@@ -184,24 +187,31 @@ export default {
       this.$router.push('/personal');
     },
     _initScroll:function() {
+      if(this.meunScroll ){
+        this.meunScroll.destroy()
+      }
       this.meunScroll = new BScroll(this.$refs.contents, {
         click: true,
-        pullDownRefresh: {
-          threshold: 20, // 当下拉到超过顶部 30px 时，   
-          stop: 10,
-        },
+        probeType: 3
       })
-      this.meunScroll.on("pullingDown", function() { // 当下拉到超过顶部 30px 时执行这个函数   
-        setTimeout(() => {
-          this.getMynote();
-        }, 1500);
-        this.$nextTick(function() {
-          this.showfresh = true;
-          this.meunScroll2.finishPullDown();
-          this.meunScroll2.refresh();
-        });
+      this.meunScroll.on("scroll", function(pos) { // 当下拉到超过顶部 30px 时执行这个函数  
+        if(pos.y>30){
+          if(this.scrollFlag){
+            this.scrollFlag = false;
+            setTimeout(() => {
+            this.noteLists =[]; 
+            this.getMynote();
+            }, 1500);
+            this.$nextTick(function() {
+              this.showfresh = true;
+            });
+        }
+        }
       }.bind(this));
-      this.showfresh = false;
+      this.meunScroll.on("scrollEnd", (pos) => { // 当下拉到超过顶部 30px 时执行这个函数  
+        this.scrollFlag = true;
+      });
+          this.showfresh = false;
     },
     getMeans() {
       let that = this
