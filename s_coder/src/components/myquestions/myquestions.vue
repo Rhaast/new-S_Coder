@@ -73,7 +73,9 @@
   padding: 0 12px;
   width: 100%;
 }
-
+.wrapper-top {
+  border-bottom: 1px solid #e6e6e6;
+}
 .content-wrappers .wrapper-top .myportrait {
   border-radius: 50%;
   width: 55px;
@@ -89,14 +91,16 @@
 	margin-top: 7px;
 } 
 .content-wrappers1 .wrapper-top .content{
-	font-size: 14px;
-	color: #999;
-	width: 100%;
-	line-height: 16px;
-	margin-top: 2px;
-	display: block;
-	border-bottom: 1px solid #e6e6e6;
-	padding-bottom: 18px;
+  font-size: 14px;
+  color: #999;
+  width: 100%;
+  line-height: 16px;
+  margin-top: 2px;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 .content-wrappers .wrapper-top .myportrait img {
   border-radius: 50%;

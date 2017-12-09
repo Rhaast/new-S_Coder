@@ -2,7 +2,7 @@
   <transition name="move">
     <div class="addquestions">
       <navheader>
-        <span slot="left" class="backhome" @click="backHome"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></span>
+        <span slot="left" class="backhome" @click="resetForm('ruleForm2')"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></span>
         <span slot="main_title" class="shou">My Note</span>
       </navheader>
       <div class="addquestions-wrapper">
@@ -227,7 +227,8 @@ export default {
       that.nickName = localmessage.detail.nickName;
       console.log(this.nickName)
     },
-    backHome() {
+    resetForm(ruleForm2) {
+      this.$refs[ruleForm2].resetFields();
       this.$router.push('/home')
     },
     closeModal() {
@@ -267,8 +268,7 @@ export default {
                   this.showFlag = false;
                   this.mdShow = false;
                 }, 2000);
-                user.title = '';
-                user.content = '';
+                this.$refs[ruleForm2].resetFields();   //提交成功后重置表单
               } else {
                 this.$message({
                   showClose: true,

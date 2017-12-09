@@ -11,7 +11,7 @@
     </div>
     <div class="banner">
       <mt-swipe>
-        <mt-swipe-item v-for = "list in piclist">
+        <mt-swipe-item v-for="(list,idx) in piclist" :key="idx">
           <img v-bind:src="list.url"/>
         </mt-swipe-item>
       </mt-swipe>
@@ -27,7 +27,7 @@
             <h2 class="title">{{detail.title}}</h2>
             <span class="answer" v-show="detail.content">我的回复</span></br>
             <span class="reply">{{detail.content}}</span></br>
-            <span class="time">{{detail.createTime}}</span>
+            <span class="time">{{detail.createTime | time}}</span>
           </div>
         </div>
       </div>
@@ -192,7 +192,11 @@ export default {
       axios({
         url: 'http://xyiscoding.top/studyapp/note/findAll',
         dataType: 'json',
-        method: 'get',
+        method: 'post',
+        data:{
+            "pageNo": 1,
+  "pageSize": 10
+        }
       }).then((response) => {
         that.details = response.data.detail;
         this.$nextTick(() => {

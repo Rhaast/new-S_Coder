@@ -19,6 +19,7 @@
               <router-link :to="{path:'/mynotedetail/',query: {id:list.id}}">
                 <h2 class="title">{{list.title}}</h2>
                 <p class="content">{{list.content}}</p>
+                <span class="nickName">{{getziliaos.nickName}}</span> <span class="createTime">{{list.createTime | time}}</span>
               </router-link>
             </div>
             <div class="no-note" v-show="!noteLists">暂无笔记</div>
@@ -138,13 +139,16 @@
   line-height: 16px;
   margin-top: 2px;
   display: block;
-
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
 }
-
+.content-wrappers1 .wrapper-top span{
+  color: #999;
+  font-size: 12px;
+  line-height: 24px;
+}
 .content-wrappers .wrapper-top .myportrait img {
   border-radius: 50%;
 }
@@ -225,7 +229,7 @@ export default {
     getMynote() {
       let that = this;
       axios({
-        url: 'http://xyiscoding.top/studyapp/note/findByUserId/' + this.userId,
+        url: 'http://xyiscoding.top/studyapp/note/findByUserId/'+this.userId,
         dataType: 'json',
         method: 'get',
       }).then((response) => {

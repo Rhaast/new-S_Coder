@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "babel-plugin-component": "^0.10.1",
     "better-scroll": "^1.4.2",
     "element-ui": "^2.0.5",
     "express": "^4.16.2",

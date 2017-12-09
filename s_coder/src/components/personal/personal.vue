@@ -1,5 +1,6 @@
 <template>
   <div>
+  <login :login="Tologin" ref="login"></login>
     <div class="personal-content" ref="personalContent">
       <div class="contents">
         <img src="../../assets/personal_bg.png" height="255" width="100%">
@@ -8,11 +9,12 @@
             <h2 class="username">{{getziliaos.nickName}}</h2>
             <p class="saysay">{{getziliaos.personSign}}</p>
             <img class="myportrait" src="../../assets/logo.png" height="80" width="80">
-            <div class="job">
+            <div class="job" v-show="showjob">
               <img class="sex" src="../../assets/sex.png" height="15" width="15">
               <span>UI设计师</span>
-            </div>
-            <ul class="remark">
+            </div><br>
+            <span class="tishi" v-show="tishi">当前未登录</span>
+            <ul class="remark" v-if = "showjob">
               <li class="block">
                 <h2 class="title">连续签到:</h2>
                 <div class="content">
@@ -39,12 +41,12 @@
               <li class="block1">
                 <img class="icon" src="../../assets/note.png" height="40" width="40" />
                 <br>
-                 <router-link to="/mynote"><span class="stress1">我的笔记</span></router-link>
+                <span class="stress1" @click="Tologin">我的笔记</span>
               </li>
               <li class="block1">
                 <img class="icon" src="../../assets/answer.png" height="40" width="40" />
                 <br>
-                <router-link to="/myquestions"><span class="stress1">我的提问</span></router-link>
+                <span class="stress1" @click="Tologin1">我的提问</span>
               </li>
             </ul>
           </div>
@@ -54,6 +56,7 @@
   </div>
 </template>
 <style type="text/css" scoped>
+
 .personal-content {
   position: absolute;
   bottom: 48px;
@@ -78,6 +81,14 @@
 .overview-wrapper {
   padding: 0 12px;
   border-bottom: 2px solid #000
+}
+.overview-wrapper .tishi{
+  font-size: 14px;
+  color: #5272f9;
+  display: block;
+  padding-bottom: 22px;
+  line-height: 22px;
+
 }
 
 .overview .username {
@@ -163,27 +174,29 @@
 }
 
 .overview .schedule-wrapper .remark1 .block1 .icon {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .overview .schedule-wrapper .remark1 .block1 .stress1 {
   font-size: 12px;
   color: #333;
   border: 2px solid #000;
-  padding: 9px 25px;
+  padding: 6px 25px;
   border-radius: 9px;
-  display: table-cell;
   margin-top: 15px;
 }
 
 </style>
 <script type="text/javascript">
 import BScroll from 'better-scroll'
+import login from '../login/login'
 export default {
   data() {
     return {
       scrollY: 0,
-      getziliaos: {}
+      getziliaos: {},
+      showjob:false,
+      tishi:false
     }
 
   },
@@ -193,6 +206,18 @@ export default {
   },
   mounted() {
     this._initScroll();
+    if(localStorage.getItem('data')){
+      this.showjob = true;
+    }
+    if(!localStorage.getItem('data')){
+      this.tishi = true;
+
+    }
+
+
+  },
+    components: {
+    login,
 
   },
   methods: {
@@ -203,6 +228,23 @@ export default {
       // this.scroll.on('scroll', (pos) => {
       //   console.log(pos.y)
       // })
+    },
+    Tologin() {
+        if(localStorage.getItem('data')){
+            this.$router.push('/mynote')
+        }
+        if (!localStorage.getItem('data')) {
+             this.$refs.login.show()
+
+      }
+    },
+     Tologin1() {
+        if(localStorage.getItem('data')){
+            this.$router.push('/myquestions')
+        }
+        if (!localStorage.getItem('data')) {
+             this.$refs.login.show()
+      }
     },
     getMeans() {
       let that = this
