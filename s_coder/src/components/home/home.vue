@@ -162,6 +162,15 @@ export default {
       scrollY: 0
     }
   },
+  created(){
+  	 this.$nextTick(() => {
+      this._initScroll();
+    })
+  },
+    watch: {
+          // 如果路由有变化，会再次执行该方法
+          "$route": "_initScroll"
+        },
   mounted() {
     this.getArticle();
     this.$nextTick(() => {

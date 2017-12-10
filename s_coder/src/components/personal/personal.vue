@@ -7,8 +7,10 @@
         <div class="overview">
           <div class="overview-wrapper">
             <h2 class="username">{{getziliaos.nickName}}</h2>
-            <p class="saysay">{{getziliaos.personSign}}</p>
-            <img class="myportrait" src="../../assets/logo.png" height="80" width="80">
+            <p class="saysay">{{getziliaos.personSign}}</p>           
+             <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper"> 
+ <img class="myportrait" src="../../assets/logo.png" height="80" width="80" @click="upload">
+ </simple-cropper>
             <div class="job" v-show="showjob">
               <img class="sex" src="../../assets/sex.png" height="15" width="15">
               <span>UI设计师</span>
@@ -190,13 +192,20 @@
 <script type="text/javascript">
 import BScroll from 'better-scroll'
 import login from '../login/login'
+import SimpleCropper from '../SimpleCropper/SimpleCropper'
 export default {
   data() {
     return {
       scrollY: 0,
       getziliaos: {},
       showjob:false,
-      tishi:false
+      tishi:false,
+        uploadParam: { 
+  fileType: 'recruit', // 其他上传参数 
+  uploadURL: this.$dataURL + 'uploadAction/qcloudImg', // 上传地址 
+  scale: 4 // 相对手机屏幕放大的倍数: 4倍 
+  }, 
+  userImg: this.$dataURL + 'test.png' 
     }
 
   },
@@ -218,9 +227,18 @@ export default {
   },
     components: {
     login,
+    SimpleCropper
 
   },
   methods: {
+     upload () { 
+  this.$refs['cropper'].upload() 
+ },
+  uploadHandle (data) { 
+  if (data.state === 'SUCCESS') { 
+  this.userImg = this.form.headImgUrl = data.fileId 
+  } 
+ } ,
     _initScroll:function() {
       this.scroll = new BScroll(this.$refs.personalContent, {
         click: true

@@ -19,22 +19,27 @@
               <div class="md-overlay" v-if="mdShow"></div>
               <el-form label-position="left" label-width="80px" :model="formRegister" :rules="rules" ref="formRegister">
                 <el-form-item label="username" prop="userName">
+                	<el-input v-model="formRegister.userName"></el-input>
                 </el-form-item>
-                <el-input v-model="formRegister.userName"></el-input>
-                <el-form-item label="password" prop="password">
+                
+                <el-form-item label="password" prop="password" id="bot">
+                	<el-input v-model="formRegister.password" type="password"></el-input>
                 </el-form-item>
-                <el-input v-model="formRegister.password" type="password"></el-input>
-                <el-form-item label="nickname" prop="nickName">
+                
+                <el-form-item label="nickname" prop="nickName" id="bot">
+                	 <el-input v-model="formRegister.nickName"></el-input>
                 </el-form-item>
-                <el-input v-model="formRegister.nickName"></el-input>
-                <el-form-item label="phone" prop="phone">
+               
+                <el-form-item label="phone" prop="phone" id="bot">
+                	 <el-input v-model="formRegister.phone"></el-input>
                 </el-form-item>
-                <el-input v-model="formRegister.phone"></el-input>
-                <el-form-item label="email" prop="email">
+               
+                <el-form-item label="email" prop="email" id="bot">
+                	<el-input v-model="formRegister.email"></el-input>
                 </el-form-item>
-                <el-input v-model="formRegister.email"></el-input>
+                
                 <div class="el-wrapper">
-                  <el-form-item label="sex" prop="sex" id="sexly">
+                  <el-form-item label="sex" prop="sex" id="bot">
                   </el-form-item>
                   <div class="feng">
                     <el-radio-group v-model.number="formRegister.sex">
@@ -69,11 +74,12 @@
           <el-row type="flex" justify="center" class="login-wrapper1">
             <el-col :span="12">
               <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="username" prop="userName">
+                <el-form-item label="username" prop="userName" >
                   <el-input type="text" v-model="ruleForm2.userName" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="password" prop="password">
+                <el-form-item label="password" prop="password" id="bot">
                   <el-input type="password" v-model="ruleForm2.password" auto-complete="off"></el-input>
+
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm(ruleForm2)">Login</el-button>
@@ -88,6 +94,12 @@
   </transition>
 </template>
 <style>
+	#bot{
+		margin-top: 12%;
+	}
+.el-col el-col-12{
+	height: 273px;
+}
 .md-overlay {
   background: rgba(0, 0, 0, 0.4);
   z-index: 10;
@@ -172,7 +184,7 @@
   font-size: 14px;
   display: inline-block;
   width: 100%;
-  margin-bottom: 12%;
+  margin-bottom: 0;
   border-bottom: 2px solid #000
 }
 
@@ -208,20 +220,26 @@
   margin-left: 0 !important;
   text-align: center;
 }
-
+.el-form-item__error{
+    position: absolute;
+    color: #E02614;
+    font-size: 12px;
+    margin-top: 5px;
+}
 .el-input__inner {
-  border: none;
-  -webkit-appearance: none;
-  background-color: #fff;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  display: inline-block;
-  font-size: inherit;
-  line-height: 1;
-  outline: 0;
-  -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
-  transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
-  width: 100%;
+    border: none;
+    -webkit-appearance: none;
+    background-color: #fff;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: inherit;
+    line-height: 1;
+    outline: 0;
+    -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+    width: 100%;
+    padding: 0;
 }
 
 .logintxt {

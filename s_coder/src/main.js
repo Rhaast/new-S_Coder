@@ -6,7 +6,7 @@ import router from './router'
 import './assets/validate.js'
 import ElementUI from 'element-ui'
 // import '../node_modules/element-ui/lib/theme-chalk/index.css'
-import { Swipe, SwipeItem } from 'mint-ui';
+import { Swipe, SwipeItem ,Popup } from 'mint-ui';
 import './assets/css/login.css'
 import './assets/css/checkout.css'
 import './assets/css/login.css'
@@ -19,6 +19,7 @@ import {time} from './assets/js/date'
 Vue.config.productionTip = false
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(Popup.name, Popup);
 Vue.use(ElementUI)
 Vue.use(axios)
 Vue.filter('time', function (value) {

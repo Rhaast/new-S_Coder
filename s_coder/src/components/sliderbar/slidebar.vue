@@ -102,7 +102,7 @@ export default {
 }
 
 .SlideWrapper .list {
-  font-size: 12px;
+  font-size: 14px;
   color: #000;
   font-weight: 700;
   padding-top: 24px;
@@ -110,5 +110,9 @@ export default {
 }
 .SlideWrapper .list li{
   line-height: 40px;
+}
+.SlideWrapper .list li .txt:active{
+	color:#5272F9;
+	
 }
 </style>
