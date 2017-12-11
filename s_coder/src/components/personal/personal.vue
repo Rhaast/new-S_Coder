@@ -1,13 +1,15 @@
 <template>
   <div>
+  <changenickname :changenickname="Tochangenickname" ref="changenickname"></changenickname>
+  <changepersonSign :changepersonSign="TochangepersonSign" ref="changepersonSign"></changepersonSign>
   <login :login="Tologin" ref="login"></login>
     <div class="personal-content" ref="personalContent">
       <div class="contents">
         <img src="../../assets/personal_bg.png" height="255" width="100%">
         <div class="overview">
           <div class="overview-wrapper">
-            <h2 class="username">{{getziliaos.nickName}}</h2>
-            <p class="saysay">{{getziliaos.personSign}}</p>           
+            <h2 class="username" @click='Tochangenickname'>{{getziliaos.nickName}}</h2>
+            <p class="saysay"  @click='TochangepersonSign'>{{getziliaos.personSign}}</p>           
              <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper"> 
  <img class="myportrait" src="../../assets/logo.png" height="80" width="80" @click="upload">
  </simple-cropper>
@@ -193,6 +195,8 @@
 import BScroll from 'better-scroll'
 import login from '../login/login'
 import SimpleCropper from '../SimpleCropper/SimpleCropper'
+import changenickname from '../changenickname/changenickname'
+import changepersonSign from '../changepersonSign/changepersonSign'
 export default {
   data() {
     return {
@@ -227,8 +231,9 @@ export default {
   },
     components: {
     login,
-    SimpleCropper
-
+    SimpleCropper,
+    changenickname,
+    changepersonSign
   },
   methods: {
      upload () { 
@@ -256,6 +261,12 @@ export default {
 
       }
     },
+    Tochangenickname(){
+       this.$refs.changenickname.show()
+    },
+    TochangepersonSign(){
+       this.$refs.changepersonSign.show()
+    },
      Tologin1() {
         if(localStorage.getItem('data')){
             this.$router.push('/myquestions')
@@ -264,7 +275,7 @@ export default {
              this.$refs.login.show()
       }
     },
-    getMeans() {
+    getMeans(){
       let that = this
       let menasDatas = JSON.parse(localStorage.getItem('data'));
       that.getziliaos = menasDatas.detail;

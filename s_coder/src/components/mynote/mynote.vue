@@ -180,6 +180,9 @@ export default {
   },
   created() {
     this.getMeans();
+      this.$nextTick(() => {
+          this._initScroll()
+        })
 
   },
   mounted() {

@@ -88,12 +88,29 @@
               </el-form>
             </el-col>
           </el-row>
-        </el-card>
+        </el-card>      
       </transition>
+        <mt-popup v-model="popupVisible" position="top" class="popup">
+        用户名或密码错误
+      </mt-popup>
+        <mt-popup v-model="popupVisible1" position="top" class="popup">
+        用户名已被占用
+      </mt-popup>
     </div>
   </transition>
 </template>
 <style>
+  .popup {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+    text-align: center;
+  }
+    .v-modal{
+    background: none
+  }
 	#bot{
 		margin-top: 12%;
 	}
@@ -263,10 +280,14 @@ import modal from '../Modal/modal'
 export default {
   data() {
     let checkUserName = (rule, value, cb) => {
+      let ret = /[a-zA-Z0-9]{4,10}/
       if (!value) {
         return cb(new Error('账户不能为空!'))
-      } else {
+      }else if(ret.test(value)){
         cb(); // 将判断传递给后面
+      }
+       else {
+        return cb(new Error('用户名只能由4-10位的英文数字组成!'))
       }
     }
     let checkPassword = (rule, value, cb) => {
@@ -284,17 +305,23 @@ export default {
       }
     };
     let checkPhone = (rule, value, cb) => {
+      var ret = /^1\d{10}$/;
       if (!value) {
         return cb(new Error('电话不能为空!'))
-      } else {
+      }else if(ret.test(value)){
         cb();
+      } else {
+        return cb(new Error('请输入正确的手机号格式！'))
       }
     };
     let checkEmail = (rule, value, cb) => {
+      var ret = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
       if (!value) {
         return cb(new Error('邮箱不能为空!'))
-      } else {
+      } else if(ret.test(value)){
         cb();
+      }else {
+        return cb(new Error('邮箱格式不正确！'))
       }
     };
     let checkSex = (rule, value, cb) => {
@@ -305,10 +332,14 @@ export default {
       }
     };
     let entryUsername = (rule, value, cb) => {
+          let ret = /[a-zA-Z0-9]{4,10}/
       if (!value) {
-        return cb(new Error('请输入用户名!'))
-      } else {
-        cb();
+        return cb(new Error('账户不能为空!'))
+      }else if(ret.test(value)){
+        cb(); // 将判断传递给后面
+      }
+       else {
+        return cb(new Error('用户名只能由4-10位的英文数字组成!'))
       }
     };
     let entryPassword = (rule, value, cb) => {
@@ -336,6 +367,8 @@ export default {
       showreg: true,
       mdShow: false,
       mdShow1: false,
+      popupVisible:false,
+      popupVisible1:false,
       rules: {
         userName: [
           { validator: checkUserName, trigger: 'blur' }
@@ -357,7 +390,7 @@ export default {
         ],
       },
       rules2: {
-        username: [
+        userName: [
           { validator: entryUsername, trigger: 'blur' }
         ],
         password: [
@@ -445,11 +478,11 @@ export default {
                 this.mdShow = true
 
               } else {
-                this.$message({
-                  showClose: true,
-                  message: '用户名已被占用',
-                  type: 'error'
-                })
+                     this.popupVisible1 = true
+                  setTimeout(() => {
+                    this.popupVisible1 = false
+
+                  },2000);
               }
             })
         } else {
@@ -483,7 +516,6 @@ export default {
               if (res.data.result == '200') {
                 if (res.data.result == '200') {
                   localStorage.setItem('data', JSON.stringify(res.data)); //保存登录状态
-
                 }
                 this.$message({
                   showClose: true,
@@ -499,11 +531,11 @@ export default {
                   }, 1000);
 
               } else {
-                this.$message({
-                  showClose: true,
-                  message: '用户名或密码错误',
-                  type: 'error'
-                })
+                  this.popupVisible = true
+                  setTimeout(() => {
+                    this.popupVisible = false
+
+                  },2000);
               }
             })
         } else {

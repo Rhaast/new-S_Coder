@@ -17,6 +17,7 @@
 <script> 
 import Cropper from 'cropperjs' 
 import '../../../node_modules/cropperjs/dist/cropper.min.css' 
+import axios from 'axios'
 export default { 
  name: 'v-simple-cropper', 
  props: { 
@@ -35,6 +36,9 @@ export default {
  mounted () { 
  this.init() 
  }, 
+ created() {
+  this.getlocal()
+ },
  methods: { 
  // 初始化裁剪插件 
  init () { 
@@ -48,6 +52,13 @@ export default {
  upload () { 
   this.$refs['file'].click() 
  }, 
+getlocal() {
+  let that = this;
+  let localmessage = JSON.parse(localStorage.getItem('data'));
+  that.id = localmessage.detail.id;
+
+  console.log(this.id)
+      },
  // 选择上传文件 
  uploadChange (e) { 
   let file = e.target.files[0] 
@@ -71,14 +82,15 @@ export default {
   height: cropBox.height * scale 
   }) 
   let imgData = cropCanvas.toDataURL('image/jpeg') 
-  let formData = new window.FormData() 
+  let formData = new FormData() 
   formData.append('fileType', this.initParam['fileType']) 
-  formData.append('img', imgData) 
-  formData.append('signId', this.$localStorage('signId')) 
+  formData.append('portrait', imgData) 
+  formData.append('id', this.id) 
   formData.append('originalFilename', this.filename) 
-  window.$axios(this.initParam['uploadURL'], formData, { 
+  axios('http://112.74.187.146:8080/studyapp/user/updatePortrait', formData, { 
   method: 'post', 
-  headers: {'Content-Type': 'multipart/form-data'} 
+  dataType: 'json',
+  // headers: {'Content-Type': 'multipart/form-data'} 
   }).then(res => { 
   this.successCallback(res.data) 
   this.cancelHandle() 
