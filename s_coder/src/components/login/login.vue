@@ -19,25 +19,20 @@
               <div class="md-overlay" v-if="mdShow"></div>
               <el-form label-position="left" label-width="80px" :model="formRegister" :rules="rules" ref="formRegister">
                 <el-form-item label="username" prop="userName">
-                	<el-input v-model="formRegister.userName"></el-input>
+                  <el-input v-model="formRegister.userName"></el-input>
                 </el-form-item>
-                
                 <el-form-item label="password" prop="password" id="bot">
-                	<el-input v-model="formRegister.password" type="password"></el-input>
+                  <el-input v-model="formRegister.password" type="password"></el-input>
                 </el-form-item>
-                
                 <el-form-item label="nickname" prop="nickName" id="bot">
-                	 <el-input v-model="formRegister.nickName"></el-input>
+                  <el-input v-model="formRegister.nickName"></el-input>
                 </el-form-item>
-               
                 <el-form-item label="phone" prop="phone" id="bot">
-                	 <el-input v-model="formRegister.phone"></el-input>
+                  <el-input v-model="formRegister.phone"></el-input>
                 </el-form-item>
-               
                 <el-form-item label="email" prop="email" id="bot">
-                	<el-input v-model="formRegister.email"></el-input>
+                  <el-input v-model="formRegister.email"></el-input>
                 </el-form-item>
-                
                 <div class="el-wrapper">
                   <el-form-item label="sex" prop="sex" id="bot">
                   </el-form-item>
@@ -74,12 +69,11 @@
           <el-row type="flex" justify="center" class="login-wrapper1">
             <el-col :span="12">
               <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="username" prop="userName" >
+                <el-form-item label="username" prop="userName">
                   <el-input type="text" v-model="ruleForm2.userName" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="password" prop="password" id="bot">
                   <el-input type="password" v-model="ruleForm2.password" auto-complete="off"></el-input>
-
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm(ruleForm2)">Login</el-button>
@@ -88,35 +82,39 @@
               </el-form>
             </el-col>
           </el-row>
-        </el-card>      
+        </el-card>
       </transition>
-        <mt-popup v-model="popupVisible" position="top" class="popup">
+      <mt-popup v-model="popupVisible" position="top" class="popup">
         用户名或密码错误
       </mt-popup>
-        <mt-popup v-model="popupVisible1" position="top" class="popup">
+      <mt-popup v-model="popupVisible1" position="top" class="popup">
         用户名已被占用
       </mt-popup>
     </div>
   </transition>
 </template>
 <style>
-  .popup {
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    height: 40px;
-    line-height: 40px;
-    color: #fff;
-    text-align: center;
-  }
-    .v-modal{
-    background: none
-  }
-	#bot{
-		margin-top: 12%;
-	}
-.el-col el-col-12{
-	height: 273px;
+.popup {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  height: 40px;
+  line-height: 40px;
+  color: #fff;
+  text-align: center;
 }
+
+.v-modal {
+  background: none
+}
+
+#bot {
+  margin-top: 12%;
+}
+
+.el-col el-col-12 {
+  height: 273px;
+}
+
 .md-overlay {
   background: rgba(0, 0, 0, 0.4);
   z-index: 10;
@@ -237,26 +235,28 @@
   margin-left: 0 !important;
   text-align: center;
 }
-.el-form-item__error{
-    position: absolute;
-    color: #E02614;
-    font-size: 12px;
-    margin-top: 5px;
+
+.el-form-item__error {
+  position: absolute;
+  color: #E02614;
+  font-size: 12px;
+  margin-top: 5px;
 }
+
 .el-input__inner {
-    border: none;
-    -webkit-appearance: none;
-    background-color: #fff;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    display: inline-block;
-    font-size: inherit;
-    line-height: 1;
-    outline: 0;
-    -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
-    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
-    width: 100%;
-    padding: 0;
+  border: none;
+  -webkit-appearance: none;
+  background-color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: inherit;
+  line-height: 1;
+  outline: 0;
+  -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  width: 100%;
+  padding: 0;
 }
 
 .logintxt {
@@ -283,10 +283,9 @@ export default {
       let ret = /[a-zA-Z0-9]{4,10}/
       if (!value) {
         return cb(new Error('账户不能为空!'))
-      }else if(ret.test(value)){
+      } else if (ret.test(value)) {
         cb(); // 将判断传递给后面
-      }
-       else {
+      } else {
         return cb(new Error('用户名只能由4-10位的英文数字组成!'))
       }
     }
@@ -308,7 +307,7 @@ export default {
       var ret = /^1\d{10}$/;
       if (!value) {
         return cb(new Error('电话不能为空!'))
-      }else if(ret.test(value)){
+      } else if (ret.test(value)) {
         cb();
       } else {
         return cb(new Error('请输入正确的手机号格式！'))
@@ -318,9 +317,9 @@ export default {
       var ret = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
       if (!value) {
         return cb(new Error('邮箱不能为空!'))
-      } else if(ret.test(value)){
+      } else if (ret.test(value)) {
         cb();
-      }else {
+      } else {
         return cb(new Error('邮箱格式不正确！'))
       }
     };
@@ -332,13 +331,12 @@ export default {
       }
     };
     let entryUsername = (rule, value, cb) => {
-          let ret = /[a-zA-Z0-9]{4,10}/
+      let ret = /[a-zA-Z0-9]{4,10}/
       if (!value) {
         return cb(new Error('账户不能为空!'))
-      }else if(ret.test(value)){
+      } else if (ret.test(value)) {
         cb(); // 将判断传递给后面
-      }
-       else {
+      } else {
         return cb(new Error('用户名只能由4-10位的英文数字组成!'))
       }
     };
@@ -367,8 +365,8 @@ export default {
       showreg: true,
       mdShow: false,
       mdShow1: false,
-      popupVisible:false,
-      popupVisible1:false,
+      popupVisible: false,
+      popupVisible1: false,
       rules: {
         userName: [
           { validator: checkUserName, trigger: 'blur' }
@@ -478,11 +476,11 @@ export default {
                 this.mdShow = true
 
               } else {
-                     this.popupVisible1 = true
-                  setTimeout(() => {
-                    this.popupVisible1 = false
+                this.popupVisible1 = true
+                setTimeout(() => {
+                  this.popupVisible1 = false
 
-                  },2000);
+                }, 2000);
               }
             })
         } else {
@@ -531,11 +529,11 @@ export default {
                   }, 1000);
 
               } else {
-                  this.popupVisible = true
-                  setTimeout(() => {
-                    this.popupVisible = false
+                this.popupVisible = true
+                setTimeout(() => {
+                  this.popupVisible = false
 
-                  },2000);
+                }, 2000);
               }
             })
         } else {

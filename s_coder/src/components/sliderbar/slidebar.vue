@@ -3,7 +3,10 @@
     <transition name="move">
       <div class="slide" v-show="showSlide">
         <div class="SlideWrapper">
-          <div class="myportrait"><img src="../../assets/logo.png" height="80" width="80"></div>
+          <div class="myportrait">
+            <img src="../../assets/logo.png" height="80" width="80">
+            <span class="nickName">{{nickName}}</span>
+          </div>
           <ul class="list">
             <li @click="personal"><span class="icon"></span><span class="txt">个人主页</span></li>
             <li @click="addnote"><span class="icon"></span><span class="txt">发笔记</span></li>
@@ -22,10 +25,24 @@ export default {
   data() {
     return {
       showSlide: false,
+      nickName:'',
 
     }
   },
+  created(){
+    this.getlocal();
+
+  },
+    watch: {
+    // 如果路由有变化，会再次执行该方法
+    "$route": "getlocal"
+  },
   methods: {
+    getlocal() {
+      let that = this;
+      let localmessage = JSON.parse(localStorage.getItem('data'));
+      that.nickName = localmessage.detail.nickName;   // 获取昵称
+    },
     come() {
       this.showSlide = true;
     },
@@ -94,6 +111,9 @@ export default {
   height: 80px;
   border: 2px solid #000;
   margin: 0 auto;
+  text-align: center;
+  font-size: 24px;
+  color: #5272f9;
   margin-top: 40px
 }
 
@@ -101,18 +121,22 @@ export default {
   border-radius: 50%
 }
 
+.SlideWrapper .myportrait .nickName {}
+
 .SlideWrapper .list {
   font-size: 14px;
   color: #000;
   font-weight: 700;
-  padding-top: 24px;
+  padding-top: 40px;
   text-align: center;
 }
-.SlideWrapper .list li{
+
+.SlideWrapper .list li {
   line-height: 40px;
 }
-.SlideWrapper .list li .txt:active{
-	color:#5272F9;
-	
+
+.SlideWrapper .list li .txt:active {
+  color: #5272F9;
 }
+
 </style>

@@ -8,7 +8,8 @@ import addquestion from '../components/addquetions/addquetion'
 import mynote from '../components/mynote/mynote'
 import myquestions from '../components/myquestions/myquestions'
 import mynotedetail from '../components/mynotedetail/mynotedetail'
-
+import changenickname from '../components/changenickname/changenickname'
+import changepersonSign from '../components/changepersonSign/changepersonSign'
 Vue.use(Router)
 
 export default new Router({
@@ -38,6 +39,16 @@ export default new Router({
       component: addnote
     },
     {
+      path: '/changenickname',
+      name: 'changenickname',
+      component: changenickname
+    },
+      {
+      path: '/changepersonSign',
+      name: 'changepersonSign',
+      component: changepersonSign
+    },
+    {
       path: '/addquestion',
       name: 'addquestion',
       component: addquestion
@@ -48,10 +59,10 @@ export default new Router({
       component: mynote,
     },
     {
-        path: '/mynotedetail/',
-        name: 'mynotedetail',
-        component: mynotedetail
-      },
+      path: '/mynotedetail/',
+      name: 'mynotedetail',
+      component: mynotedetail
+    },
 
     {
       path: '/myquestions',

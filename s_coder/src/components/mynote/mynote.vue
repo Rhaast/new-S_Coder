@@ -179,16 +179,16 @@ export default {
     }
   },
   created() {
-    this.getMeans();
+      this.getMynote();
       this.$nextTick(() => {
           this._initScroll()
         })
 
   },
-  mounted() {
-    this.getMynote();
-
-  },
+    watch: {
+          // 如果路由有变化，会再次执行该方法
+          "$route": "getMynote"
+        },
   methods: {
     backpersonal() {
       this.$router.push('/personal');
@@ -220,19 +220,14 @@ export default {
       });
           this.showfresh = false;
     },
-    getMeans() {
-      let that = this
-      let menasDatas = JSON.parse(localStorage.getItem('data'));
-      that.getziliaos = menasDatas.detail;
-      that.userId = menasDatas.detail.id;
-      that.nickName = menasDatas.detail.nickName;
-      console.log(this.userId)
-
-    },
     getMynote() {
-      let that = this;
+      let that = this
+      let menasDatas = JSON.parse(localStorage.getItem('data'));   //取得localStorage数据
+      that.getziliaos = menasDatas.detail;
+      that.userId = menasDatas.detail.id;    // 获取userID
+      that.nickName = menasDatas.detail.nickName;
       axios({
-        url: 'http://xyiscoding.top/studyapp/note/findByUserId/'+this.userId,
+        url: 'http://xyiscoding.top/studyapp/note/findByUserId/'+that.userId, // 传入userId获取自己的数据
         dataType: 'json',
         method: 'get',
       }).then((response) => {

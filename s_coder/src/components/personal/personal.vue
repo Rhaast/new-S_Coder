@@ -1,7 +1,5 @@
 <template>
   <div>
-  <changenickname :changenickname="Tochangenickname" ref="changenickname"></changenickname>
-  <changepersonSign :changepersonSign="TochangepersonSign" ref="changepersonSign"></changepersonSign>
   <login :login="Tologin" ref="login"></login>
     <div class="personal-content" ref="personalContent">
       <div class="contents">
@@ -60,7 +58,6 @@
   </div>
 </template>
 <style type="text/css" scoped>
-
 .personal-content {
   position: absolute;
   bottom: 48px;
@@ -68,20 +65,17 @@
   overflow: hidden;
   width: 100%
 }
-
 .overview {
   font-size: 0;
   position: absolute;
   top: 74px;
   width: 100%;
 }
-
 .contents {
   position: absolute;
   height: 590px;
   width: 100%;
 }
-
 .overview-wrapper {
   padding: 0 12px;
   border-bottom: 2px solid #000
@@ -92,61 +86,50 @@
   display: block;
   padding-bottom: 22px;
   line-height: 22px;
-
 }
-
 .overview .username {
   font-size: 30px;
   font-weight: 700;
   color: #5272f9;
   letter-spacing: 5px;
 }
-
 .overview .saysay {
   font-size: 12px;
   color: #999;
   margin-top: 18px;
 }
-
 .overview .myportrait {
   border: 2px solid #000;
   margin-top: 60px;
   background: #fff
 }
-
 .overview .job {
   margin-top: 10px
 }
-
 .overview .job img {
   display: inline-block;
   vertical-align: top
 }
-
 .overview .job span {
   font-size: 12px;
   color: #999;
   display: inline-block;
   margin-left: 5px;
 }
-
 .overview .remark {
   display: flex;
   width: 100%;
   margin-top: 33px;
   margin-bottom: 38px;
 }
-
 .overview .remark .block {
   flex: 1;
   text-align: center
 }
-
 .overview .remark .block .title {
   color: #5272f9;
   font-size: 14px;
 }
-
 .overview .remark .block .stress {
   color: #000;
   font-size: 18px;
@@ -154,33 +137,27 @@
   margin-top: 17px;
   display: block;
 }
-
 .overview .schedule-wrapper {
   height: 100px;
   padding: 0 12px;
   margin-top: 20px;
 }
-
 .overview .schedule-wrapper .title {
   color: #5272f9;
   font-size: 18px;
   font-weight: 700
 }
-
 .overview .schedule-wrapper .remark1 {
   display: flex;
   margin-top: 30px
 }
-
 .overview .schedule-wrapper .remark1 .block1 {
   flex: 1;
   text-align: center
 }
-
 .overview .schedule-wrapper .remark1 .block1 .icon {
   margin-bottom: 20px;
 }
-
 .overview .schedule-wrapper .remark1 .block1 .stress1 {
   font-size: 12px;
   color: #333;
@@ -189,14 +166,11 @@
   border-radius: 9px;
   margin-top: 15px;
 }
-
 </style>
 <script type="text/javascript">
 import BScroll from 'better-scroll'
 import login from '../login/login'
 import SimpleCropper from '../SimpleCropper/SimpleCropper'
-import changenickname from '../changenickname/changenickname'
-import changepersonSign from '../changepersonSign/changepersonSign'
 export default {
   data() {
     return {
@@ -211,11 +185,13 @@ export default {
   }, 
   userImg: this.$dataURL + 'test.png' 
     }
-
   },
+  watch: {
+          // 如果路由有变化，会再次执行该方法
+          "$route": "getMeans"
+        },
   created() {
     this.getMeans();
-
   },
   mounted() {
     this._initScroll();
@@ -224,16 +200,11 @@ export default {
     }
     if(!localStorage.getItem('data')){
       this.tishi = true;
-
     }
-
-
   },
     components: {
     login,
     SimpleCropper,
-    changenickname,
-    changepersonSign
   },
   methods: {
      upload () { 
@@ -258,14 +229,13 @@ export default {
         }
         if (!localStorage.getItem('data')) {
              this.$refs.login.show()
-
       }
     },
     Tochangenickname(){
-       this.$refs.changenickname.show()
+       this.$router.push('/changenickname')
     },
     TochangepersonSign(){
-       this.$refs.changepersonSign.show()
+       this.$router.push('/changepersonSign')                                                                                                                  
     },
      Tologin1() {
         if(localStorage.getItem('data')){
@@ -280,9 +250,7 @@ export default {
       let menasDatas = JSON.parse(localStorage.getItem('data'));
       that.getziliaos = menasDatas.detail;
       console.log(JSON.parse(localStorage.getItem('data')))
-
     }
   }
 }
-
 </script>

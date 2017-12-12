@@ -12,7 +12,7 @@
     <div class="banner">
       <mt-swipe>
         <mt-swipe-item v-for="(list,idx) in piclist" :key="idx">
-          <img v-bind:src="list.url"/>
+          <img v-bind:src="list.url" />
         </mt-swipe-item>
       </mt-swipe>
     </div>
@@ -151,26 +151,26 @@ export default {
     return {
       details: [],
       loginText: '登录',
-      mdShow:false,
+      mdShow: false,
       list: {
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513323735&di=201b3a8ab53f1fd42dbbb3d60d90b8ab&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01b7b055e4000632f875a1325fe072.jpg%401280w_1l_2o_100sh.jpg',
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1'
       },
-      piclist:[],
+      piclist: [],
       scrollY: 0
     }
   },
-  created(){
-  	 this.$nextTick(() => {
+  created() {
+    this.$nextTick(() => {
       this._initScroll();
     })
   },
-    watch: {
-          // 如果路由有变化，会再次执行该方法
-          "$route": "_initScroll"
-        },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    "$route": "_initScroll"
+  },
   mounted() {
     this.getArticle();
     this.$nextTick(() => {
@@ -196,15 +196,15 @@ export default {
         click: true
       })
     },
-    getArticle: function() {      // 获取首页所有笔记提问
+    getArticle: function() { // 获取首页所有笔记提问
       let that = this;
       axios({
         url: 'http://xyiscoding.top/studyapp/note/findAll',
         dataType: 'json',
         method: 'post',
-        data:{
-            "pageNo": 1,
-  "pageSize": 10
+        data: {
+          "pageNo": 1, // 总共27页
+          "pageSize": 10
         }
       }).then((response) => {
         that.details = response.data.detail;
@@ -213,15 +213,15 @@ export default {
         })
       })
     },
-    getbanner() {      // 获取banner图片
-        let that = this;
-        axios({
-          url:'http://xyiscoding.top/studyapp/banner/findAll',
-          dataType:'json',
-          method:'get',
-        }).then((response) => {
-          that.piclist = response.data.detail;
-        })
+    getbanner() { // 获取banner图片
+      let that = this;
+      axios({
+        url: 'http://xyiscoding.top/studyapp/banner/findAll',
+        dataType: 'json',
+        method: 'get',
+      }).then((response) => {
+        that.piclist = response.data.detail;
+      })
     },
     findedLogin() {
 
@@ -233,7 +233,7 @@ export default {
     findeLogin() {
       if (this.loginText == '注销') {
         // this.$refs.slidebar.come();
-        localStorage.removeItem('data') ;// 清空localstorage数据
+        localStorage.removeItem('data'); // 清空localstorage数据
         location.reload();
       }
       this.$refs.login.show()

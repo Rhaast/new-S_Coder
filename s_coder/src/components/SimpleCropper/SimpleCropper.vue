@@ -56,9 +56,7 @@ getlocal() {
   let that = this;
   let localmessage = JSON.parse(localStorage.getItem('data'));
   that.id = localmessage.detail.id;
-
-  console.log(this.id)
-      },
+  console.log(this.id)},
  // 选择上传文件 
  uploadChange (e) { 
   let file = e.target.files[0] 
