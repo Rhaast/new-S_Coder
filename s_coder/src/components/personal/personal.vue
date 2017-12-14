@@ -9,8 +9,8 @@
             <h2 class="username" @click='Tochangenickname'>{{getziliaos.nickName}}</h2>
             <p class="saysay"  @click='TochangepersonSign'>{{getziliaos.personSign}}</p>           
              <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper"> 
- <img class="myportrait" src="../../assets/logo.png" height="80" width="80" @click="upload">
- </simple-cropper>
+              <img class="myportrait" src="../../assets/logo.png" height="80" width="80" @click="upload">
+            </simple-cropper>
             <div class="job" v-show="showjob">
               <img class="sex" src="../../assets/sex.png" height="15" width="15">
               <span>UI设计师</span>

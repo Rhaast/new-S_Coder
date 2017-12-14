@@ -222,7 +222,8 @@
 					title: '',
 					content: '',
 					id: '',
-					nickName: ''
+					nickName: '',
+					userName:''
 				},
 				rules2: {
 					title: [{
@@ -252,7 +253,7 @@
 				let localmessage = JSON.parse(localStorage.getItem('data'));
 				that.id = localmessage.detail.id;
 				that.nickName = localmessage.detail.nickName;
-				console.log(this.nickName)
+				that.userName = localmessage.detail.userName;
 			},
 			resetForm(ruleForm2) {
 				this.$refs[ruleForm2].resetFields();
@@ -279,6 +280,7 @@
 									"content": user.content,
 									"nickName": this.nickName,
 									"userId": this.id,
+									"userName":this.userName,
 									"type": 0
 								},
 							})

@@ -218,7 +218,7 @@ export default {
       this.meunScroll.on("scrollEnd", (pos) => { // 当下拉到超过顶部 30px 时执行这个函数  
         this.scrollFlag = true;
       });
-          this.showfresh = false;
+        this.showfresh = false;
     },
     getMynote() {
       let that = this

@@ -8,7 +8,6 @@
             <span class="nickName">{{nickName}}</span>
           </div>
           <ul class="list">
-            <li @click="personal"><span class="icon"></span><span class="txt">个人主页</span></li>
             <li @click="addnote"><span class="icon"></span><span class="txt">发笔记</span></li>
             <li @click="addquestion"><span class="icon"></span><span class="txt">提问题</span></li>
             <li><span class="icon"></span><span class="txt">消息</span></li>
@@ -48,12 +47,6 @@ export default {
     },
     hideSlide() {
       this.showSlide = false;
-    },
-    personal() {
-      this.$router.push('/personal');
-      location.reload();
-      this.showSlide = false;
-
     },
     addnote() {
       this.$router.push('./addnote');

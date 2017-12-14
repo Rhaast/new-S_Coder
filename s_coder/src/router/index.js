@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '../components/home/home'
-import personal from '../components/personal/personal'
-import type from '../components/type/type'
-import addnote from '../components/addnote/addnote'
-import addquestion from '../components/addquetions/addquetion'
-import mynote from '../components/mynote/mynote'
-import myquestions from '../components/myquestions/myquestions'
-import mynotedetail from '../components/mynotedetail/mynotedetail'
-import changenickname from '../components/changenickname/changenickname'
-import changepersonSign from '../components/changepersonSign/changepersonSign'
+import home from '@/components/home/home'
+import personal from '@/components/personal/personal'
+import type from '@/components/type/type'
+import addnote from '@/components/addnote/addnote'
+import addquestion from '@/components/addquetions/addquetion'
+import mynote from '@/components/mynote/mynote'
+import myquestions from '@/components/myquestions/myquestions'
+import mynotedetail from '@/components/mynotedetail/mynotedetail'
+import changenickname from '@/components/changenickname/changenickname'
+import changepersonSign from '@/components/changepersonSign/changepersonSign'
+import comment from '@/components/comment/comment'
 Vue.use(Router)
 
 export default new Router({
@@ -47,6 +48,11 @@ export default new Router({
       path: '/changepersonSign',
       name: 'changepersonSign',
       component: changepersonSign
+    },
+    {
+      path: '/comment',
+      name: 'comment',
+      component:comment
     },
     {
       path: '/addquestion',
