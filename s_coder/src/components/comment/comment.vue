@@ -17,14 +17,17 @@
         </modal>
         <div class="md-overlay" v-if="mdShow"></div>
         <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="请输入评论:" prop="nickName">
-            <el-input type="text" v-model="ruleForm2.nickName" auto-complete="off"></el-input>
+          <el-form-item label="请输入评论:" prop="content">
+            <el-input type="text" v-model="ruleForm2.content" auto-complete="off" autofocus="autofocus" ref="input"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
           </el-form-item>
         </el-form>
       </div>
+            <mt-popup v-model="popupVisible" position="top" class="popup">
+        当前未登录
+      </mt-popup>
     </div>
   </transition>
 </template>
@@ -190,26 +193,25 @@ export default {
     var validateTitle = (rule, value, cb) => {
       let ret = /[a-zA-Z0-9]{4,10}/
       if (value === '') {
-        callback(new Error('昵称不能为空'));
-      } else if (ret.test(value)) {
-        cb(); // 将判断传递给后面
-      } else {
-      	return cb(new Error('昵称只能由4-10位的英文数字组成!'))
+        cb(new Error('评论不能为空'));
+      }else {
+      	cb();
       }
     };
     return {
       getresets: [],
+      detailData:'',
       ruleForm2: {
-        id: '',
-        nickName: ''
+        content: ''
       },
       rules2: {
-        nickName: [{
+        content: [{
           validator: validateTitle,
           trigger: 'blur'
         }]
       },
       mdShow: false,
+      popupVisible:false,
       funName1: ''
     };
   },
@@ -217,15 +219,30 @@ export default {
     navheader,
     modal
   },
+    watch: {
+    // 如果路由有变化，会再次执行该方法
+    "$route": "getdetailData"
+  },
   created() {
     this.getlocal();
+    this.getdetailData();  
+  },
+  mounted() {
+    this.$refs['input'].focus();
   },
   methods: {
+    getdetailData() {   // 获取首页传过来的数据
+    let that = this;
+    let detailData = this.$route.query.table;
+    that.noteId = detailData.id;
+    console.log(noteId)    
+    },
     getlocal() { // 先获取当前数据，需传入的id
       let that = this;
       let localmessage = JSON.parse(localStorage.getItem('data'));
       that.id = localmessage.detail.id;
-      that.nickName = localmessage.detail.nickName
+      that.nickName = localmessage.detail.nickName;
+      that.userName = localmessage.detail.userName;
     },
     resetForm(ruleForm2) {
       this.$refs[ruleForm2].resetFields();
@@ -236,7 +253,7 @@ export default {
     },
     JumpLogin() {
       this.mdShow = false;
-      this.$router.push('/personal');
+      this.$router.go(-1);
       clearTimeout(this.cce); // 清除定时器
     },
     submitForm(ruleForm2) {
@@ -244,31 +261,27 @@ export default {
       this.$refs['ruleForm2'].validate((valid) => {
         if (valid) {
           axios({
-              url: 'http://xyiscoding.top/studyapp/user/update',
+              url: 'http://xyiscoding.top/studyapp/comment/add',
               method: 'post',
               dataType: "json",
               data: {
-                "nickName": user.nickName,
+                "commentUser":this.nickName,
+                "content": user.content,
                 "id": this.id,
+                "noteId":this.noteId,  
+                "pId":this.noteId,             
                 "type": 0,
+                "userName":this.userName
               },
             })
             .then(res => {
               console.log(res.data)
-              if (res.data.result == '200') {
-                let that = this;
-                let temp = JSON.parse(localStorage.getItem('data'));
-                temp.detail.nickName = this.ruleForm2.nickName;
-                localStorage.setItem('data', JSON.stringify(temp)); // 请求成功重新提交以更改localstorge里的数据
-                let menasDatas = JSON.parse(localStorage.getItem('data')); // 修改成功重新获取localstorge里的数据
-                console.log(JSON.parse(localStorage.getItem('data')));
-                that.getresets = menasDatas.detail;
-                this.$emit('transferUser', this.getresets)
+              if (localStorage.getItem('data')) {
                 this.mdShow = true;
                 this.cce = setTimeout(() => {
                   this.showFlag = false;
                   this.mdShow = false;
-                  this.$router.go(-1);
+                   this.$router.go(-1);
                 }, 2000);
                 this.$refs[ruleForm2].resetFields(); //提交成功后重置表单
               } else {

@@ -80,20 +80,19 @@ getlocal() {
   height: cropBox.height * scale 
   }) 
   let imgData = cropCanvas.toDataURL('image/jpeg') 
-  let formData = new FormData() 
+  let formData = new window.FormData() 
   formData.append('fileType', this.initParam['fileType']) 
-  formData.append('portrait', imgData) 
-  formData.append('id', this.id) 
+  formData.append('img', imgData) 
+  formData.append('signId', this.$localStorage('signId')) 
   formData.append('originalFilename', this.filename) 
-  axios('http://112.74.187.146:8080/studyapp/user/updatePortrait', formData, { 
+  axios(this.initParam['http://xyiscoding.top/studyapp/user/updatePortrait'], formData, { 
   method: 'post', 
-  dataType: 'json',
-  // headers: {'Content-Type': 'multipart/form-data'} 
+  headers: {'Content-Type': 'multipart/form-data'} 
   }).then(res => { 
   this.successCallback(res.data) 
   this.cancelHandle() 
   }) 
- } 
+ }
  } 
 } 
 </script> 

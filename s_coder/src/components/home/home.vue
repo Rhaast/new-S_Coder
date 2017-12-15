@@ -2,6 +2,17 @@
   <div>
     <slidebar :slidebar="findeSlide" ref="slidebar"></slidebar>
     <login :login="findedLogin" ref="login"></login>
+        <doublemodal v-show='mdShow'>
+          <div slot="doublemd-close" class="doublemd-close" @click="remove"><img src="../../assets/icon_close.png" height="20" width="20"></div>
+          <p slot="doublemessage">
+            是否确定退出登录
+          </p>
+          <div slot="doublebtnGroup" class="btngroup">
+            <a class="btn1" @click="logout">确定</a>
+            <a class="btn2" @click="remove">取消</a>
+          </div>
+        </doublemodal>
+    <div class="md-overlay" v-if="mdShow" @click="remove"></div>
     <div class="header">
       <navheader>
         <span slot="left" class="icon_slider" @click="findeSlide"><img src="../../assets/icon-slidebar.png" height="19" width="16"></span>
@@ -28,17 +39,23 @@
             <!-- <span class="answer" v-show="detail.content">我的回复</span></br> -->
             <span class="homecontent">{{detail.content}}</span>
             <span class="type">{{detail.userName}}</span> <span class="time">{{detail.createTime | time}}</span>
-            <img src="../../assets/image/comment.svg" @click="comment">
-            <div class="kuang" @click="comment"><span>评论</span></div>
+            <img src="../../assets/image/comment.svg">
+            <getcomment :detail="detail"></getcomment>
+            <router-link :to="{path:'/comment/',query: {table:detail}}">
+            <div class="kuang"><span>评论</span></div>
+          </router-link>
           </div>
         </div>
-        <div class="tishi1" v-show="tishi1">上拉加载更多</div>
+        <div class="tishi1" v-show="tishi1">{{loadTop}}</div>
         <div class="refresh" v-show="showfresh1"><img src="../../assets/image/loading-spinning-bubbles.svg"></div>
       </div>
     </div>
   </div>
 </template>
 <style>
+.btn2{
+  background: #fff;
+}
 .refresh {
   text-align: center;
   font-size: 12px;
@@ -52,7 +69,6 @@
   margin-top: 12px;
   color: #999
 }
-
 .icon_slider {
   display: inline-block;
   position: absolute;
@@ -145,7 +161,6 @@
   -webkit-line-clamp: 3;
   overflow: hidden;
 }
-
 .right .answer {
   font-size: 12px;
   color: #000;
@@ -193,8 +208,10 @@ let flag = true;
 import login from '../login/login'
 import slidebar from '../sliderbar/slidebar'
 import navheader from '../navheader/navheader'
+import doublemodal from '../doublemodal/doublemodal'
 import BScroll from 'better-scroll'
 import axios from 'axios'
+import getcomment from '../getcomment/getcomment'
 const ERR_OK = 0;
 export default {
   data() {
@@ -209,7 +226,8 @@ export default {
       BSy: 0,
       click: true,
       scrollFlag: true,
-      tishi: true,
+      tishi1: true,
+      loadTop: '上拉加载更多',
       list: {
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
         "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513323735&di=201b3a8ab53f1fd42dbbb3d60d90b8ab&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01b7b055e4000632f875a1325fe072.jpg%401280w_1l_2o_100sh.jpg',
@@ -227,7 +245,7 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    "$route": "_initScroll"
+    "$route": "getArticle"
   },
   mounted() {
     this.getArticle();
@@ -249,9 +267,6 @@ export default {
   //   }
   // },
   methods: {
-    comment() {
-      this.$router.push('/comment')
-    },
     _initScroll: function() {
       if (this.meunScroll) {
         this.meunScroll.destroy()
@@ -269,7 +284,9 @@ export default {
           if (this.scrollFlag) {
             this.scrollFlag = false;
             setTimeout(() => {
+              this.loadTop = '上拉加载更多'
               this.noteLists = [];
+              this.pageNo = 1;
               flag = false;
               this.getArticle();
             }, 1500);
@@ -299,9 +316,9 @@ export default {
         this.BSy = pos.y;
         this.scrollFlag = true;
       });
-      this.meunScroll.on("finishPullUp", () => {
-        this.meunScroll.destroy()
-      });
+      // this.meunScroll.on("finishPullUp", () => {
+      //   this.meunScroll.destroy()
+      // });
       this.showfresh = false;
       this.showfresh1 = false;
       this.tishi1 = true;
@@ -320,8 +337,12 @@ export default {
         if (flag) { // 定义一个全局变量，默认为true
           that.griddata = response.data.detail;
           let len = that.griddata.length // 每次加载显示的条数可在length的基础上增加减少
+          if (len < this.pageSize) {
+              this.loadTop = '没有更多数据了';
+           }
           for (let i = 0; i < len; i++) {
-            // if (this.len <= 0) {
+            // if (this.len < this.pageSize) {
+            //   alert('我是最后的数据')
             //   break;
             // }
             that.details.push(that.griddata[i]); // push数据到griddata，用于上拉加载
@@ -357,10 +378,20 @@ export default {
 
     findeLogin() {
       if (this.loginText == '注销') {
-        localStorage.removeItem('data'); // 清空localstorage数据
-        location.reload();
+        this.mdShow = true;
+       
       }
-      this.$refs.login.show()
+      else{
+        this.$refs.login.show()
+      }
+      
+    },
+    logout() {   //注销登录
+       localStorage.removeItem('data'); // 清空localstorage数据
+        location.reload();
+      },
+    remove() {
+      this.mdShow = false;
     },
     findeSlide() {
       this.$refs.slidebar.come()
@@ -371,6 +402,8 @@ export default {
     navheader,
     login,
     slidebar,
+    doublemodal,
+    getcomment
 
   }
 }
