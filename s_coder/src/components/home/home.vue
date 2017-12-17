@@ -228,12 +228,6 @@ export default {
       scrollFlag: true,
       tishi1: true,
       loadTop: '上拉加载更多',
-      list: {
-        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
-        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1513323735&di=201b3a8ab53f1fd42dbbb3d60d90b8ab&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01b7b055e4000632f875a1325fe072.jpg%401280w_1l_2o_100sh.jpg',
-        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1',
-        "src": 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511157202087&di=d6ec0d0f94836dd54f3f5e51d902c782&imgtype=0&src=http%3A%2F%2Fwww.yixieshi.com%2Fuploads%2Fallimg%2F110127%2F09414I229-0.gif%3FimageView2%2F2%2Fw%2F720%2Fh%2F300%2Finterlace%2F1'
-      },
       piclist: [],
       scrollY: 0
     }
@@ -312,18 +306,15 @@ export default {
           });
         }
       }.bind(this));
-      this.meunScroll.on("scrollEnd", (pos) => { // 当上拉加载结束时执行这个函数  
+      this.meunScroll.on("scrollEnd", (pos) => { // 当上拉下拉加载结束时执行这个函数  
         this.BSy = pos.y;
         this.scrollFlag = true;
       });
-      // this.meunScroll.on("finishPullUp", () => {
-      //   this.meunScroll.destroy()
-      // });
       this.showfresh = false;
       this.showfresh1 = false;
       this.tishi1 = true;
     },
-    getArticle: function() { // 获取首页所有笔记提问
+    getArticle: function() { // 获取首页所有笔记
       let that = this;
       axios({
         url: 'http://xyiscoding.top/studyapp/note/findAll',
@@ -341,10 +332,6 @@ export default {
               this.loadTop = '没有更多数据了';
            }
           for (let i = 0; i < len; i++) {
-            // if (this.len < this.pageSize) {
-            //   alert('我是最后的数据')
-            //   break;
-            // }
             that.details.push(that.griddata[i]); // push数据到griddata，用于上拉加载
           }
         } else {
@@ -396,6 +383,9 @@ export default {
     findeSlide() {
       this.$refs.slidebar.come()
     },
+    // comment() {
+    //   this.$router.push({ path: '//comment', query: {table:this.detail}})
+    // }
 
   },
   components: {

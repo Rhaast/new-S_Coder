@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import './assets/validate.js'
 import ElementUI from 'element-ui'
 // import '../node_modules/element-ui/lib/theme-chalk/index.css'
 import { Swipe, SwipeItem ,Popup } from 'mint-ui';
@@ -25,7 +24,9 @@ Vue.use(axios)
 Vue.filter('time', function (value) {
   return goodTime(value);
 })
-
+Vue.filter('reverse', function (value) {
+ return value.split('').reverse().join('')
+})
 
 function goodTime(str){
  var now = new Date().getTime(),

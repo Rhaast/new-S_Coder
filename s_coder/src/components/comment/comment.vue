@@ -265,11 +265,10 @@ export default {
               method: 'post',
               dataType: "json",
               data: {
-                "commentUser":this.nickName,
+                "commentUser":this.nickName,   // 评论人为当前localstorage昵称
                 "content": user.content,
                 "id": this.id,
-                "noteId":this.noteId,  
-                "pId":this.noteId,             
+                "noteId":this.noteId,             
                 "type": 0,
                 "userName":this.userName
               },

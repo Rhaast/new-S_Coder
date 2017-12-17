@@ -280,7 +280,7 @@
 									"content": user.content,
 									"nickName": this.nickName,
 									"userId": this.id,
-									"userName":this.userName,
+									"userName":this.nickName,
 									"type": 0
 								},
 							})

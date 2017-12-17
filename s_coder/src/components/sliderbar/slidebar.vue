@@ -114,7 +114,9 @@ export default {
   border-radius: 50%
 }
 
-.SlideWrapper .myportrait .nickName {}
+.SlideWrapper .myportrait .nickName {
+  font-size: 24px
+}
 
 .SlideWrapper .list {
   font-size: 14px;

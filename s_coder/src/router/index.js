@@ -11,6 +11,7 @@ import mynotedetail from '@/components/mynotedetail/mynotedetail'
 import changenickname from '@/components/changenickname/changenickname'
 import changepersonSign from '@/components/changepersonSign/changepersonSign'
 import comment from '@/components/comment/comment'
+import nestedreview from '@/components/Nestedreview/nestedreview'
 Vue.use(Router)
 
 export default new Router({
@@ -53,6 +54,11 @@ export default new Router({
       path: '/comment',
       name: 'comment',
       component:comment
+    },
+    {
+      path: '/nestedreview',
+      name: 'nestedreview',
+      component:nestedreview
     },
     {
       path: '/addquestion',
