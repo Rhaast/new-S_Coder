@@ -4,7 +4,7 @@
       <div class="slide" v-show="showSlide">
         <div class="SlideWrapper">
           <div class="myportrait">
-            <img src="../../assets/logo.png" height="80" width="80">
+            <img :src="'http://xyiscoding.top/img/'+portrait" height="80" width="80">
             <span class="nickName">{{nickName}}</span>
           </div>
           <ul class="list">
@@ -32,6 +32,13 @@ export default {
     this.getlocal();
 
   },
+  mounted() {
+      if (!localStorage.getItem('data')) {
+      this.tishi = true;
+      this.portrait = '1513837065438.jpg'
+      this.nickName = '未登录'
+    }
+  },
     watch: {
     // 如果路由有变化，会再次执行该方法
     "$route": "getlocal"
@@ -41,6 +48,7 @@ export default {
       let that = this;
       let localmessage = JSON.parse(localStorage.getItem('data'));
       that.nickName = localmessage.detail.nickName;   // 获取昵称
+      that.portrait = localmessage.detail.portrait;
     },
     come() {
       this.showSlide = true;
@@ -102,7 +110,6 @@ export default {
   border-radius: 50%;
   width: 80px;
   height: 80px;
-  border: 2px solid #000;
   margin: 0 auto;
   text-align: center;
   font-size: 24px;
@@ -111,11 +118,12 @@ export default {
 }
 
 .SlideWrapper .myportrait img {
-  border-radius: 50%
+  border-radius: 50%;
+    border: 2px solid #000;
 }
 
 .SlideWrapper .myportrait .nickName {
-  font-size: 24px
+  font-size: 16px
 }
 
 .SlideWrapper .list {

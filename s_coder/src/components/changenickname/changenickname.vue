@@ -217,6 +217,10 @@ export default {
     navheader,
     modal
   },
+    watch: {
+    // 如果路由有变化，会再次执行该方法
+    "$route": "getlocal"
+  },
   created() {
     this.getlocal();
   },
@@ -225,7 +229,8 @@ export default {
       let that = this;
       let localmessage = JSON.parse(localStorage.getItem('data'));
       that.id = localmessage.detail.id;
-      that.nickName = localmessage.detail.nickName
+      that.nickName = localmessage.detail.nickName;
+      that.personSign = localmessage.detail.personSign;
     },
     resetForm(ruleForm2) {
       this.$refs[ruleForm2].resetFields();
@@ -249,6 +254,7 @@ export default {
               dataType: "json",
               data: {
                 "nickName": user.nickName,
+                "personSign":this.personSign,
                 "id": this.id,
                 "type": 0,
               },

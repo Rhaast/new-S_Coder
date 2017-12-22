@@ -229,7 +229,7 @@ export default {
       tishi1: true,
       loadTop: '上拉加载更多',
       piclist: [],
-      scrollY: 0
+      scrollY: 0,
     }
   },
   created() {
@@ -237,10 +237,10 @@ export default {
       this._initScroll();
     })
   },
-  watch: {
-    // 如果路由有变化，会再次执行该方法
-    "$route": "getArticle"
-  },
+  // watch: {
+  //   // 如果路由有变化，会再次执行该方法
+  //   "$route": "getArticle"
+  // },
   mounted() {
     this.getArticle();
     this.$nextTick(() => {

@@ -10,7 +10,17 @@
           <span class="title">{{noteLists.title}}</span>
           <br>
           <span class="content">{{noteLists.content}}</span>
+          <br>
+          <span class="detailcreateTime">{{noteLists.createTime | time}}</span>
         </div>
+      </div>
+      <div class="commentarea">
+        <h2 class="commentTitle">评论:</h2>
+        <div class="comment" v-for="rating in commentLists">
+          <span class="nickName">{{rating.commentUser}}<span v-show="!rating.pId">:</span><span class="replys" v-show="rating.pId" style="color:#999"> 回复 </span></span><span class="nickName" v-show="rating.pId">{{rating.pId}}: </span><span class="comment-content">{{rating.content}}</span>
+          <br>
+        </div>
+        <div class="no-comment" v-show="!commentLists">暂无评论</div>
       </div>
     </div>
   </transition>
@@ -33,6 +43,38 @@
   width: 100%;
 }
 
+.no-comment {
+  text-align: center;
+  margin-top: 40%;
+  font-size: 16px;
+  color: #999;
+}
+
+.commentarea {
+  padding: 0 12px;
+  width: 100%;
+}
+
+.commentTitle {
+  font-size: 14px;
+  color: #000;
+  font-weight: 600;
+  line-height: 25px;
+  margin-top: 7px;
+  margin-bottom: 10px;
+}
+
+.detailwrapper .getnotedetail {
+  border-bottom: 1px solid #d1d1d1;
+  padding-bottom: 20px;
+}
+
+.detailcreateTime {
+  color: #999;
+  font-size: 12px;
+  line-height: 24px;
+}
+
 .backhome {
   display: inline-block;
   position: absolute;
@@ -47,6 +89,25 @@
   color: #000;
 }
 
+.title {
+  font-size: 14px;
+  color: #000;
+  font-weight: 600;
+  line-height: 25px;
+  margin-top: 7px;
+}
+
+.content {
+  font-size: 14px;
+  color: #999;
+  width: 100%;
+  line-height: 16px;
+  margin-top: 2px;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
 </style>
 <script type="text/javascript">
 import navheader from '../navheader/navheader'
@@ -54,16 +115,17 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      noteLists: {}
+      noteLists: {},
+      commentLists: [],
     }
   },
   created: function() {
     this.getmynote();
   },
   watch: {
-          // 如果路由有变化，会再次执行该方法
-          "$route": "getmynote"
-        },
+    // 如果路由有变化，会再次执行该方法
+    "$route": "getmynote"
+  },
   // activated() {      // 禁止keep-alive缓存
   //   this.getmynote();     
   // },
@@ -82,6 +144,8 @@ export default {
         method: 'get',
       }).then((response) => {
         that.noteLists = response.data.detail.note;
+        that.commentLists = response.data.detail.comment.reverse();
+        console.log(this.commentLists)
         // this.$nextTick(() => {
         //   this._initScroll()
         // })

@@ -126,12 +126,14 @@ el-form-item {
 }
 
 
+
 /* firefox 19+ */
 
 :-ms-input-placeholder {
   color: #ccc;
   font-size: 14px
 }
+
 
 
 /* ie */
@@ -216,6 +218,10 @@ export default {
     navheader,
     modal
   },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    "$route": "getlocal"
+  },
   created() {
     this.getlocal();
   },
@@ -224,7 +230,9 @@ export default {
       let that = this;
       let localmessage = JSON.parse(localStorage.getItem('data'));
       that.id = localmessage.detail.id;
-      that.personSign = localmessage.detail.personSign
+      that.personSign = localmessage.detail.personSign;
+      that.nickName = localmessage.detail.nickName;
+
     },
     resetForm(ruleForm2) {
       this.$refs[ruleForm2].resetFields();
@@ -248,6 +256,7 @@ export default {
               dataType: "json",
               data: {
                 "personSign": user.personSign,
+                "nickName": this.nickName,
                 "id": this.id,
                 "type": 0,
               },
@@ -256,10 +265,10 @@ export default {
               console.log(res.data)
               if (res.data.result == '200') {
                 let that = this;
-                let temp = JSON.parse(localStorage.getItem('data'));
-                temp.detail.personSign = this.ruleForm2.personSign;
-                localStorage.setItem('data', JSON.stringify(temp)); // 请求成功重新提交以更改localstorge里的数据
-                let menasDatas = JSON.parse(localStorage.getItem('data')); // 修改成功重新获取localstorge里的数据
+                // let temp = JSON.parse(localStorage.getItem('data'));
+                // temp.detail.personSign = this.ruleForm2.personSign;
+                // localStorage.setItem('data', JSON.stringify(temp)); // 请求成功重新提交以更改localstorge里的数据
+                // let menasDatas = JSON.parse(localStorage.getItem('data')); // 修改成功重新获取localstorge里的数据
                 this.mdShow = true;
                 this.cce = setTimeout(() => {
                   this.shownick = false;

@@ -1,6 +1,6 @@
 <template>
   <transition name="move">
-    <div class="login-wrapper" v-show="showFlag" @click="hide">
+    <div class="login-wrapper" v-show="showFlag">
       <transition name="move">
         <el-card class="box-card" v-show="showreg">
           <div class="header">
@@ -27,8 +27,8 @@
                 <el-form-item label="nickname" prop="nickName" id="bot">
                   <el-input v-model="formRegister.nickName"></el-input>
                 </el-form-item>
-                <el-form-item label="phone" prop="phone" id="bot">
-                  <el-input v-model="formRegister.phone"></el-input>
+                <el-form-item label="mobile" prop="mobile" id="bot">
+                  <el-input v-model="formRegister.mobile"></el-input>
                 </el-form-item>
                 <el-form-item label="email" prop="email" id="bot">
                   <el-input v-model="formRegister.email"></el-input>
@@ -55,6 +55,7 @@
       </transition>
       <transition name="move">
         <el-card class="box-card1" v-show="showLogin">
+           <div class="backarrow" @click="backlast"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></div>
           <h1 class="S_coder">S_CODER</h1>
           <modal v-show='mdShow1'>
             <div slot="md-close" class="md-close" @click="closeModal"><img src="../../assets/icon_close.png" height="20" width="20"></div>
@@ -102,7 +103,11 @@
   color: #fff;
   text-align: center;
 }
-
+.backarrow{
+  position: absolute;
+  left: 12px;
+  top:24px;
+}
 .v-modal {
   background: none
 }
@@ -352,7 +357,7 @@ export default {
         userName: '',
         password: '',
         nickName: '',
-        phone: '',
+        mobile: '',
         email: '',
         sex: ''
       },
@@ -377,7 +382,7 @@ export default {
         nickName: [
           { validator: checkNickname, trigger: 'blur' }
         ],
-        phone: [
+        mobile: [
           { validator: checkPhone, trigger: 'blur' }
         ],
         email: [
@@ -400,13 +405,13 @@ export default {
     }
   },
   methods: {
+    backlast() {
+    this.showFlag = false;
+    },
     show() {
       this.showFlag = true;
       this.showreg = false;
       this.showLogin = true;
-    },
-    hide() {
-      this.showFlag = true;
     },
     login() {
       this.showreg = false;
@@ -456,7 +461,7 @@ export default {
                 "username": user.username,
                 "password": user.password,
                 "nickName": user.nickName,
-                "phone": user.phone,
+                "mobile": user.mobile,
                 "email": user.email,
                 "sex": user.sex,
                 "level": 1,

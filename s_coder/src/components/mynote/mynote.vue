@@ -8,7 +8,7 @@
       <div class="get-mynote">
         <div class="content-wrappers">
           <div class="wrapper-top">
-            <div class="myportrait"><img src="../../assets/logo.png" height="55" width="55"></div>
+            <div class="myportrait"><img :src="'http://xyiscoding.top/img/'+portrait" height="55" width="55"></div>
             <h1>{{getziliaos.nickName}}</h1>
           </div>
         </div>
@@ -115,7 +115,6 @@
   border-radius: 50%;
   width: 55px;
   height: 55px;
-  border: 2px solid #000;
   margin-top: 20px;
 }
 
@@ -151,6 +150,7 @@
 }
 .content-wrappers .wrapper-top .myportrait img {
   border-radius: 50%;
+  border: 2px solid #000;
 }
 
 .content-wrappers .wrapper-top h1 {
@@ -226,6 +226,7 @@ export default {
       that.getziliaos = menasDatas.detail;
       that.userId = menasDatas.detail.id;    // 获取userID
       that.nickName = menasDatas.detail.nickName;
+      that.portrait = menasDatas.detail.portrait;
       axios({
         url: 'http://xyiscoding.top/studyapp/note/findByUserId/'+that.userId, // 传入userId获取自己的数据
         dataType: 'json',
