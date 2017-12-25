@@ -32,7 +32,9 @@
         <div class="refresh" v-show="showfresh"><img src="../../assets/image/loading-spinning-bubbles.svg"></div>
         <div v-for="detail in details" class="position">
           <div class="left">
-            <img src="../../assets/logo.png" height="40" width="40">
+          <router-link :to="{path:'/ViewProfile',query: {table:detail}}">
+            <getportrait :detail="detail"></getportrait>
+            </router-link>
           </div>
           <div class="right">
             <h2 class="title">{{detail.title}}</h2>
@@ -212,6 +214,7 @@ import doublemodal from '../doublemodal/doublemodal'
 import BScroll from 'better-scroll'
 import axios from 'axios'
 import getcomment from '../getcomment/getcomment'
+import getportrait from '../getportrait/getportrait'
 const ERR_OK = 0;
 export default {
   data() {
@@ -230,6 +233,7 @@ export default {
       loadTop: '上拉加载更多',
       piclist: [],
       scrollY: 0,
+      detail:{}
     }
   },
   created() {
@@ -393,7 +397,8 @@ export default {
     login,
     slidebar,
     doublemodal,
-    getcomment
+    getcomment,
+    getportrait
 
   }
 }

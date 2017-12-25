@@ -20,7 +20,7 @@
           <span class="nickName">{{rating.commentUser}}<span v-show="!rating.pId">:</span><span class="replys" v-show="rating.pId" style="color:#999"> 回复 </span></span><span class="nickName" v-show="rating.pId">{{rating.pId}}: </span><span class="comment-content">{{rating.content}}</span>
           <br>
         </div>
-        <div class="no-comment" v-show="!commentLists">暂无评论</div>
+        <div class="nocomments" v-show="commentLists">暂无评论</div>
       </div>
     </div>
   </transition>
@@ -43,7 +43,7 @@
   width: 100%;
 }
 
-.no-comment {
+.nocomments {
   text-align: center;
   margin-top: 40%;
   font-size: 16px;
@@ -146,9 +146,6 @@ export default {
         that.noteLists = response.data.detail.note;
         that.commentLists = response.data.detail.comment.reverse();
         console.log(this.commentLists)
-        // this.$nextTick(() => {
-        //   this._initScroll()
-        // })
       })
     }
 

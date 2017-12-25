@@ -12,6 +12,7 @@ import changenickname from '@/components/changenickname/changenickname'
 import changepersonSign from '@/components/changepersonSign/changepersonSign'
 import comment from '@/components/comment/comment'
 import nestedreview from '@/components/Nestedreview/nestedreview'
+import ViewProfile from '@/components/ViewProfile/ViewProfile'
 Vue.use(Router)
 
 export default new Router({
@@ -80,6 +81,11 @@ export default new Router({
       path: '/myquestions',
       name: 'myquestions',
       component: myquestions
+    },
+    {
+      path:'/ViewProfile',
+      name:'/ViewProfile',
+      component:ViewProfile
     }
   ]
 })

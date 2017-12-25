@@ -6,12 +6,12 @@
           <span>首页</span>
         </router-link>
         </div>
-      <div class="tab-item" @click="toggle('type')">
+<!--       <div class="tab-item" @click="toggle('type')">
         <router-link to="/type"> 
           <span class="icon" :class="typeCheck==true?'typeCheck':'type'" id="type"></span>
           <span>分类</span>
         </router-link>
-      </div>
+      </div> -->
       <div class="tab-item" @click="toggle('personal')">
         <router-link to="/personal">
           <span class="icon" :class="personalCheck==true?'personalCheck':'personal'" id="personal"></span>
