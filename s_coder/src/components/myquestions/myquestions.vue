@@ -80,7 +80,6 @@
   border-radius: 50%;
   width: 55px;
   height: 55px;
-  border: 2px solid #000;
   margin-top: 20px;
 }
 .content-wrappers1 .wrapper-top h2{
@@ -104,6 +103,7 @@
 }
 .content-wrappers .wrapper-top .myportrait img {
   border-radius: 50%;
+   border: 2px solid #000;
 }
 
 .content-wrappers .wrapper-top h1 {

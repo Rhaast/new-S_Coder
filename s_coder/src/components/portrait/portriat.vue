@@ -1,26 +1,42 @@
 <template>
+  <transition name="move">
   <div class="portriat-wrapper" v-show="showportriat">
+    <div class="md-overlay" v-if="mdShow1"></div>
     <div class="model" v-show="model" @click="model = false">
       <div class="model-show">
         <img :src="modelSrc" alt="">
       </div>
     </div>
     <div class="show-info">
+      <modal v-show='mdShow1'>
+        <div slot="md-close" class="md-close"><img src="../../assets/icon_close.png" height="20" width="20"></div>
+        <p slot="message">
+          头像修改成功。
+        </p>
+        <div slot="btnGroup">
+          <a class="btn btn--m" @click="jumppersonal">确定</a>
+        </div>
+      </modal>
+      <navheader class="wrapper-portriat">
+        <span slot="left" class="backpersons"><img src="../../assets/image/icon_arrow.png" @click="refreshCrop" height="32" width="32"></span>
+        <span slot="main_title" class="choose"><label class="btn" for="upload2">选择</label>
+      <input type="file" id="upload2" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 3)"></span>
+        <span slot="right" class="deng"><button @click="finish3('base64')" class="btn">确定</button></span>
+      </navheader>
       <div class="test">
         <vueCropper ref="cropper3" :img="example3.img" :autoCrop="example3.autoCrop" :autoCropWidth="example3.autoCropWidth" :autoCropHeight="example3.autoCropHeight" :fixedBox="example3.fixedBox"></vueCropper>
       </div>
-      <label class="btn" for="upload2" >upload</label>
-      <input type="file" id="upload2" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 3)">
-      <button @click="finish3('base64')" class="btn">preview(base64)</button>
-      <button @click="refreshCrop" class="btn">refresh</button>
     </div>
   </div>
   </div>
+</transition>
 </template>
 <script>
 import vueCropper from '../VueCropper/vue-cropper'
 import codes from '../code/code'
 import axios from 'axios'
+import navheader from '../navheader/navheader'
+import modal from '../Modal/modal'
 export default {
   data: function() {
     return {
@@ -29,9 +45,10 @@ export default {
       crap: false,
       previews: {},
       showportriat: false,
+      mdShow1: false,
       lists: [
         // {
-        // 	img: 'https://fengyuanchen.github.io/cropper/images/picture.jpg'
+        //  img: 'https://fengyuanchen.github.io/cropper/images/picture.jpg'
         // },
         {
           img: 'http://ofyaji162.bkt.clouddn.com/touxiang.jpg'
@@ -74,6 +91,7 @@ export default {
   },
   mounted() {
     this.getlocal();
+    this.uploadImg(e, num);
   },
   methods: {
     portriatshow() {
@@ -101,7 +119,13 @@ export default {
           },
         }).then(res => {
           if (res.data.result == '200') {
-          	this.$emit('refreshList')   // 子组件请求父组件事件
+            this.$emit('refreshList') // 子组件请求父组件事件
+            this.mdShow1 = true;
+            this.cce = setTimeout(() => {
+              this.$router.push('/personal');
+              this.showportriat = false;
+              this.mdShow1 = false;
+            }, 2000);
             // let that = this;
             // let temp = JSON.parse(localStorage.getItem('data'));
             // temp.detail.portrait = this.portrait;
@@ -127,7 +151,13 @@ export default {
     //     })
     //   }
     // },
-
+    jumppersonal(){
+      this.$router.push('/personal');
+      this.example3.img = '';
+      clearTimeout(this.cce); // 清除定时器
+       this.showportriat = false;
+      this.mdShow1 = false;
+    },
     uploadImg(e, num) {
       //上传图片
       // this.option.img
@@ -159,7 +189,9 @@ export default {
   },
   components: {
     vueCropper,
-    codes
+    codes,
+    navheader,
+    modal
   },
   mounted() {
     this.changeImg()
@@ -185,7 +217,7 @@ export default {
 
 .portriat-wrapper {
   width: 100%;
-  background: rgba(255, 255, 255, 1);
+  background: rgba(0, 0, 0, 1);
   position: fixed;
   left: 0;
   top: 0;
@@ -204,16 +236,31 @@ export default {
   text-align: center;
   box-sizing: border-box;
   outline: none;
-  margin: 20px 10px 0px 0px;
   padding: 9px 15px;
-  font-size: 14px;
+  font-size: 15px;
   border-radius: 4px;
   color: #fff;
-  background-color: #50bfff;
-  border-color: #50bfff;
+  background-color: #5272f9;
   transition: all .2s ease;
   text-decoration: none;
   user-select: none;
+}
+
+.backpersons {
+  font-size: 15px;
+  display: inline-block;
+  color: #000;
+  position: absolute;
+  left: 12px;
+  padding: 8px 0;
+}
+
+.choose {
+  font-size: 15px;
+  display: inline-block;
+  color: #000;
+  position: absolute;
+  right: 80px;
 }
 
 .des {
@@ -241,7 +288,7 @@ code.language-html {
 }
 
 .test {
-  height: 500px;
+  height: 640px;
 }
 
 .model {

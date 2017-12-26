@@ -1,7 +1,7 @@
 <template>
  <transition name="move">
   <div>
-  <div class="backarrow" @click="back"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></div>
+  <div class="backarrow1" @click="back"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></div>
     <div class="personal-content" ref="personalContent">
       <div class="contents">
         <img src="../../assets/personal_bg.png" height="255" width="100%">
@@ -53,10 +53,10 @@
 .move-leave-active {
   transform: translate3d(100%, 0, 0);
 }
-.backarrow{
+.backarrow1{
   position: absolute;
   left: 12px;
-  top:24px;
+  top:6px;
   z-index: 110
 }
 .personal-content {

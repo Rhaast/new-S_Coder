@@ -315,7 +315,9 @@ export default {
       if (!localStorage.getItem('data')) {
         this.$refs.login.show()
       } else {
-        this.$refs.portriat.portriatshow()
+        this.$refs.portriat.portriatshow();
+
+
       }
 
     }

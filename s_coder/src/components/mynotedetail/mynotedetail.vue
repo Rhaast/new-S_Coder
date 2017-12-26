@@ -20,7 +20,7 @@
           <span class="nickName">{{rating.commentUser}}<span v-show="!rating.pId">:</span><span class="replys" v-show="rating.pId" style="color:#999"> 回复 </span></span><span class="nickName" v-show="rating.pId">{{rating.pId}}: </span><span class="comment-content">{{rating.content}}</span>
           <br>
         </div>
-        <div class="nocomments" v-show="commentLists">暂无评论</div>
+        <div class="nocomments" v-show="commentLists.length==0">暂无评论</div>
       </div>
     </div>
   </transition>
@@ -49,7 +49,6 @@
   font-size: 16px;
   color: #999;
 }
-
 .commentarea {
   padding: 0 12px;
   width: 100%;

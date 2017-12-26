@@ -39,14 +39,14 @@ export default {
     }
   },
   created() {
-    this.getcomment();
+    this.getcomments();
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    "$route": "getcomment"
+    "$route": "getcomments"
   },
   methods: {
-    getcomment() {
+    getcomments() {
       let that = this
       that.user = this.comment
       that.id = this.detail.id

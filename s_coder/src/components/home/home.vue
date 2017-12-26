@@ -42,7 +42,7 @@
             <span class="homecontent">{{detail.content}}</span>
             <span class="type">{{detail.userName}}</span> <span class="time">{{detail.createTime | time}}</span>
             <img src="../../assets/image/comment.svg">
-            <getcomment :detail="detail"></getcomment>
+            <getcomment :detail="detail" :getcomment="_initScroll" ref="getcomment"></getcomment>
             <router-link :to="{path:'/comment/',query: {table:detail}}">
             <div class="kuang"><span>评论</span></div>
           </router-link>
@@ -287,6 +287,7 @@ export default {
               this.pageNo = 1;
               flag = false;
               this.getArticle();
+              this.$refs.getcomment.getcomments();
             }, 1500);
             this.$nextTick(function() {
               this.showfresh = true;
@@ -340,6 +341,7 @@ export default {
           }
         } else {
           that.details = response.data.detail; //  正常获取数据，用于下拉刷新
+          console.log(this.passId)
         } //逼我的
         this.$nextTick(() => {
           this._initScroll() // 请求数据时重新计算
