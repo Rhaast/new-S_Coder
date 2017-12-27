@@ -20,7 +20,7 @@
         <span slot="left" class="backpersons"><img src="../../assets/image/icon_arrow.png" @click="refreshCrop" height="32" width="32"></span>
         <span slot="main_title" class="choose"><label class="btn" for="upload2">选择</label>
       <input type="file" ref="file" id="upload2" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadFile($event, 3)"></span>
-        <span slot="right" class="deng"><button @click="finish3('base64')" class="btn">确定</button></span>
+        <span slot="right" class="deng"><button @click="finish3('base64')" class="btn">使用</button></span>
       </navheader>
       <div class="test">
         <vueCropper ref="cropper3" :img="example3.img" :autoCrop="example3.autoCrop" :autoCropWidth="example3.autoCropWidth" :autoCropHeight="example3.autoCropHeight" :fixedBox="example3.fixedBox"></vueCropper>
@@ -275,6 +275,7 @@ export default {
   color: #000;
   position: absolute;
   right: 80px;
+  display: none
 }
 
 .des {
