@@ -18,7 +18,7 @@
         <div class="md-overlay" v-if="mdShow"></div>
         <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
           <el-form-item label="请输入回复内容:" prop="content">
-            <el-input type="text" v-model="ruleForm2.content" auto-complete="off" autofocus="autofocus" ref="input"></el-input>
+            <el-input type="text" v-model="ruleForm2.content" auto-complete="off" ref="input"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
@@ -233,6 +233,7 @@ export default {
   },
   methods: {
     getcommentData() {   // 获取评论传过来的数据
+    this.$refs['input'].focus();
     let that = this;
     let commentData = this.$route.query.table;
     that.noteId = commentData.noteId;

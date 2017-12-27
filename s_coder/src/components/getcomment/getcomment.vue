@@ -57,7 +57,6 @@ export default {
       }).then((response) => {
         that.commentLists = response.data.detail.comment.reverse();     
       })
-
     },
       getlocal() { // 先获取当前数据，需传入的id
       let that = this;

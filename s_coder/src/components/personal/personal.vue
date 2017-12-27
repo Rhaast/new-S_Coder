@@ -1,6 +1,6 @@
 <template>
   <div>
-    <portriat :portriat="toupload" ref="portriat" @refreshList="getmypersons"></portriat>
+    <portriat :portriat="toupload"  ref="portriat" @refreshList="getmypersons"></portriat>
     <login :login="Tologin" ref="login"></login>
     <div class="personal-content" ref="personalContent">
       <div class="contents">
@@ -9,9 +9,9 @@
           <div class="overview-wrapper">
             <h2 class="username" @click='Tochangenickname'>{{backmessage.nickName}}</h2>
             <p class="saysay" @click='TochangepersonSign'>{{backmessage.personSign}}</p>
-            <img :src="'http://xyiscoding.top/img/'+portrait" class="myportrait" height="80" width="80" @click="toupload">
+            <img :src="'http://xyiscoding.top/img/'+portrait" class="myportrait" height="80" width="80" @click='toupload'>
             <div class="SignIn" @click="SignIn"><img class="Signicon" src="../../assets/image/SignIn.png" height="18" width="78">
-            <span class="Signtxt">签到</span>
+            <span class="Signtxt" >签到</span>
             </div>
             <div class="job" v-show="showjob">
               <img class="sex" src="../../assets/sex.png" height="15" width="15">
@@ -232,7 +232,7 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    "$route": "getmypersons"
+   // "$route": "getmypersons"
   },
   created() {
     this.getmypersons();
@@ -282,6 +282,9 @@ export default {
     SignIn(){
     },
     _initScroll: function() {
+      if(this.scroll){
+        return;
+      }
       this.scroll = new BScroll(this.$refs.personalContent, {
         click: true
       })
@@ -311,15 +314,14 @@ export default {
         this.$refs.login.show()
       }
     },
-    toupload() {
+    toupload(event) {
       if (!localStorage.getItem('data')) {
         this.$refs.login.show()
-      } else {
-        this.$refs.portriat.portriatshow();
+      } else{
+        this.$refs.portriat.file();
 
 
       }
-
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <slidebar :slidebar="findeSlide" ref="slidebar"></slidebar>
-    <login :login="findedLogin" ref="login"></login>
+    <slidebar ref="slidebar"></slidebar>
+    <login ref="login"></login>
         <doublemodal v-show='mdShow'>
           <div slot="doublemd-close" class="doublemd-close" @click="remove"><img src="../../assets/icon_close.png" height="20" width="20"></div>
           <p slot="doublemessage">
@@ -41,11 +41,11 @@
             <!-- <span class="answer" v-show="detail.content">我的回复</span></br> -->
             <span class="homecontent">{{detail.content}}</span>
             <span class="type">{{detail.userName}}</span> <span class="time">{{detail.createTime | time}}</span>
-            <img src="../../assets/image/comment.svg">
-            <getcomment :detail="detail" :getcomment="_initScroll" ref="getcomment"></getcomment>
-            <router-link :to="{path:'/comment/',query: {table:detail}}">
-            <div class="kuang"><span>评论</span></div>
-          </router-link>
+            <img src="../../assets/image/comment.svg" @click="comment(detail)">
+            <getcomment :detail="detail" ref="getcomment"></getcomment>
+            <div class="kuang" @click="comment(detail)"><span>评论</span></div>
+    <!--         <div class="kuang" @click="getalert"><span>触发</span></div> -->
+
           </div>
         </div>
         <div class="tishi1" v-show="tishi1">{{loadTop}}</div>
@@ -219,7 +219,7 @@ const ERR_OK = 0;
 export default {
   data() {
     return {
-      pageNo: 1, // 总共27页
+      pageNo: 0, // 总共27页
       pageSize: 10,
       details: [],
       loginText: '登录',
@@ -240,11 +240,12 @@ export default {
     this.$nextTick(() => {
       this._initScroll();
     })
+    console.log(this.$refs);
   },
-  // watch: {
-  //   // 如果路由有变化，会再次执行该方法
-  //   "$route": "getArticle"
-  // },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    "$route": "getArticle"
+  },
   mounted() {
     this.getArticle();
     this.$nextTick(() => {
@@ -265,6 +266,10 @@ export default {
   //   }
   // },
   methods: {
+    getalert() {
+      this.$refs.getcomment.getcomments();
+      console.log(this.$refs.getcomment)
+    },
     _initScroll: function() {
       if (this.meunScroll) {
         this.meunScroll.destroy()
@@ -284,10 +289,9 @@ export default {
             setTimeout(() => {
               this.loadTop = '上拉加载更多'
               this.noteLists = [];
-              this.pageNo = 1;
+              this.pageNo = 0;
               flag = false;
               this.getArticle();
-              this.$refs.getcomment.getcomments();
             }, 1500);
             this.$nextTick(function() {
               this.showfresh = true;
@@ -341,7 +345,6 @@ export default {
           }
         } else {
           that.details = response.data.detail; //  正常获取数据，用于下拉刷新
-          console.log(this.passId)
         } //逼我的
         this.$nextTick(() => {
           this._initScroll() // 请求数据时重新计算
@@ -389,9 +392,9 @@ export default {
     findeSlide() {
       this.$refs.slidebar.come()
     },
-    // comment() {
-    //   this.$router.push({ path: '//comment', query: {table:this.detail}})
-    // }
+    comment(detail) {
+      this.$router.push({ path: '/comment', query: {table:detail}})
+    }
 
   },
   components: {

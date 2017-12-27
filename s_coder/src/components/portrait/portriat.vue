@@ -1,5 +1,4 @@
 <template>
-  <transition name="move">
   <div class="portriat-wrapper" v-show="showportriat">
     <div class="md-overlay" v-if="mdShow1"></div>
     <div class="model" v-show="model" @click="model = false">
@@ -20,7 +19,7 @@
       <navheader class="wrapper-portriat">
         <span slot="left" class="backpersons"><img src="../../assets/image/icon_arrow.png" @click="refreshCrop" height="32" width="32"></span>
         <span slot="main_title" class="choose"><label class="btn" for="upload2">选择</label>
-      <input type="file" id="upload2" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 3)"></span>
+      <input type="file" ref="file" id="upload2" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadFile($event, 3)"></span>
         <span slot="right" class="deng"><button @click="finish3('base64')" class="btn">确定</button></span>
       </navheader>
       <div class="test">
@@ -29,7 +28,6 @@
     </div>
   </div>
   </div>
-</transition>
 </template>
 <script>
 import vueCropper from '../VueCropper/vue-cropper'
@@ -92,10 +90,15 @@ export default {
   mounted() {
     this.getlocal();
     this.uploadImg(e, num);
+
+  },
+  created () {
   },
   methods: {
+    file(){
+      this.$refs.file.click();
+    },
     portriatshow() {
-      this.showportriat = true;
     },
     refreshCrop() {
       // clear
@@ -158,10 +161,17 @@ export default {
        this.showportriat = false;
       this.mdShow1 = false;
     },
-    uploadImg(e, num) {
+    uploadFile(e, num) {
+      if( this.$refs.file.value==''){
+        this.showportriat = false;
+        return;
+      }
+
+      this.showportriat = true;
       //上传图片
       // this.option.img
       var file = e.target.files[0]
+      console.log(e.target.files[0])
       if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
         alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
         return false
@@ -169,12 +179,16 @@ export default {
       var reader = new FileReader()
       reader.onload = (e) => {
         let data
+      console.log(e.target.result)
         if (typeof e.target.result === 'object') {
+          // alert('object')
           // 把Array Buffer转化为blob 如果是base64不需要
           data = window.URL.createObjectURL(new Blob([e.target.result]))
         } else {
           data = e.target.result
         }
+        console.log(num)
+        console.log(data)
         if (num === 1) {
           this.option.img = data
         } else if (num === 3) {
@@ -194,7 +208,6 @@ export default {
     modal
   },
   mounted() {
-    this.changeImg()
     // hljs.configure({useBR: true})
     var list = [].slice.call(document.querySelectorAll('pre code'))
     list.forEach((val, index) => {
@@ -209,7 +222,9 @@ export default {
   margin: 0;
   padding: 0;
 }
-
+.wrapper-portriat{
+  background: #fff
+}
 .test-button {
   display: flex;
   flex-wrap: wrap;
@@ -245,7 +260,6 @@ export default {
   text-decoration: none;
   user-select: none;
 }
-
 .backpersons {
   font-size: 15px;
   display: inline-block;
