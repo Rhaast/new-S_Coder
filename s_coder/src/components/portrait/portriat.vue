@@ -100,10 +100,12 @@ export default {
     },
     portriatshow() {
     },
-    refreshCrop() {
+    refreshCrop(e, num) {
       // clear
       this.example3.img = '';
       this.showportriat = false;
+      this.$refs.file.value = '';  // 返回一定要清空图片地址，不然无法重新加载同一张图片
+      console.log(this.$refs.file.value)
     },
     finish3(type) { //成功回调axios
       this.$refs.cropper3.getCropData((data) => {
@@ -171,7 +173,7 @@ export default {
       //上传图片
       // this.option.img
       var file = e.target.files[0]
-      console.log(e.target.files[0])
+      console.log(e.target.files[0])    // 打印导入图片信息
       if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
         alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
         return false
@@ -179,7 +181,7 @@ export default {
       var reader = new FileReader()
       reader.onload = (e) => {
         let data
-      console.log(e.target.result)
+      // console.log(e.target.result)
         if (typeof e.target.result === 'object') {
           // alert('object')
           // 把Array Buffer转化为blob 如果是base64不需要
@@ -187,8 +189,6 @@ export default {
         } else {
           data = e.target.result
         }
-        console.log(num)
-        console.log(data)
         if (num === 1) {
           this.option.img = data
         } else if (num === 3) {

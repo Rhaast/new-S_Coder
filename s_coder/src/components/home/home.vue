@@ -2,16 +2,16 @@
   <div>
     <slidebar ref="slidebar"></slidebar>
     <login ref="login"></login>
-        <doublemodal v-show='mdShow'>
-          <div slot="doublemd-close" class="doublemd-close" @click="remove"><img src="../../assets/icon_close.png" height="20" width="20"></div>
-          <p slot="doublemessage">
-            是否确定退出登录
-          </p>
-          <div slot="doublebtnGroup" class="btngroup">
-            <a class="btn1" @click="logout">确定</a>
-            <a class="btn2" @click="remove">取消</a>
-          </div>
-        </doublemodal>
+    <doublemodal v-show='mdShow'>
+      <div slot="doublemd-close" class="doublemd-close" @click="remove"><img src="../../assets/icon_close.png" height="20" width="20"></div>
+      <p slot="doublemessage">
+        是否确定退出登录
+      </p>
+      <div slot="doublebtnGroup" class="btngroup">
+        <a class="btn1" @click="logout">确定</a>
+        <a class="btn2" @click="remove">取消</a>
+      </div>
+    </doublemodal>
     <div class="md-overlay" v-if="mdShow" @click="remove"></div>
     <div class="header">
       <navheader>
@@ -30,10 +30,10 @@
     <div class="get-content" ref="contents">
       <div class="content-wrapper">
         <div class="refresh" v-show="showfresh"><img src="../../assets/image/loading-spinning-bubbles.svg"></div>
-        <div v-for="detail in details" class="position">
+        <div v-for="(detail,index) in details" class="position">
           <div class="left">
-          <router-link :to="{path:'/ViewProfile',query: {table:detail}}">
-            <getportrait :detail="detail"></getportrait>
+            <router-link :to="{path:'/ViewProfile',query: {table:detail}}">
+              <getportrait :detail="detail"></getportrait>
             </router-link>
           </div>
           <div class="right">
@@ -44,8 +44,6 @@
             <img src="../../assets/image/comment.svg" @click="comment(detail)">
             <getcomment :detail="detail" ref="getcomment"></getcomment>
             <div class="kuang" @click="comment(detail)"><span>评论</span></div>
-    <!--         <div class="kuang" @click="getalert"><span>触发</span></div> -->
-
           </div>
         </div>
         <div class="tishi1" v-show="tishi1">{{loadTop}}</div>
@@ -55,9 +53,10 @@
   </div>
 </template>
 <style>
-.btn2{
+.btn2 {
   background: #fff;
 }
+
 .refresh {
   text-align: center;
   font-size: 12px;
@@ -71,6 +70,7 @@
   margin-top: 12px;
   color: #999
 }
+
 .icon_slider {
   display: inline-block;
   position: absolute;
@@ -163,6 +163,7 @@
   -webkit-line-clamp: 3;
   overflow: hidden;
 }
+
 .right .answer {
   font-size: 12px;
   color: #000;
@@ -171,24 +172,27 @@
   display: block;
   margin-top: 3px
 }
+
 .right img {
   display: block;
-  /*margin-left: auto*/  /*使元素靠右排列*/
+  /*margin-left: auto*/
+  /*使元素靠右排列*/
   float: right;
 }
-.right .kuang{
-  width: 100%;
-  height:25px;
-  border: 1px solid #d1d1d1;
-  margin:12px 0;
-  
 
+.right .kuang {
+  width: 100%;
+  height: 25px;
+  border: 1px solid #d1d1d1;
+  margin: 12px 0;
 }
-.right .kuang span{
+
+.right .kuang span {
   font-size: 12px;
   line-height: 20px;
   padding-left: 6px;
 }
+
 .right .reply {
   font-size: 12px;
   color: #000;
@@ -233,7 +237,7 @@ export default {
       loadTop: '上拉加载更多',
       piclist: [],
       scrollY: 0,
-      detail:{}
+      detail: {}
     }
   },
   created() {
@@ -266,146 +270,149 @@ export default {
   //   }
   // },
   methods: {
-    getalert() {
-      this.$refs.getcomment.getcomments();
-      console.log(this.$refs.getcomment)
-    },
-    _initScroll: function() {
-      if (this.meunScroll) {
-        this.meunScroll.destroy()
-      }
-      this.meunScroll = new BScroll(this.$refs.contents, {
-        click: true,
-        probeType: 3,
-        pullUpLoad: {
-          threshold: -30, // 负值是当上拉到超过低部 70px；正值是距离底部距离 时，                    
-        }
-      })
-      // 监听下拉刷新
-      this.meunScroll.on("scroll", function(pos) { // 当下拉到超过顶部 30px 时执行这个函数  
-        if (pos.y > 30) {
-          if (this.scrollFlag) {
-            this.scrollFlag = false;
-            setTimeout(() => {
-              this.loadTop = '上拉加载更多'
-              this.noteLists = [];
-              this.pageNo = 0;
-              flag = false;
-              this.getArticle();
-            }, 1500);
-            this.$nextTick(function() {
-              this.showfresh = true;
-            });
+      _initScroll: function() {
+          if (this.meunScroll) {
+            this.meunScroll.destroy()
           }
-        }
-      }.bind(this));
-      // 监听上拉加载
-      this.meunScroll.on("pullingUp", function() { // 当上拉到超过顶部 30px 时执行这个函数  
-        if (this.scrollFlag) {
-          this.scrollFlag = false;
-          setTimeout(() => {
-            flag = true;
-            this.noteLists = [];
-            this.getArticle();
-            this.pageNo++;
-          }, 1500);
-          this.$nextTick(function() {
-            this.showfresh1 = true;
-            this.tishi1 = false;
+          this.meunScroll = new BScroll(this.$refs.contents, {
+            click: true,
+            probeType: 3,
+            pullUpLoad: {
+              threshold: -30, // 负值是当上拉到超过低部 70px；正值是距离底部距离 时，                    
+            }
+          })
+          // 监听下拉刷新
+          this.meunScroll.on("scroll", function(pos) { // 当下拉到超过顶部 30px 时执行这个函数  
+            if (pos.y > 30) {
+              if (this.scrollFlag) {
+                this.scrollFlag = false;
+                setTimeout(() => {
+                  this.loadTop = '上拉加载更多'
+                  this.noteLists = [];
+                  this.pageNo = 0;
+                  flag = false;
+                  this.getArticle();
+                  for (let i = 0; i < this.details.length; i++) {    // 循环调用v-for中子组件的方法
+                  this.$refs.getcomment[i].getcomments();
+                 // console.log(this.$refs.getcomment[i])
+               }
+                }, 1500);
+                this.$nextTick(function() {
+                  this.showfresh = true;
+                });
+              }
+            }
+          }.bind(this));
+          // 监听上拉加载
+          this.meunScroll.on("pullingUp", function() { // 当上拉到超过顶部 30px 时执行这个函数  
+            if (this.scrollFlag) {
+              this.scrollFlag = false;
+              setTimeout(() => {
+                flag = true;
+                this.noteLists = [];
+                this.getArticle();
+                for (let i = 0; i < this.details.length; i++) {    // 循环调用v-for中子组件的方法
+                this.$refs.getcomment[i].getcomments();
+                 // console.log(this.$refs.getcomment[i])
+               }
+                this.pageNo++;
+              }, 1500);
+              this.$nextTick(function() {
+                this.showfresh1 = true;
+                this.tishi1 = false;
+              });
+            }
+          }.bind(this));
+          this.meunScroll.on("scrollEnd", (pos) => { // 当上拉下拉加载结束时执行这个函数  
+            this.BSy = pos.y;
+            this.scrollFlag = true;
           });
-        }
-      }.bind(this));
-      this.meunScroll.on("scrollEnd", (pos) => { // 当上拉下拉加载结束时执行这个函数  
-        this.BSy = pos.y;
-        this.scrollFlag = true;
-      });
-      this.showfresh = false;
-      this.showfresh1 = false;
-      this.tishi1 = true;
-    },
-    getArticle: function() { // 获取首页所有笔记
-      let that = this;
-      axios({
-        url: 'http://xyiscoding.top/studyapp/note/findAll',
-        dataType: 'json',
-        method: 'post',
-        data: {
-          "pageNo": this.pageNo, // 总共27页
-          "pageSize": this.pageSize
-        }
-      }).then((response) => {
-        if (flag) { // 定义一个全局变量，默认为true
-          that.griddata = response.data.detail;
-          let len = that.griddata.length // 每次加载显示的条数可在length的基础上增加减少
-          if (len < this.pageSize) {
-              this.loadTop = '没有更多数据了';
-           }
-          for (let i = 0; i < len; i++) {
-            that.details.push(that.griddata[i]); // push数据到griddata，用于上拉加载
+          this.showfresh = false;
+          this.showfresh1 = false;
+          this.tishi1 = true;
+        },
+        getArticle: function() { // 获取首页所有笔记
+          let that = this;
+          axios({
+            url: 'http://xyiscoding.top/studyapp/note/findAll',
+            dataType: 'json',
+            method: 'post',
+            data: {
+              "pageNo": this.pageNo, // 总共27页
+              "pageSize": this.pageSize
+            }
+          }).then((response) => {
+            if (flag) { // 定义一个全局变量，默认为true
+              that.griddata = response.data.detail;
+              let len = that.griddata.length // 每次加载显示的条数可在length的基础上增加减少
+              if (len < this.pageSize) {
+                this.loadTop = '没有更多数据了';
+              }
+              for (let i = 0; i < len; i++) {
+                that.details.push(that.griddata[i]); // push数据到griddata，用于上拉加载
+              }
+            } else {
+              that.details = response.data.detail; //  正常获取数据，用于下拉刷新
+            } //逼我的
+            this.$nextTick(() => {
+              this._initScroll() // 请求数据时重新计算
+            })
+            setTimeout(() => {
+              this.meunScroll.scrollTo(0, this.BSy)
+            }, 500)
+          })
+        },
+        getbanner() { // 获取banner图片
+          let that = this;
+          axios({
+            url: 'http://xyiscoding.top/studyapp/banner/findAll',
+            dataType: 'json',
+            method: 'get',
+          }).then((response) => {
+            that.piclist = response.data.detail;
+          })
+        },
+        findedLogin() {
+
+        },
+        getMeans() {
+          let that = this
+          let menasDatas = JSON.parse(localStorage.getItem('data'));
+        },
+
+        findeLogin() {
+          if (this.loginText == '注销') {
+            this.mdShow = true;
+
+          } else {
+            this.$refs.login.show()
           }
-        } else {
-          that.details = response.data.detail; //  正常获取数据，用于下拉刷新
-        } //逼我的
-        this.$nextTick(() => {
-          this._initScroll() // 请求数据时重新计算
-        })
-        setTimeout(() => {
-          this.meunScroll.scrollTo(0, this.BSy)
-        }, 500)
-      })
-    },
-    getbanner() { // 获取banner图片
-      let that = this;
-      axios({
-        url: 'http://xyiscoding.top/studyapp/banner/findAll',
-        dataType: 'json',
-        method: 'get',
-      }).then((response) => {
-        that.piclist = response.data.detail;
-      })
-    },
-    findedLogin() {
+
+        },
+        logout() { //注销登录
+          localStorage.removeItem('data'); // 清空localstorage数据
+          location.reload();
+        },
+        remove() {
+          this.mdShow = false;
+        },
+        findeSlide() {
+          this.$refs.slidebar.come()
+        },
+        comment(detail) {
+          this.$router.push({ path: '/comment', query: { table: detail } })
+        }
 
     },
-    getMeans() {
-      let that = this
-      let menasDatas = JSON.parse(localStorage.getItem('data'));
-    },
+    components: {
+      navheader,
+      login,
+      slidebar,
+      doublemodal,
+      getcomment,
+      getportrait
 
-    findeLogin() {
-      if (this.loginText == '注销') {
-        this.mdShow = true;
-       
-      }
-      else{
-        this.$refs.login.show()
-      }
-      
-    },
-    logout() {   //注销登录
-       localStorage.removeItem('data'); // 清空localstorage数据
-        location.reload();
-      },
-    remove() {
-      this.mdShow = false;
-    },
-    findeSlide() {
-      this.$refs.slidebar.come()
-    },
-    comment(detail) {
-      this.$router.push({ path: '/comment', query: {table:detail}})
     }
-
-  },
-  components: {
-    navheader,
-    login,
-    slidebar,
-    doublemodal,
-    getcomment,
-    getportrait
-
   }
-}
 
 </script>

@@ -1,7 +1,8 @@
 <template>
   <div>
-    <portriat :portriat="toupload"  ref="portriat" @refreshList="getmypersons"></portriat>
+    <portriat :portriat="toupload" ref="portriat" @refreshList="getmypersons"></portriat>
     <login :login="Tologin" ref="login"></login>
+    <vue-checkin :checkin="checkInData" @checkIn="checkIn" @setMonth="getCheckInData" ref="showcheckIn"></vue-checkin>
     <div class="personal-content" ref="personalContent">
       <div class="contents">
         <img src="../../assets/personal_bg.png" height="255" width="100%">
@@ -11,7 +12,7 @@
             <p class="saysay" @click='TochangepersonSign'>{{backmessage.personSign}}</p>
             <img :src="'http://xyiscoding.top/img/'+portrait" class="myportrait" height="80" width="80" @click='toupload'>
             <div class="SignIn" @click="SignIn"><img class="Signicon" src="../../assets/image/SignIn.png" height="18" width="78">
-            <span class="Signtxt" >签到</span>
+              <span class="Signtxt" @click="showcheck">签到</span>
             </div>
             <div class="job" v-show="showjob">
               <img class="sex" src="../../assets/sex.png" height="15" width="15">
@@ -105,12 +106,14 @@
 .overview .Signicon {
   display: inline-block;
 }
+
 .overview .SignIn {
   display: block;
   position: absolute;
   right: -20px;
   top: 150px;
 }
+
 .overview .Signtxt {
   font-size: 12px;
   position: absolute;
@@ -120,9 +123,8 @@
   vertical-align: middle;
   margin-top: 2px;
   color: #fff;
-
-
 }
+
 .overview .saysay {
   font-size: 12px;
   color: #999;
@@ -220,9 +222,67 @@ import BScroll from 'better-scroll'
 import axios from 'axios'
 import login from '../login/login'
 import portriat from '../portrait/portriat'
+import VueCheckin from '../../components/vuecheckin/vue-checkin'
 export default {
   data() {
     return {
+      checkInData: [{
+          "time": "2017-09-08 08:46",
+          "amount": 10
+        },
+        {
+          "time": "2017-09-05 08:46",
+          "amount": 4
+        },
+        {
+          "time": "2017-09-04 09:51",
+          "amount": 3
+        },
+        {
+          "time": "2017-08-30 17:10",
+          "amount": 5
+        },
+        {
+          "time": "2017-08-29 11:46",
+          "amount": 4
+        },
+        {
+          "time": "2017-08-28 18:30",
+          "amount": 3
+        },
+        {
+          "time": "2017-08-26 09:12",
+          "amount": 5
+        },
+        {
+          "time": "2017-08-25 09:29",
+          "amount": 5
+        },
+        {
+          "time": "2017-08-23 17:01",
+          "amount": 4
+        },
+        {
+          "time": "2017-08-22 15:18",
+          "amount": 3
+        },
+        {
+          "time": "2017-08-17 15:24",
+          "amount": 3
+        },
+        {
+          "time": "2017-08-14 09:03",
+          "amount": 4
+        },
+        {
+          "time": "2017-08-13 08:59",
+          "amount": 3
+        },
+        {
+          "time": "2017-08-02 16:41",
+          "amount": 3
+        }
+      ],
       scrollY: 0,
       showjob: false,
       tishi: false,
@@ -232,7 +292,7 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-   // "$route": "getmypersons"
+    // "$route": "getmypersons"
   },
   created() {
     this.getmypersons();
@@ -249,9 +309,22 @@ export default {
   },
   components: {
     login,
-    portriat
+    portriat,
+    VueCheckin
   },
   methods: {
+    showcheck() {
+      this.$refs.showcheckIn.show();
+    },
+
+    checkIn() { //这里是你自己的签到方法。
+      console.log('签到');
+      //你的查询签到记录方法在签到后再次查询
+    },
+    getCheckInData(date, times) { //你的按月份查询签到记录方法，取得后将值赋值给this.checkInData   日期格式:2017/9
+      console.log(date) //最好将这个年和月保存起来，上面签到方法执行后再次查询当月的签到记录
+      console.log(times) //最好将这个年和月保存起来，上面签到方法执行后再次查询当月的签到记录
+    },
     getmypersons() { // 请求个人资料   
       let that = this
       let menasDatas = JSON.parse(localStorage.getItem('data')); //取得localStorage数据
@@ -279,10 +352,9 @@ export default {
         })
       })
     },
-    SignIn(){
-    },
+    SignIn() {},
     _initScroll: function() {
-      if(this.scroll){
+      if (this.scroll) {
         return;
       }
       this.scroll = new BScroll(this.$refs.personalContent, {
@@ -317,7 +389,7 @@ export default {
     toupload(event) {
       if (!localStorage.getItem('data')) {
         this.$refs.login.show()
-      } else{
+      } else {
         this.$refs.portriat.file();
 
 
