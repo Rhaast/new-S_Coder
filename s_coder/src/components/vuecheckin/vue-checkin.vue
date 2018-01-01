@@ -1,11 +1,21 @@
 <template>
   <div class="content-page uk-body" v-show="showcheckin">
     <div class="wrapper-calendar">
+      <div class="header">
+        <navheader>
+          <span slot="left" class="icon_slider" @click="backperson"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></span>
+          <span slot="main_title" class="shou">My CheckIn</span>
+        </navheader>
+      </div>
+      <div class="myportrait">
+        <img :src="'http://xyiscoding.top/img/'+portrait" height="80" width="80">
+        <span class="nickName">{{nickName}}</span>
+      </div>
       <div class="calendar">
-        <button class="month-less" @click="prevMonth">
-          < </button>
+<!--         <button class="month-less" @click="prevMonth">
+          < </button> -->
             <h4>{{year}}年{{month}}月</h4>
-            <button class="month-add" @click="nextMonth"> > </button>
+<!--             <button class="month-add" @click="nextMonth"> > </button> -->
             <table class="sign_tab" border="0px" cellpadding="0px" cellspacing="0px">
               <thead>
                 <tr>
@@ -29,7 +39,6 @@
                       <template v-else>
                         {{data.date | getCD}}
                       </template>
-                      <span :class="{'ui-state-down': true }">金币+{{getGold(data.date)}}</span>
                     </td>
                     <template v-if="(!isCheck(data.date) && (doCheck(data.date) && !hasCheckin))">
                       <td v-if="!monthClass(data.month)" @click="checkNow" :class="{'disa':monthClass(data.month), 'over':data.date == '', 'cur_day': doCheck(data.date) }">
@@ -52,6 +61,7 @@
   </div>
 </template>
 <script>
+import navheader from '../navheader/navheader'
 export default {
   name: 'vueCheckin',
   data() {
@@ -68,19 +78,22 @@ export default {
       showcheckin: false
     };
   },
-  props: ['checkin'],
+  props: ['checkin', 'beckmessage'],
   created() {
     this.year = this.today.getFullYear();
     this.month = this.today.getMonth() + 1;
     this.day = this.today.getDay();
     this.date = this.today.getDate();
     this.getCalendar();
-    console.log(this.checkin)
+    this.getparameter();
+
   },
   filters: {
     getCD(val) {
       return val.split('/')[2]
     }
+  },
+  mounted() {
   },
   watch: {
     dateArr: {
@@ -90,9 +103,24 @@ export default {
         this.endTime = val[5][6].date;
         this.setMonth(this.year + '/' + this.month, [this.startTime, this.endTime]);
       }
-    }
+    },
+   'beckmessage': function (n, o) {     //使用watch来监听父组件改变的prop
+    this.test = n[0]
+    this.getparameter()
+   }
+
+
   },
   methods: {
+    getparameter() {
+      let that = this
+      that.nickName = this.beckmessage.nickName
+      that.portrait = this.beckmessage.portrait
+
+    },
+    backperson() {
+      this.showcheckin = false;
+    },
     show() {
       this.showcheckin = true;
     },
@@ -222,6 +250,7 @@ export default {
         }
         if (new Date(index).getTime() == new Date(_ymd).getTime()) {
           // console.log('已经签到')
+          
           return true;
         }
       }
@@ -234,11 +263,40 @@ export default {
       }
       return false;
     }
+  },
+  components: {
+    navheader
+
   }
 };
 
 </script>
 <style rel="stylesheet/scss" lang="scss">
+.header {
+  z-index: 999
+}
+
+.wrapper-calendar .myportrait {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 24px;
+  color: #5272f9;
+  margin-top: 40px
+}
+
+.wrapper-calendar .myportrait img {
+  border-radius: 50%;
+  border: 2px solid #000;
+}
+
+.wrapper-calendar .myportrait .nickName {
+  font-size: 16px;
+  display: block;
+}
+
 .wrapper-calendar {
 
   width: 100%;
@@ -249,7 +307,7 @@ export default {
   z-index: 999;
   .calendar {
     width: 100%;
-    margin: 0px 0px 20px 0px;
+    margin: 50px 0px 20px 0px;
     color: #555;
     position: relative;
     ;
@@ -295,7 +353,7 @@ export default {
   border: 1px solid #e8e8e8;
   border-top: 0;
   table-layout: fixed;
-  margin-top:30px;
+  margin-top: 30px;
 }
 
 .calendar .sign_tab th {
@@ -329,7 +387,7 @@ export default {
 
 .calendar .sign_tab td.check_day {
   background-color: #f8f8f8;
-  color: #58ce7a;
+  color: #5272f9;
   position: relative;
 }
 
@@ -358,7 +416,7 @@ export default {
 }
 
 .calendar .sign_tab td.cur_day {
-  background-color: #FFD2D2;
+  background-color: #5272f9;
   color: #FFF;
 }
 

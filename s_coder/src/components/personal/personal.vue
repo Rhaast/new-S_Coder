@@ -2,7 +2,7 @@
   <div>
     <portriat :portriat="toupload" ref="portriat" @refreshList="getmypersons"></portriat>
     <login :login="Tologin" ref="login"></login>
-    <vue-checkin :checkin="checkInData" @checkIn="checkIn" @setMonth="getCheckInData" ref="showcheckIn"></vue-checkin>
+    <vue-checkin :checkin="checkInData" @checkIn="checkIn" @setMonth="getCheckInData" ref="showcheckIn" :beckmessage="backmessage"></vue-checkin>
     <div class="personal-content" ref="personalContent">
       <div class="contents">
         <img src="../../assets/personal_bg.png" height="255" width="100%">
@@ -59,6 +59,9 @@
         </div>
       </div>
     </div>
+    <mt-popup v-model="popupVisible" position="top" class="popup">
+      当前未登录
+    </mt-popup>
   </div>
 </template>
 <style type="text/css" scoped>
@@ -226,62 +229,9 @@ import VueCheckin from '../../components/vuecheckin/vue-checkin'
 export default {
   data() {
     return {
-      checkInData: [{
-          "time": "2017-09-08 08:46",
-          "amount": 10
-        },
-        {
-          "time": "2017-09-05 08:46",
-          "amount": 4
-        },
-        {
-          "time": "2017-09-04 09:51",
-          "amount": 3
-        },
-        {
-          "time": "2017-08-30 17:10",
-          "amount": 5
-        },
-        {
-          "time": "2017-08-29 11:46",
-          "amount": 4
-        },
-        {
-          "time": "2017-08-28 18:30",
-          "amount": 3
-        },
-        {
-          "time": "2017-08-26 09:12",
-          "amount": 5
-        },
-        {
-          "time": "2017-08-25 09:29",
-          "amount": 5
-        },
-        {
-          "time": "2017-08-23 17:01",
-          "amount": 4
-        },
-        {
-          "time": "2017-08-22 15:18",
-          "amount": 3
-        },
-        {
-          "time": "2017-08-17 15:24",
-          "amount": 3
-        },
-        {
-          "time": "2017-08-14 09:03",
-          "amount": 4
-        },
-        {
-          "time": "2017-08-13 08:59",
-          "amount": 3
-        },
-        {
-          "time": "2017-08-02 16:41",
-          "amount": 3
-        }
+      popupVisible: false,
+      checkInData: [
+        
       ],
       scrollY: 0,
       showjob: false,
@@ -292,10 +242,11 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    // "$route": "getmypersons"
+    "$route": "getmypersons"
   },
   created() {
     this.getmypersons();
+    this.getCheckInData();
 
   },
   mounted() {
@@ -314,16 +265,61 @@ export default {
   },
   methods: {
     showcheck() {
-      this.$refs.showcheckIn.show();
+      if (localStorage.getItem('data')) {
+        this.$refs.showcheckIn.show();
+      }
+      if (!localStorage.getItem('data')) {
+        this.popupVisible = true
+        setTimeout(() => {
+          this.popupVisible = false
+
+        }, 2000);
+      }
     },
 
     checkIn() { //这里是你自己的签到方法。
-      console.log('签到');
+      axios({
+        url: 'http://xyiscoding.top/studyapp/sign/add/' + this.userId,
+        dataType: 'json',
+        method: 'post',
+      }).then(res => {
+        console.log(res.data)
+        if (res.data.result == '200') {
+          this.$message({
+            showClose: true,
+            type: 'success'
+          })
+        } else {
+          alert('今日已签')
+        }
+      })
       //你的查询签到记录方法在签到后再次查询
     },
     getCheckInData(date, times) { //你的按月份查询签到记录方法，取得后将值赋值给this.checkInData   日期格式:2017/9
       console.log(date) //最好将这个年和月保存起来，上面签到方法执行后再次查询当月的签到记录
       console.log(times) //最好将这个年和月保存起来，上面签到方法执行后再次查询当月的签到记录
+      let that = this
+      axios({
+        url: 'http://xyiscoding.top/studyapp/sign/findByUser/' + this.userId, // 传入userId获取自己的签到数据
+        dataType: 'json',
+        method: 'get',
+      }).then((response) => {
+        that.checkIndata = response.data.detail;
+        for (let i = 0; i < this.checkIndata.length; i++) {
+          that.month = that.checkIndata[i].month; // 获取数组中的月份
+          that.day = that.checkIndata[i].day; // 获取数组中的日
+        }
+        that.y = new Date()
+        console.log(this.y.getFullYear()) //获取年份
+        console.log(this.month)
+        console.log(this.day)
+        that.time = this.y.getFullYear() + '-' + this.month + '-' + this.day; // 组合日期
+        this.checkInData=[{time:that.time}]   //给return里的checkInData数组赋值
+        console.log(this.checkInData)
+        this.$nextTick(() => {
+          this._initScroll()
+        })
+      })
     },
     getmypersons() { // 请求个人资料   
       let that = this
@@ -346,7 +342,6 @@ export default {
         let temp = JSON.parse(localStorage.getItem('data'));
         temp.detail = this.backmessage;
         localStorage.setItem('data', JSON.stringify(temp)); // 请求成功重新提交以更改localstorge里的数据
-        console.log(this.backmessage)
         this.$nextTick(() => {
           this._initScroll()
         })

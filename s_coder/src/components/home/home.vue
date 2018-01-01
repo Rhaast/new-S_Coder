@@ -39,7 +39,7 @@
           <div class="right">
             <h2 class="title">{{detail.title}}</h2>
             <!-- <span class="answer" v-show="detail.content">我的回复</span></br> -->
-            <span class="homecontent">{{detail.content}}</span>
+            <span class="homecontent" @click="gonotedetail(detail)">{{detail.content}}</span>
             <span class="type">{{detail.userName}}</span> <span class="time">{{detail.createTime | time}}</span>
             <img src="../../assets/image/comment.svg" @click="comment(detail)">
             <getcomment :detail="detail" ref="getcomment"></getcomment>
@@ -401,6 +401,10 @@ export default {
         },
         comment(detail) {
           this.$router.push({ path: '/comment', query: { table: detail } })
+        },
+        gonotedetail(detail) {
+          this.$router.push({path: '/mynotedetail',query:{id:detail.id}})
+
         }
 
     },

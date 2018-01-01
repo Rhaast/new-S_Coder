@@ -75,11 +75,12 @@
 }
 
 .backhome {
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  left: 12px;
-  height: 32px;
+      display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    height: 32px;
+    margin-top: -16px;
 }
 
 .shou {

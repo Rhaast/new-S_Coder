@@ -131,6 +131,7 @@ export default {
               this.showportriat = false;
               this.mdShow1 = false;
             }, 2000);
+            this.$refs.file.value = ''; 
             // let that = this;
             // let temp = JSON.parse(localStorage.getItem('data'));
             // temp.detail.portrait = this.portrait;
