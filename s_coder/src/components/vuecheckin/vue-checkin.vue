@@ -12,10 +12,10 @@
         <span class="nickName">{{nickName}}</span>
       </div>
       <div class="calendar">
-<!--         <button class="month-less" @click="prevMonth">
-          < </button> -->
+        <button class="month-less" @click="prevMonth">
+          < </button>
             <h4>{{year}}年{{month}}月</h4>
-<!--             <button class="month-add" @click="nextMonth"> > </button> -->
+            <button class="month-add" @click="nextMonth"> > </button>
             <table class="sign_tab" border="0px" cellpadding="0px" cellspacing="0px">
               <thead>
                 <tr>
@@ -34,16 +34,20 @@
                     <td :class="{'disa':monthClass(data.month), 'cur_day': doCheck(data.date),'check_day': isCheck(data.date) }" v-if="isCheck(data.date)">
                       <!--<span :class="{'ui-state-up': true }">已签到</span>-->
                       <template v-if="doCheck(data.date)">
+                        
                         今天
+                     
                       </template>
                       <template v-else>
+                        <a>
                         {{data.date | getCD}}
+                         </a>
                       </template>
                     </td>
                     <template v-if="(!isCheck(data.date) && (doCheck(data.date) && !hasCheckin))">
                       <td v-if="!monthClass(data.month)" @click="checkNow" :class="{'disa':monthClass(data.month), 'over':data.date == '', 'cur_day': doCheck(data.date) }">
                         今天
-                        <span :class="{'ui-state-default': true }">点击签到</span>
+                        <span :class="{'ui-state-default': true }" v-show='showdefault'>点击签到</span>
                       </td>
                       <td v-else :class="{'disa':monthClass(data.month), 'over':data.date == '', 'cur_day': doCheck(data.date) }">
                         {{data.date | getCD}}
@@ -75,7 +79,8 @@ export default {
       endTime: '',
       dateArr: [],
       hasCheckin: false,
-      showcheckin: false
+      showcheckin: false,
+      showdefault:true
     };
   },
   props: ['checkin', 'beckmessage'],
@@ -112,6 +117,9 @@ export default {
 
   },
   methods: {
+    hidden() {
+      this.showdefault = false;
+    },
     getparameter() {
       let that = this
       that.nickName = this.beckmessage.nickName
@@ -391,6 +399,21 @@ export default {
   position: relative;
 }
 
+.calendar .sign_tab td.check_day a{
+  border:2px solid #5272f9;
+  border-radius:50%;
+  width:32px;
+  height:32px;
+  display:block;
+  position:absolute;
+  padding-top:7px;
+  margin-left:50%;
+  left:-16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color:#5272f9
+
+}
 .calendar {
   .ui-state-down,
   .ui-state-default {

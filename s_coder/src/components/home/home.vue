@@ -13,6 +13,9 @@
       </div>
     </doublemodal>
     <div class="md-overlay" v-if="mdShow" @click="remove"></div>
+     <div class="backTop" @click="backTop">
+       <img src="../../assets/image/top_arrow.svg">
+     </div>
     <div class="header">
       <navheader>
         <span slot="left" class="icon_slider" @click="findeSlide"><img src="../../assets/icon-slidebar.png" height="19" width="16"></span>
@@ -83,7 +86,20 @@
   display: inline-block;
   color: #000
 }
-
+.backTop{
+  background: #5272f9;
+  width:50px;
+  height: 50px;
+  position: absolute;
+  bottom:12px;
+  right: 12px;
+  border-radius: 50%;
+  z-index: 5;
+  box-shadow: 0px 6px 15px #d1d1d1
+}
+.backTop img{
+  padding: 15px;
+}
 .deng {
   font-size: 15px;
   display: inline-block;
@@ -105,7 +121,7 @@
 .get-content {
   display: flex;
   position: absolute;
-  bottom: 48px;
+  bottom: 0;
   top: 198px;
   width: 100%;
   overflow: hidden;
@@ -270,6 +286,9 @@ export default {
   //   }
   // },
   methods: {
+     backTop() {
+      this._initScroll();
+     },
       _initScroll: function() {
           if (this.meunScroll) {
             this.meunScroll.destroy()
@@ -277,6 +296,7 @@ export default {
           this.meunScroll = new BScroll(this.$refs.contents, {
             click: true,
             probeType: 3,
+            scrollbar:true,
             pullUpLoad: {
               threshold: -30, // 负值是当上拉到超过低部 70px；正值是距离底部距离 时，                    
             }

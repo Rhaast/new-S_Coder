@@ -4,7 +4,9 @@
     <login :login="Tologin" ref="login"></login>
     <vue-checkin :checkin="checkInData" @checkIn="checkIn" @setMonth="getCheckInData" ref="showcheckIn" :beckmessage="backmessage"></vue-checkin>
     <div class="personal-content" ref="personalContent">
+      
       <div class="contents">
+         <div class="backarrow2" @click="godecrease"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></div>
         <img src="../../assets/personal_bg.png" height="255" width="100%">
         <div class="overview">
           <div class="overview-wrapper">
@@ -72,7 +74,12 @@
   overflow: hidden;
   width: 100%
 }
-
+.backarrow2{
+  position: absolute;
+  left: 12px;
+  top:8px;
+  z-index: 99
+}
 .overview {
   font-size: 0;
   position: absolute;
@@ -231,7 +238,7 @@ export default {
     return {
       popupVisible: false,
       checkInData: [
-        
+
       ],
       scrollY: 0,
       showjob: false,
@@ -276,7 +283,9 @@ export default {
         }, 2000);
       }
     },
-
+    godecrease(){
+      this.$router.go(-1)
+    },
     checkIn() { //这里是你自己的签到方法。
       axios({
         url: 'http://xyiscoding.top/studyapp/sign/add/' + this.userId,
@@ -289,8 +298,10 @@ export default {
             showClose: true,
             type: 'success'
           })
+          alert('签到成功')
+          this.$refs.showcheckIn.hidden();
         } else {
-          alert('今日已签')
+
         }
       })
       //你的查询签到记录方法在签到后再次查询
@@ -308,14 +319,15 @@ export default {
         for (let i = 0; i < this.checkIndata.length; i++) {
           that.month = that.checkIndata[i].month; // 获取数组中的月份
           that.day = that.checkIndata[i].day; // 获取数组中的日
+          that.y = new Date()
+          console.log(this.y.getFullYear()) //获取年份
+          console.log(this.month)
+          console.log(this.day)
+          that.time = this.y.getFullYear() + '-' + this.month + '-' + this.day; // 组合日期
+          this.checkInData[i] = { time: that.time } //给return里的checkInData数组赋值
+          console.log(this.checkInData)
         }
-        that.y = new Date()
-        console.log(this.y.getFullYear()) //获取年份
-        console.log(this.month)
-        console.log(this.day)
-        that.time = this.y.getFullYear() + '-' + this.month + '-' + this.day; // 组合日期
-        this.checkInData=[{time:that.time}]   //给return里的checkInData数组赋值
-        console.log(this.checkInData)
+
         this.$nextTick(() => {
           this._initScroll()
         })

@@ -10,7 +10,7 @@
           <ul class="list">
             <li @click="addnote"><span class="icon"></span><span class="txt">发笔记</span></li>
             <li @click="addquestion"><span class="icon"></span><span class="txt">提问题</span></li>
-            <li><span class="icon"></span><span class="txt">消息</span></li>
+            <li @click="gopersonal"><span class="icon"></span><span class="txt">个人中心</span></li>
             <li><span class="icon"></span><span class="txt">我参与的</span></li>
           </ul>
         </div>
@@ -44,6 +44,10 @@ export default {
     "$route": "getlocal"
   },
   methods: {
+    gopersonal() {
+      this.$router.push('./personal')
+      this.showSlide = false;
+    },
     getlocal() {
       let that = this;
       let localmessage = JSON.parse(localStorage.getItem('data'));

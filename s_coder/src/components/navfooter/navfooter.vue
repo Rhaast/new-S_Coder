@@ -1,5 +1,5 @@
 <template>
-	    <div class="tab">
+	    <div class="tab" v-show="showtab">
       <div class="tab-item" @click="toggle('home')">
         <router-link to="/home">
           <span class="icon" :class="homeCheck==true?'homeCheck':'home'" id="home"></span>
@@ -28,7 +28,8 @@ export default {
       return {
         homeCheck: false,
         typeCheck: false,
-        personalCheck: false
+        personalCheck: false,
+        showtab:false
       }
     },
   created (){

@@ -18,8 +18,8 @@ Vue.use(Router)
 export default new Router({
   routes: [{
       path: '/',
-      name: 'app',
-      component: app
+      name: 'home',
+      component: home
     },
     {
       path: '/home',
