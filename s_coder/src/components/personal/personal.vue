@@ -4,9 +4,8 @@
     <login :login="Tologin" ref="login"></login>
     <vue-checkin :checkin="checkInData" @checkIn="checkIn" @setMonth="getCheckInData" ref="showcheckIn" :beckmessage="backmessage"></vue-checkin>
     <div class="personal-content" ref="personalContent">
-      
       <div class="contents">
-         <div class="backarrow2" @click="godecrease"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></div>
+        <div class="backarrow2" @click="godecrease"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></div>
         <img src="../../assets/personal_bg.png" height="255" width="100%">
         <div class="overview">
           <div class="overview-wrapper">
@@ -69,17 +68,19 @@
 <style type="text/css" scoped>
 .personal-content {
   position: absolute;
-  bottom: 48px;
+  bottom: 0;
   top: 0;
   overflow: hidden;
   width: 100%
 }
-.backarrow2{
+
+.backarrow2 {
   position: absolute;
   left: 12px;
-  top:8px;
+  top: 8px;
   z-index: 99
 }
+
 .overview {
   font-size: 0;
   position: absolute;
@@ -254,6 +255,9 @@ export default {
   created() {
     this.getmypersons();
     this.getCheckInData();
+    this.$nextTick(() => {
+      this._initScroll()
+    })
 
   },
   mounted() {
@@ -283,8 +287,8 @@ export default {
         }, 2000);
       }
     },
-    godecrease(){
-      this.$router.go(-1)
+    godecrease() {
+      this.$router.push('/home')
     },
     checkIn() { //这里是你自己的签到方法。
       axios({

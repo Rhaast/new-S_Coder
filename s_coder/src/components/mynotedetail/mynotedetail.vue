@@ -122,13 +122,9 @@ export default {
   created: function() {
     this.getmynote();
   },
-  watch: {
-    // 如果路由有变化，会再次执行该方法
-    "$route": "getmynote"
+  activated() {      // 禁止keep-alive缓存
+    this.getmynote();     
   },
-  // activated() {      // 禁止keep-alive缓存
-  //   this.getmynote();     
-  // },
   methods: {
     backmynote() {
       this.$router.go(-1);
