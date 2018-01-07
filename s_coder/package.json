@@ -20,6 +20,7 @@
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "mint-ui": "^2.2.12",
+    "moment": "^2.20.1",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
     "stylus": "^0.54.5",

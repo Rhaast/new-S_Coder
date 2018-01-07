@@ -11,7 +11,7 @@
           <br>
           <span class="content">{{noteLists.content}}</span>
           <br>
-          <span class="detailcreateTime">{{noteLists.createTime | time}}</span>
+          <span class="detailcreateTime">{{noteLists.createTime | dateFrm}}</span>
         </div>
       </div>
       <div class="commentarea">
@@ -49,6 +49,7 @@
   font-size: 16px;
   color: #999;
 }
+
 .commentarea {
   padding: 0 12px;
   width: 100%;
@@ -75,12 +76,12 @@
 }
 
 .backhome {
-      display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 12px;
-    height: 32px;
-    margin-top: -16px;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  height: 32px;
+  margin-top: -16px;
 }
 
 .shou {
@@ -112,6 +113,7 @@
 <script type="text/javascript">
 import navheader from '../navheader/navheader'
 import axios from 'axios'
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -122,8 +124,8 @@ export default {
   created: function() {
     this.getmynote();
   },
-  activated() {      // 禁止keep-alive缓存
-    this.getmynote();     
+  activated() { // 禁止keep-alive缓存
+    this.getmynote();
   },
   methods: {
     backmynote() {
@@ -145,6 +147,12 @@ export default {
       })
     }
 
+  },
+  filters: { //转换时间戳
+    dateFrm: function(createTime) {
+      // moment.locale('zh-cn'); //转换日期为中文
+      return moment(createTime).fromNow();
+    }
   },
   components: {
     navheader

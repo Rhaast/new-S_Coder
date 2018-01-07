@@ -19,14 +19,13 @@
               <router-link :to="{path:'/mynotedetail/',query: {id:list.id}}">
                 <h2 class="title">{{list.title}}</h2>
                 <p class="content">{{list.content}}</p>
-                <span class="nickName">{{getziliaos.nickName}}</span> <span class="createTime">{{list.createTime | time}}</span>
+                <span class="nickName">{{getziliaos.nickName}}</span> <span class="createTime">{{list.createTime | dateFrm}}</span>
               </router-link>
             </div>
             <div class="no-note" v-show="!noteLists">暂无笔记</div>
           </div>
         </div>
       </div>
-
     </div>
   </transition>
 </template>
@@ -37,10 +36,12 @@
   margin-top: 12px;
   color: #999
 }
-.setIndex{
-  position:relative;
+
+.setIndex {
+  position: relative;
   z-index: 9999;
 }
+
 .move-enter-active,
 .move-leave-active {
   transition: all 0.2s linear;
@@ -68,7 +69,7 @@
 .wrapper-scorll {
   width: 100%;
   min-height: 500px;
-  position:relative;
+  position: relative;
   z-index: 9999;
 }
 
@@ -143,11 +144,13 @@
   -webkit-line-clamp: 3;
   overflow: hidden;
 }
-.content-wrappers1 .wrapper-top span{
+
+.content-wrappers1 .wrapper-top span {
   color: #999;
   font-size: 12px;
   line-height: 24px;
 }
+
 .content-wrappers .wrapper-top .myportrait img {
   border-radius: 50%;
   border: 2px solid #000;
@@ -168,6 +171,7 @@
 import navheader from "../navheader/navheader"
 import axios from 'axios'
 import BScroll from 'better-scroll'
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -179,22 +183,22 @@ export default {
     }
   },
   created() {
-      this.getMynote();
-      this.$nextTick(() => {
-          this._initScroll()
-        })
+    this.getMynote();
+    this.$nextTick(() => {
+      this._initScroll()
+    })
 
   },
-    watch: {
-          // 如果路由有变化，会再次执行该方法
-          "$route": "getMynote"
-        },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    "$route": "getMynote"
+  },
   methods: {
     backpersonal() {
       this.$router.push('/personal');
     },
-    _initScroll:function() {
-      if(this.meunScroll ){
+    _initScroll: function() {
+      if (this.meunScroll) {
         this.meunScroll.destroy()
       }
       this.meunScroll = new BScroll(this.$refs.contents, {
@@ -202,33 +206,33 @@ export default {
         probeType: 3
       })
       this.meunScroll.on("scroll", function(pos) { // 当下拉到超过顶部 30px 时执行这个函数  
-        if(pos.y>30){
-          if(this.scrollFlag){
+        if (pos.y > 30) {
+          if (this.scrollFlag) {
             this.scrollFlag = false;
             setTimeout(() => {
-            this.noteLists =[]; 
-            this.getMynote();
+              this.noteLists = [];
+              this.getMynote();
             }, 1500);
             this.$nextTick(function() {
               this.showfresh = true;
             });
-        }
+          }
         }
       }.bind(this));
       this.meunScroll.on("scrollEnd", (pos) => { // 当下拉到超过顶部 30px 时执行这个函数  
         this.scrollFlag = true;
       });
-        this.showfresh = false;
+      this.showfresh = false;
     },
     getMynote() {
       let that = this
-      let menasDatas = JSON.parse(localStorage.getItem('data'));   //取得localStorage数据
+      let menasDatas = JSON.parse(localStorage.getItem('data')); //取得localStorage数据
       that.getziliaos = menasDatas.detail;
-      that.userId = menasDatas.detail.id;    // 获取userID
+      that.userId = menasDatas.detail.id; // 获取userID
       that.nickName = menasDatas.detail.nickName;
       that.portrait = menasDatas.detail.portrait;
       axios({
-        url: 'http://xyiscoding.top/studyapp/note/findByUserId/'+that.userId, // 传入userId获取自己的数据
+        url: 'http://xyiscoding.top/studyapp/note/findByUserId/' + that.userId, // 传入userId获取自己的数据
         dataType: 'json',
         method: 'get',
       }).then((response) => {
@@ -238,6 +242,12 @@ export default {
         })
       })
 
+    }
+  },
+  filters: { //转换时间戳
+    dateFrm: function(createTime) {
+      // moment.locale('zh-cn'); //转换日期为中文
+      return moment(createTime).fromNow();
     }
   },
   components: {
