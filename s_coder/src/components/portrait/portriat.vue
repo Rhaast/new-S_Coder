@@ -110,6 +110,7 @@ export default {
     finish3(type) { //成功回调axios
       this.$refs.cropper3.getCropData((data) => {
         // this.model = true
+        console.log(data)
         this.modelSrc = data //必须先获取base64然后才能调用axios
         let that = this;
         let localmessage = JSON.parse(localStorage.getItem('data'));

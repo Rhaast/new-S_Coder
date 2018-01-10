@@ -371,9 +371,6 @@ export default {
       this.scroll = new BScroll(this.$refs.personalContent, {
         click: true
       })
-      // this.scroll.on('scroll', (pos) => {
-      //   console.log(pos.y)
-      // })
     },
     Tologin() {
       if (localStorage.getItem('data')) {

@@ -5,22 +5,24 @@
         <span slot="left" class="backhome" @click="backmynote"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></span>
         <span slot="main_title" class="shou">My Note</span>
       </navheader>
-      <div class="detailwrapper">
+      <div class="detailwrapper" ref="contents">
         <div class="getnotedetail">
+          <div class="notecontent">
           <span class="title">{{noteLists.title}}</span>
           <br>
-          <span class="content">{{noteLists.content}}</span>
+          <span class="content" v-html="noteLists.content"></span>
           <br>
           <span class="detailcreateTime">{{noteLists.createTime | dateFrm}}</span>
         </div>
-      </div>
-      <div class="commentarea">
+          <div class="commentarea">
         <h2 class="commentTitle">评论:</h2>
         <div class="comment" v-for="rating in commentLists">
           <span class="nickName">{{rating.commentUser}}<span v-show="!rating.pId">:</span><span class="replys" v-show="rating.pId" style="color:#999"> 回复 </span></span><span class="nickName" v-show="rating.pId">{{rating.pId}}: </span><span class="comment-content">{{rating.content}}</span>
           <br>
         </div>
         <div class="nocomments" v-show="commentLists.length==0">暂无评论</div>
+      </div>
+        </div>
       </div>
     </div>
   </transition>
@@ -41,6 +43,10 @@
 .detailwrapper {
   padding: 0 12px;
   width: 100%;
+  position: absolute;
+  top: 48px;
+  overflow: hidden;
+  bottom: 0;
 }
 
 .nocomments {
@@ -51,10 +57,12 @@
 }
 
 .commentarea {
-  padding: 0 12px;
   width: 100%;
 }
-
+.notecontent{
+  border-bottom: 1px solid #d1d1d1;
+  padding-bottom: 20px;
+}
 .commentTitle {
   font-size: 14px;
   color: #000;
@@ -65,8 +73,7 @@
 }
 
 .detailwrapper .getnotedetail {
-  border-bottom: 1px solid #d1d1d1;
-  padding-bottom: 20px;
+  width: 100%;
 }
 
 .detailcreateTime {
@@ -114,20 +121,33 @@
 import navheader from '../navheader/navheader'
 import axios from 'axios'
 import moment from 'moment'
+import BScroll from 'better-scroll'
 export default {
   data() {
     return {
       noteLists: {},
       commentLists: [],
+       scrollY: 0,
     }
   },
   created: function() {
     this.getmynote();
+        this.$nextTick(() => {
+      this._initScroll()
+    })
   },
   activated() { // 禁止keep-alive缓存
     this.getmynote();
   },
   methods: {
+    _initScroll: function() {
+      if (this.scroll) {
+        return;
+      }
+      this.scroll = new BScroll(this.$refs.contents, {
+        click: true
+      })
+    },
     backmynote() {
       this.$router.go(-1);
     },
