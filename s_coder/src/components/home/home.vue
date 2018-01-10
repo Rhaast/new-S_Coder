@@ -334,12 +334,12 @@ export default {
           setTimeout(() => {
             flag = true;
             this.noteLists = [];
-            this.getArticle();
             for (let i = 0; i < this.details.length; i++) { // 循环调用v-for中子组件的方法
               this.$refs.getcomment[i].getcomments();
               // console.log(this.$refs.getcomment[i])
             }
             this.pageNo++;
+            this.getArticle();
           }, 1500);
           this.$nextTick(function() {
             this.showfresh1 = true;
