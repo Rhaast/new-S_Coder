@@ -5,29 +5,54 @@
         <span slot="left" class="backhome" @click="backmynote"><img src="../../assets/image/icon_arrow.png" height="32" width="32"></span>
         <span slot="main_title" class="shou">My Note</span>
       </navheader>
-      <div class="detailwrapper" ref="contents">
+      <div class="detailwrapper" ref="contentss">
         <div class="getnotedetail">
           <div class="notecontent">
-          <span class="title">{{noteLists.title}}</span>
-          <br>
-          <span class="content" v-html="noteLists.content"></span>
-          <br>
-          <span class="detailcreateTime">{{noteLists.createTime | dateFrm}}</span>
-        </div>
-          <div class="commentarea">
-        <h2 class="commentTitle">评论:</h2>
-        <div class="comment" v-for="rating in commentLists">
-          <span class="nickName">{{rating.commentUser}}<span v-show="!rating.pId">:</span><span class="replys" v-show="rating.pId" style="color:#999"> 回复 </span></span><span class="nickName" v-show="rating.pId">{{rating.pId}}: </span><span class="comment-content">{{rating.content}}</span>
-          <br>
-        </div>
-        <div class="nocomments" v-show="commentLists.length==0">暂无评论</div>
-      </div>
+            <span class="title">{{noteLists.title}}</span>
+            <br>
+            <mavon-editor class="getmavoneditor" :toolbarsFlag='false' :default_open="default_open" :subfield="false" v-model="noteLists.content" />
+            <br>
+            <span class="detailcreateTime">{{noteLists.createTime | dateFrm}}</span>
+          </div>
+          <div class="commentarea" :class="{getcomment:isgetcomment}">
+            <h2 class="commentTitle">评论:</h2>
+            <div class="comment" v-for="rating in commentLists">
+              <span class="nickName">{{rating.commentUser}}<span v-show="!rating.pId">:</span><span class="replys" v-show="rating.pId" style="color:#999"> 回复 </span></span><span class="nickName" v-show="rating.pId">{{rating.pId}}: </span><span class="comment-content">{{rating.content}}</span>
+              <br>
+            </div>
+            <div class="nocomments" v-show="commentLists.length==0">暂无评论</div>
+          </div>
         </div>
       </div>
     </div>
   </transition>
 </template>
 <style type="text/css">
+.v-note-wrapper .v-note-panel .v-note-show .v-show-content,
+.v-note-wrapper .v-note-panel .v-note-show .v-show-content-html {
+  padding: 0 !important;
+  background: none !important;
+}
+
+.v-note-wrapper .v-note-panel {
+  box-shadow: none !important;
+}
+
+.v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper .content-input-wrapper {
+  padding: 0 !important;
+}
+
+.getmavoneditor {
+  margin-top: 20px;
+  border: none;
+  height: none;
+}
+
+.v-note-wrapper {
+  min-height: 0 !important;
+  z-index: 0
+}
+
 .mynotedetail {
   width: 100%;
   position: fixed;
@@ -58,11 +83,18 @@
 
 .commentarea {
   width: 100%;
+  min-height: 360px;
 }
-.notecontent{
+
+.getcomment {
+  min-height: 100px;
+}
+
+.notecontent {
   border-bottom: 1px solid #d1d1d1;
   padding-bottom: 20px;
 }
+
 .commentTitle {
   font-size: 14px;
   color: #000;
@@ -127,25 +159,29 @@ export default {
     return {
       noteLists: {},
       commentLists: [],
-       scrollY: 0,
+      scrollY: 0,
+      default_open: 'preview',
+      isgetcomment: false,
+      scrollY: 0,
     }
   },
   created: function() {
     this.getmynote();
-        this.$nextTick(() => {
-      this._initScroll()
+    this.$nextTick(() => {
+      this._initScrolls()
     })
   },
   activated() { // 禁止keep-alive缓存
     this.getmynote();
   },
   methods: {
-    _initScroll: function() {
-      if (this.scroll) {
-        return;
+    _initScrolls: function() {
+      if (this.meunScroll) {
+        this.meunScroll.destroy()
       }
-      this.scroll = new BScroll(this.$refs.contents, {
-        click: true
+      this.meunScroll = new BScroll(this.$refs.contentss, {
+        click: true,
+        probeType: 3
       })
     },
     backmynote() {
@@ -164,6 +200,9 @@ export default {
         that.noteLists = response.data.detail.note;
         that.commentLists = response.data.detail.comment.reverse();
         console.log(this.commentLists)
+        this.$nextTick(() => {
+          this._initScrolls()
+        })
       })
     }
 

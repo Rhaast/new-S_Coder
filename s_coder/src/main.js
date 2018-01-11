@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 // import '../node_modules/element-ui/lib/theme-chalk/index.css'
+import mavonEditor from 'mavon-editor'
+import '../node_modules/mavon-editor/dist/css/index.css'
 import { Swipe, SwipeItem ,Popup } from 'mint-ui';
 import './assets/css/login.css'
 import './assets/css/checkout.css'
@@ -20,6 +22,7 @@ Vue.component(SwipeItem.name, SwipeItem);
 Vue.component(Popup.name, Popup);
 Vue.use(ElementUI)
 Vue.use(axios)
+Vue.use(mavonEditor)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

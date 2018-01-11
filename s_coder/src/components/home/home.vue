@@ -42,7 +42,7 @@
           <div class="right">
             <h2 class="title">{{detail.title}}</h2>
             <!-- <span class="answer" v-show="detail.content">我的回复</span></br> -->
-            <span class="homecontent" @click="gonotedetail(detail)">{{detail.content}}</span>
+            <span class="homecontent" @click="gonotedetail(detail)"><mavon-editor class="getmavoneditor1" :toolbarsFlag='false' :default_open="default_open" :subfield="false" v-model="detail.content" /></span>
             <span class="type">{{detail.userName}}</span> <span class="time">{{detail.createTime | dateFrm}}</span>
             <img src="../../assets/image/comment.svg" @click="comment(detail)">
             <getcomment :detail="detail" ref="getcomment"></getcomment>
@@ -56,6 +56,26 @@
   </div>
 </template>
 <style>
+.getmavoneditor1{
+
+}
+.v-note-wrapper .v-note-panel .v-note-show .v-show-content,
+.v-note-wrapper .v-note-panel .v-note-show .v-show-content-html {
+  padding: 0 !important;
+  background: none !important;
+}
+
+.v-note-wrapper .v-note-panel {
+  box-shadow: none !important;
+}
+
+.v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper .content-input-wrapper {
+  padding: 0 !important;
+}
+.v-note-wrapper{
+  min-height: 0 !important;
+  z-index: 0;
+}
 .btn2 {
   background: #fff;
 }
@@ -146,13 +166,14 @@
   width: 40px;
   height: 40px;
   display: inline-block;
-  vertical-align: top
+  vertical-align: top;
 }
 
 .right {
   display: inline-block;
   margin-left: 12px;
-  width: 100%;
+  width: 85%;
+  word-wrap: break-word
 }
 
 .right .type {
@@ -176,7 +197,7 @@
   width: 100%;
   line-height: 16px;
   margin-top: 2px;
-  display: block;
+  display: inline-block;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
@@ -257,7 +278,8 @@ export default {
       loadTop: '上拉加载更多',
       piclist: [],
       scrollY: 0,
-      detail: {}
+      detail: {},
+      default_open: 'preview',
     }
   },
   created() {
