@@ -13,13 +13,17 @@
             <mavon-editor class="getmavoneditor" :toolbarsFlag='false' :default_open="default_open" :subfield="false" v-model="noteLists.content" />
             <br>
             <span class="detailcreateTime">{{noteLists.createTime | dateFrm}}</span>
+            <img src="../../assets/image/comment.svg" @click="gocomment" class="gocomment">
           </div>
           <div class="commentarea" :class="{getcomment:isgetcomment}">
             <h2 class="commentTitle">评论:</h2>
             <div class="comment" v-for="rating in commentLists">
+              <router-link :to="{path:'/nestedreview/',query: {table:rating}}">
               <span class="nickName">{{rating.commentUser}}<span v-show="!rating.pId">:</span><span class="replys" v-show="rating.pId" style="color:#999"> 回复 </span></span><span class="nickName" v-show="rating.pId">{{rating.pId}}: </span><span class="comment-content">{{rating.content}}</span>
               <br>
+            </router-link>
             </div>
+
             <div class="nocomments" v-show="commentLists.length==0">暂无评论</div>
           </div>
         </div>
@@ -147,6 +151,10 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }
+.gocomment{
+  float: right;
+  padding-right: 12px;
+}
 
 </style>
 <script type="text/javascript">
@@ -175,6 +183,9 @@ export default {
     this.getmynote();
   },
   methods: {
+    gocomment() {
+       this.$router.push({ path: '/comment', query: { noteid: this.noteid}})
+    },
     _initScrolls: function() {
       if (this.meunScroll) {
         this.meunScroll.destroy()

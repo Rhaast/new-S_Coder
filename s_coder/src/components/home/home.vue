@@ -42,11 +42,11 @@
           <div class="right">
             <h2 class="title">{{detail.title}}</h2>
             <!-- <span class="answer" v-show="detail.content">我的回复</span></br> -->
-            <span class="homecontent" @click="gonotedetail(detail)"><mavon-editor class="getmavoneditor1" :toolbarsFlag='false' :default_open="default_open" :subfield="false" v-model="detail.content" /></span>
+            <span class="homecontent" @click="gonotedetail(detail)">{{detail.content}}</span>
             <span class="type">{{detail.userName}}</span> <span class="time">{{detail.createTime | dateFrm}}</span>
-            <img src="../../assets/image/comment.svg" @click="comment(detail)">
-            <getcomment :detail="detail" ref="getcomment"></getcomment>
-            <div class="kuang" @click="comment(detail)"><span>评论</span></div>
+            <span class="commentNum">{{detail.commentNum}}</span>
+            <img src="../../assets/image/comment.svg" @click="gonotedetail(detail)">
+            <!-- <getcomment :detail="detail" ref="getcomment"></getcomment> -->
           </div>
         </div>
         <div class="tishi1" v-show="tishi1">{{loadTop}}</div>
@@ -56,30 +56,6 @@
   </div>
 </template>
 <style>
-.getmavoneditor1{
-
-}
-.v-note-wrapper .v-note-panel .v-note-show .v-show-content,
-.v-note-wrapper .v-note-panel .v-note-show .v-show-content-html {
-  padding: 0 !important;
-  background: none !important;
-}
-
-.v-note-wrapper .v-note-panel {
-  box-shadow: none !important;
-}
-
-.v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper .content-input-wrapper {
-  padding: 0 !important;
-}
-.v-note-wrapper{
-  min-height: 0 !important;
-  z-index: 0;
-}
-.btn2 {
-  background: #fff;
-}
-
 .refresh {
   text-align: center;
   font-size: 12px;
@@ -214,12 +190,23 @@
 }
 
 .right img {
-  display: block;
+  display: inline-block;
   /*margin-left: auto*/
   /*使元素靠右排列*/
   float: right;
+  margin-bottom: 10px;
 }
+.right .commentNum{
+  font-size: 12px;
+    display: inline-block;
+  /*margin-left: auto*/
+  /*使元素靠右排列*/
+  float: right;
+  margin-bottom: 10px;
+  margin-right: 12px;
+  color: #5272f9
 
+}
 .right .kuang {
   width: 100%;
   height: 25px;
@@ -279,7 +266,6 @@ export default {
       piclist: [],
       scrollY: 0,
       detail: {},
-      default_open: 'preview',
     }
   },
   created() {
@@ -356,12 +342,12 @@ export default {
           setTimeout(() => {
             flag = true;
             this.noteLists = [];
+             this.pageNo++;
+            this.getArticle();
             for (let i = 0; i < this.details.length; i++) { // 循环调用v-for中子组件的方法
               this.$refs.getcomment[i].getcomments();
               // console.log(this.$refs.getcomment[i])
             }
-            this.pageNo++;
-            this.getArticle();
           }, 1500);
           this.$nextTick(function() {
             this.showfresh1 = true;

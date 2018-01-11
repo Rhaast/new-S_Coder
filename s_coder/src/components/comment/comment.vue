@@ -234,9 +234,9 @@ export default {
     getdetailData() {   // 获取首页传过来的数据
     this.$refs['input'].focus();
     let that = this;
-    let detailData = this.$route.query.table;
-    that.noteId = detailData.id;
-    console.log(noteId)    
+    let detailData = this.$route.query.noteid;
+    that.noteId = detailData;
+    console.log(this.noteId)    
     },
     getlocal() { // 先获取当前数据，需传入的id
       let that = this;
