@@ -232,7 +232,7 @@ export default {
   },
   methods: {
     getdetailData() {   // 获取首页传过来的数据
-    this.$refs['input'].focus();
+    // this.$refs['input'].focus();
     let that = this;
     let detailData = this.$route.query.noteid;
     that.noteId = detailData;

@@ -22,8 +22,8 @@
             <el-input type="text" v-model="ruleForm2.title" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="Content:" prop="content" id="contents">
-            <mavon-editor class="mavoneditor" :toolbars="toolbars" :subfield="false" ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="ruleForm2.content" />
           </el-form-item>
+              <mavon-editor class="mavoneditor" :toolbars="toolbars" :subfield="false" ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="ruleForm2.content" />
           <el-form-item>
           </el-form-item>
         </el-form>
@@ -58,6 +58,7 @@
 
 #contents {
   margin-top: 12%;
+  margin-bottom: 20px;
 }
 
 .v-note-wrapper .v-note-panel {
@@ -66,10 +67,9 @@
 }
 
 .v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper .content-input-wrapper {
-  padding: 0
+  padding: 0 !important;
 }
 .mavoneditor {
-  margin-top: 20px;
   border: 2px solid #000;
   height: 360px;
 }
@@ -295,7 +295,7 @@ export default {
         imagelink: true, // 图片链接
         code: false, // code
         table: false, // 表格
-        fullscreen: false, // 全屏编辑
+        fullscreen: true, // 全屏编辑
         readmodel: false, // 沉浸式阅读
         htmlcode: false, // 展示html源码
         help: true, // 帮助

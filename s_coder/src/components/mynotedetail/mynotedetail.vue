@@ -32,6 +32,21 @@
   </transition>
 </template>
 <style type="text/css">
+.comment {
+  width: 100%;
+}
+.comment-content {
+  font-size: 12px;
+  line-height: 20px;
+}
+.nickName{
+  font-size: 12px;
+  color:#5272f9;
+}
+#replys:{
+  color: #666;
+
+}
 .v-note-wrapper .v-note-panel .v-note-show .v-show-content,
 .v-note-wrapper .v-note-panel .v-note-show .v-show-content-html {
   padding: 0 !important;
@@ -175,9 +190,9 @@ export default {
   },
   created: function() {
     this.getmynote();
-    this.$nextTick(() => {
-      this._initScrolls()
-    })
+            this.$nextTick(() => {
+          this._initScrolls()
+        })
   },
   activated() { // 禁止keep-alive缓存
     this.getmynote();
