@@ -282,6 +282,7 @@
 <script>
 import axios from 'axios'
 import modal from '../Modal/modal'
+import md5 from 'js-md5'
 export default {
   data() {
     let checkUserName = (rule, value, cb) => {
@@ -459,7 +460,7 @@ export default {
               data: {
                 "userName": user.userName,
                 "username": user.username,
-                "password": user.password,
+                "password": md5(user.password),
                 "nickName": user.nickName,
                 "mobile": user.mobile,
                 "email": user.email,
@@ -506,7 +507,7 @@ export default {
               dataType: "json",
               data: {
                 "userName": user.userName,
-                "password": user.password,
+                "password": md5(user.password),
               },
             })
             // axios.post('http://xyiscoding.top/studyapp/user/login?username=' + user.userName + '&password=' + user.password, {

@@ -26,7 +26,7 @@
     <div class="banner">
       <mt-swipe>
         <mt-swipe-item v-for="(list,idx) in piclist" :key="idx">
-          <img v-bind:src="list.url" />
+          <img v-bind:src="list.url" @click="hrefAddress(idx)"/>
         </mt-swipe-item>
       </mt-swipe>
     </div>
@@ -247,6 +247,7 @@ import axios from 'axios'
 import getcomment from '../getcomment/getcomment'
 import getportrait from '../getportrait/getportrait'
 import moment from 'moment'
+
 const ERR_OK = 0;
 export default {
   data() {
@@ -266,6 +267,10 @@ export default {
       piclist: [],
       scrollY: 0,
       detail: {},
+      address:['https://www.baidu.com/',
+      'https://segmentfault.com/q/1010000012881984?_ea=3195223',
+      'https://image.baidu.com/search/idx?tn=baiduimage&ct=201326592&lm=-1&cl=2&ie=gbk&word=%CE%D2%B0%AE%C4%E3%D0%A1%B9%C7&fr=ala&ala=1&alatpl=adress&pos=0&hs=2&xthttps=111111',
+      'https://baike.baidu.com/item/%E8%8A%B1%E5%8D%83%E9%AA%A8/13216466?fr=aladdin&fromid=19203764&fromtitle=%E5%B0%8F%E9%AA%A8']
     }
   },
   created() {
@@ -300,6 +305,10 @@ export default {
   methods: {
     backTop() {
       this._initScroll();
+    },
+    hrefAddress(idx){
+      //address 后台获取需要跳转的地址 这里先用固定的了
+      location.href=this.address[idx]
     },
     _initScroll: function() {
       if (this.meunScroll) {
