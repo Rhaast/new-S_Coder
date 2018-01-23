@@ -26,7 +26,7 @@
     <div class="banner">
       <mt-swipe>
         <mt-swipe-item v-for="(list,idx) in piclist" :key="idx">
-          <img v-bind:src="list.url" @click="hrefAddress(idx)"/>
+          <img v-bind:src="list.picUrl" @click="hrefAddress(idx)"/>
         </mt-swipe-item>
       </mt-swipe>
     </div>
@@ -267,10 +267,11 @@ export default {
       piclist: [],
       scrollY: 0,
       detail: {},
-      address:['https://www.baidu.com/',
-      'https://segmentfault.com/q/1010000012881984?_ea=3195223',
-      'https://image.baidu.com/search/idx?tn=baiduimage&ct=201326592&lm=-1&cl=2&ie=gbk&word=%CE%D2%B0%AE%C4%E3%D0%A1%B9%C7&fr=ala&ala=1&alatpl=adress&pos=0&hs=2&xthttps=111111',
-      'https://baike.baidu.com/item/%E8%8A%B1%E5%8D%83%E9%AA%A8/13216466?fr=aladdin&fromid=19203764&fromtitle=%E5%B0%8F%E9%AA%A8']
+      address:['https://y.qq.com/m/digitalbum/gold/index.html?_video=true&id=3884932&g_f=shoujijiaodian',
+      'https://c.y.qq.com/node/m/client/music_headline/index.html?_hidehd=1&_button=2&zid=533732',
+      'http://y.qq.com/w/album.html?albummid=001eyHlv2fu50T',
+      'http://y.qq.com/w/album.html?albummid=003z9kma13yhja',
+      'https://c.y.qq.com/node/m/client/music_headline/index.html?_hidehd=1&_button=2&zid=522730']
     }
   },
   created() {
@@ -406,11 +407,12 @@ export default {
     getbanner() { // 获取banner图片
       let that = this;
       axios({
-        url: 'http://xyiscoding.top/studyapp/banner/findAll',
+        url: '/api/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg?g_tk=33239429&uin=240400696&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1516669743233/',
         dataType: 'json',
         method: 'get',
       }).then((response) => {
-        that.piclist = response.data.detail;
+        that.piclist = response.data.data.slider;
+        console.log(this.piclist)
       })
     },
     findedLogin() {
