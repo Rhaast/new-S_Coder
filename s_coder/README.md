@@ -1,6 +1,31 @@
 # s_coder
 
-> a study app
+> 一个用于程序员做笔记提问题的webapp
+
+## vue相关生态
+***
+1. [vue](https://github.com/vuejs/vue)
+2. [vue-router](https://github.com/vuejs/vue-router)
+3. [vue-cli](https://github.com/vuejs/vue-cli)
+*
+
+## UI组件库
+***
+[mint-ui](https://github.com/ElemeFE/mint-ui)
+
+## 第三方插件
+***
+1. [axios](https://github.com/axios/axios)
+2. [mavonEditor](https://github.com/hinesboy/mavonEditor)
+3. [better-scroll](https://github.com/ustbhuangyi/better-scroll)
+*
+
+## 构建工具
+***
+[webpack](https://github.com/webpack/webpack)
+
+## 预览
+
 
 ## Build Setup
 
