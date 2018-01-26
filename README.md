@@ -24,8 +24,10 @@
 [webpack](https://github.com/webpack/webpack)
 
 ## 预览
-### 首页
+### 发布笔记
 <img src="https://github.com/Rhaast/new-S_Coder/blob/master/static/%E5%8F%91%E5%B8%83%E7%AC%94%E8%AE%B0.gif" width=360 height=640> 
+<img src="http://ov8bvg1v8.bkt.clouddn.com/%E6%97%A5%E5%8E%86%E7%AD%BE%E5%88%B0.gif" width=360 height=640> 
+
 
 
 ## Build Setup
