@@ -24,8 +24,6 @@
 [webpack](https://github.com/webpack/webpack)
 
 ## 预览
-### 首页轮播，上拉下拉
-<img src="http://ov8bvg1v8.bkt.clouddn.com/%E9%A6%96%E9%A1%B5%E8%BD%AE%E6%92%AD%EF%BC%8C%E4%B8%8A%E6%8B%89%E4%B8%8B%E6%8B%89.gif" width=360 height=640> 
 
 ### 发布笔记
 <img src="https://github.com/Rhaast/new-S_Coder/blob/master/static/%E5%8F%91%E5%B8%83%E7%AC%94%E8%AE%B0.gif" width=360 height=640> 
@@ -34,13 +32,13 @@
 <img src="http://ov8bvg1v8.bkt.clouddn.com/%E6%97%A5%E5%8E%86%E7%AD%BE%E5%88%B0.gif" width=360 height=640> 
 
 ### 更换头像
-<img src="http://ov8bvg1v8.bkt.clouddn.com/%E6%9B%B4%E6%8D%A2%E5%A4%B4%E5%83%8F_1_.gif" width=360 height=640> 
+<img src="https://github.com/Rhaast/new-S_Coder/blob/master/static/%E6%9B%B4%E6%8D%A2%E5%A4%B4%E5%83%8F_1_.gif" width=360 height=640> 
 
 ### 注册登录
-<img src="http://ov8bvg1v8.bkt.clouddn.com/%E6%B3%A8%E5%86%8C%E7%99%BB%E5%BD%95.gif" width=360 height=640> 
+<img src="https://github.com/Rhaast/new-S_Coder/blob/master/static/%E6%B3%A8%E5%86%8C%E7%99%BB%E5%BD%95.gif" width=360 height=640> 
 
 ### 评论功能
-<img src="http://ov8bvg1v8.bkt.clouddn.com/%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD.gif" width=360 height=640> 
+<img src="https://github.com/Rhaast/new-S_Coder/blob/master/static/%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD.gif" width=360 height=640> 
 
 
 
