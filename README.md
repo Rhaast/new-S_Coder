@@ -50,6 +50,21 @@
 - 签到
 - 更换头像
 
+## 项目结构
+***
+<pre>
+├── build              // 构建服务和webpack配置
+├── config             // 不同环境的配置
+├── dist               // webpack打包的目录
+├── index.html         // 入口文件
+├── src                // 源码目录
+│   ├── assets         // 各种静态资源
+│   ├── components     // 页面视图
+│   ├── router         // 路由配置
+│   ├── App.vue        // 主页面
+│   └── main.js        // Webpack 预编译入口
+├── static         // 重置样式
+</pre>
 ## Build Setup
 
 ``` bash
