@@ -27,6 +27,7 @@
 ### 首页
 
 ![http://ov8bvg1v8.bkt.clouddn.com/%E6%B3%A8%E5%86%8C%E7%99%BB%E5%BD%95.gif](./0)
+<img src="http://ov8bvg1v8.bkt.clouddn.com/%E6%B3%A8%E5%86%8C%E7%99%BB%E5%BD%95.gif">
 
 
 ## Build Setup
