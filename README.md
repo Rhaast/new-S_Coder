@@ -40,9 +40,15 @@
 ### 评论功能
 <img src="https://github.com/Rhaast/new-S_Coder/blob/master/static/%E8%AF%84%E8%AE%BA%E5%8A%9F%E8%83%BD.gif" width=360 height=640> 
 
-
-
-
+## 实现的功能
+***
+- 下拉刷新，上拉加载
+- 首页轮播
+- 注册登录
+- 发布笔记，提问题
+- 评论以及回复
+- 签到
+- 更换头像
 
 ## Build Setup
 
