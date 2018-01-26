@@ -18,7 +18,7 @@
 3. [better-scroll](https://github.com/ustbhuangyi/better-scroll)
 
 ## 构建工具
-[webpack](https://github.com/webpack/webpack)
+   [webpack](https://github.com/webpack/webpack)
 
 ## 预览
 
