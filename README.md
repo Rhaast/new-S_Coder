@@ -25,8 +25,7 @@
 
 ## 预览
 ### 首页
-
-![发布笔记](static/发布笔记.gif)
+<img src="https://github.com/Rhaast/new-S_Coder/blob/master/static/%E5%8F%91%E5%B8%83%E7%AC%94%E8%AE%B0.gif" width=360 height=640> 
 
 
 ## Build Setup
