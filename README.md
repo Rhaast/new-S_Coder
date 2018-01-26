@@ -13,14 +13,11 @@
 [mint-ui](https://github.com/ElemeFE/mint-ui)
 
 ## 第三方插件
-***
 1. [axios](https://github.com/axios/axios)
 2. [mavonEditor](https://github.com/hinesboy/mavonEditor)
 3. [better-scroll](https://github.com/ustbhuangyi/better-scroll)
-*
 
 ## 构建工具
-***
 [webpack](https://github.com/webpack/webpack)
 
 ## 预览
